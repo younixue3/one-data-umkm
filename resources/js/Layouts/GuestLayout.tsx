@@ -1,7 +1,6 @@
-import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Link } from '@inertiajs/react';
 import { PropsWithChildren, useState, useEffect } from 'react';
-import { Button } from '../Components/ui/button';
+import { Button } from '@/Components/ui/button';
 
 export default function Guest({ children }: PropsWithChildren) {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,8 +21,12 @@ export default function Guest({ children }: PropsWithChildren) {
       <div className="bg-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex flex-col sm:flex-row justify-between items-center">
-            <Link href="/">
-              <ApplicationLogo className="h-10 w-10 fill-current text-gray-500" />
+            <Link href={route('home')}>
+              <img
+                className="h-16"
+                src="/assets/logo.png"
+                alt="logo disperindagkop"
+              />
             </Link>
             <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-4 mt-4 sm:mt-0">
               <div className="text-sm text-center sm:text-left">
@@ -56,19 +59,19 @@ export default function Guest({ children }: PropsWithChildren) {
                   Home
                 </Link>
                 <Link
-                  href="/profil"
+                  href="#"
                   className="px-3 py-2 rounded-md text-lg font-medium text-white hover:bg-gray-700"
                 >
                   Profil
                 </Link>
                 <Link
-                  href="/news"
+                  href="#"
                   className="px-3 py-2 rounded-md text-lg font-medium text-white hover:bg-gray-700"
                 >
                   News
                 </Link>
                 <Link
-                  href="/gallery"
+                  href="#"
                   className="px-3 py-2 rounded-md text-lg font-medium text-white hover:bg-gray-700"
                 >
                   Gallery
@@ -81,7 +84,7 @@ export default function Guest({ children }: PropsWithChildren) {
                 </Link>
               </div>
               <Link
-                href="/login"
+                href={route('dashboard.index')}
                 className="px-3 py-2 rounded-md text-lg font-medium text-white hover:bg-gray-700"
               >
                 Masuk
@@ -140,19 +143,19 @@ export default function Guest({ children }: PropsWithChildren) {
                 Home
               </Link>
               <Link
-                href="/profil"
+                href="#"
                 className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
               >
                 Profil
               </Link>
               <Link
-                href="/news"
+                href="#"
                 className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
               >
                 News
               </Link>
               <Link
-                href="/gallery"
+                href="#"
                 className="block px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-700"
               >
                 Gallery
@@ -173,7 +176,7 @@ export default function Guest({ children }: PropsWithChildren) {
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-start text-white">
           <div className="mb-6 md:mb-0 flex flex-col items-center md:items-start">
             <img
-              src="/images/department-logo.svg"
+              src="/assets/logo.png"
               alt="Logo Departemen"
               className="h-16 mb-4"
             />

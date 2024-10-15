@@ -7,13 +7,7 @@ import {
   CarouselPrevious,
   CarouselNext
 } from '@/Components/ui/carousel';
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle
-} from '@/Components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
 import { Globe2, FileText, Image, Database, Download } from 'lucide-react';
 import Guest from '../Layouts/GuestLayout';
@@ -116,64 +110,60 @@ const carouselData = [
     description: 'Mendorong inovasi dan pengembangan',
     date: '15-06-2023',
     category: 'Industri',
-    image: 'https://loremflickr.com/2000/2000/industry'
+    image: '/assets/1.webp'
   },
   {
     title: 'Memperluas Cakrawala Perdagangan',
     description: 'Membuka peluang pasar baru',
     date: '20-06-2023',
     category: 'Perdagangan',
-    image: 'https://loremflickr.com/2000/2000/trade'
+    image: '/assets/2.webp'
   },
   {
     title: 'Praktik Manufaktur Berkelanjutan',
     description: 'Mempromosikan solusi industri ramah lingkungan',
     date: '25-06-2023',
     category: 'Keberlanjutan',
-    image: 'https://loremflickr.com/2000/2000/sustainability'
+    image: '/assets/3.webp'
   },
   {
     title: 'Transformasi Digital dalam Perdagangan',
     description: 'Memanfaatkan teknologi untuk pertumbuhan bisnis',
     date: '30-06-2023',
     category: 'Teknologi',
-    image: 'https://loremflickr.com/2000/2000/technology'
+    image: '/assets/4.webp'
   },
   {
     title: 'Mendorong Industri Lokal',
     description: 'Mendukung dan mempromosikan produsen dalam negeri',
     date: '05-07-2023',
     category: 'Ekonomi Lokal',
-    image: 'https://loremflickr.com/2000/2000/industry,local'
+    image: '/assets/5.webp'
   },
   {
     title: 'Kemitraan Perdagangan Internasional',
     description: 'Memupuk kolaborasi ekonomi global',
     date: '10-07-2023',
     category: 'Hubungan Internasional',
-    image: 'https://loremflickr.com/2000/2000/global,trade'
+    image: '/assets/6.webp'
   },
   {
     title: 'Inovasi dalam Manufaktur',
     description: 'Memperkenalkan teknik produksi mutakhir',
     date: '15-07-2023',
     category: 'Inovasi',
-    image: 'https://loremflickr.com/2000/2000/manufacturing,innovation'
+    image: '/assets/7.webp'
   },
   {
     title: 'Energi Hijau dalam Industri',
     description: 'Mempromosikan penggunaan energi terbarukan dalam manufaktur',
     date: '20-07-2023',
     category: 'Keberlanjutan',
-    image: 'https://loremflickr.com/2000/2000/green,energy,industry'
+    image: '/assets/8.webp'
   }
 ];
 
-export default function Welcome({
-  laravelVersion,
-  phpVersion,
-  news
-}: PageProps<{ laravelVersion: string; phpVersion: string; news: News[] }>) {
+export default function Welcome({ news }: PageProps<{ news: News[] }>) {
   return (
     <Guest>
       <Head title="Welcome" />
