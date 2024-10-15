@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Http\Requests\{{ name }};
+
+use App\Dtos\{{ name }}\Store{{ name }}DTO;
+use Illuminate\Foundation\Http\FormRequest;
+
+class Store{{ name }}Request extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     */
+    public function authorize(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
+     */
+    public function rules(): array
+    {
+        return [
+//            'name' => ['required', 'string'],
+//            'price' => ['required', 'numeric'],
+//            'description' => ['string'],
+//            'start_date' => ['required', 'date'],
+//            'end_date' => ['required', 'date'],
+//            'image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:3000'],
+        ];
+    }
+
+    public function messages(): array
+    {
+        return [
+//            'name.required' => 'Nama {{ lcname }} harus diisi',
+//            'price.required' => 'Harga {{ lcname }} harus diisi',
+//            'description.required' => 'Deskripsi {{ lcname }} harus diisi',
+//            'start_date.required' => 'Tanggal {{ lcname }} harus diisi',
+//            'start_date.date' => 'Tanggal {{ lcname }} harus berupa tanggal',
+//            'end_date.required' => 'Tanggal {{ lcname }} harus diisi',
+//            'end_date.date' => 'Tanggal {{ lcname }} harus berupa tanggal',
+//            'image.image' => 'File harus berupa gambar',
+//            'image.mimes' => 'File harus berupa gambar',
+//            'image.max' => 'Ukuran file terlalu besar'
+        ];
+    }
+
+    public function getDTO(): Store{{ name }}DTO
+    {
+        return new Store{{ name }}DTO($this->validated());
+    }
+}

@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Exceptions\StandardizedException;
+use App\Http\Requests\{{ name }}\Store{{ name }}Request;
+use App\Http\Requests\{{ name }}\Update{{ name }}Request;
+use App\Models\{{ name }};
+use App\Services\{{ name }}Services;
+
+class {{ name }}Controller extends Controller
+{
+
+    /**
+     * Display a listing of the resource.
+     */
+    public function index({{ name }}Services ${{ lcname }}Services): \Inertia\Response|\Inertia\ResponseFactory
+    {
+        ${{ lcname }}s = ${{ lcname }}Services->index();
+        return inertia("{{ name }}/Index", compact("{{ lcname }}s"));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return inertia("{{ name }}/Create");
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Store{{ name }}Request $request, {{ name }}Services ${{ lcname }}Services)
+    {
+        ${{ lcname }}Services->store($request->getDTO());
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show({{ name }} ${{ lcname }})
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     * @throws StandardizedException
+     */
+    public function edit(int ${{ lcname }}, {{ name }}Services ${{ lcname }}Services): \Inertia\Response|\Inertia\ResponseFactory
+    {
+        ${{ lcname }} = ${{ lcname }}Services->show(${{ lcname }});
+        return inertia("{{ name }}/Edit", compact("{{ lcname }}"));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Update{{ name }}Request $request, {{ name }}Services ${{ lcname }}Services): void
+    {
+        ${{ lcname }}Services->update($request->all()['id'], $request->getDTO());
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy({{ name }} ${{ lcname }}, {{ name }}Services ${{ lcname }}Services)
+    {
+        ${{ lcname }}Services->destroy(${{ lcname }});
+    }
+}

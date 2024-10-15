@@ -1,0 +1,10 @@
+<?php
+
+namespace App\Dtos\{{ name }};
+
+class Store{{ name }}DTO
+{
+    public function __construct(array $validated)
+    {
+    }
+}

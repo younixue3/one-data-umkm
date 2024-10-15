@@ -1,0 +1,61 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Dtos\{{ name }}\Store{{ name }}DTO;
+use App\Dtos\{{ name }}\Update{{ name }}DTO;
+use App\Models\{{ name }};
+use Illuminate\Support\Collection;
+
+class {{ name }}Repositories
+{
+    public function __construct({{ name }} ${{ lcname }})
+    {
+        $this->{{ lcname }} = ${{ lcname }};
+    }
+
+    public function index(): Collection
+    {
+        return $this->{{ lcname }}->all();
+    }
+
+    public function show(int $id): ?{{ name }}
+    {
+        return $this->{{ lcname }}->find($id);
+    }
+
+    public function store(Store{{ name }}DTO $dto): {{ name }}
+    {
+        return $this->{{ lcname }}->create([
+//            'name' => $dto->name,
+//            'price' => $dto->price,
+//            'description' => $dto->description,
+//            'start_date' => $dto->start_date,
+//            'end_date' => $dto->end_date,
+//            'image' => $dto->image
+        ]);
+    }
+
+    public function update(int $id, Update{{ name }}DTO $dto): {{ name }}
+    {
+        $updateData = [
+//            'name' => $dto->name,
+//            'price' => $dto->price,
+//            'description' => $dto->description,
+//            'start_date' => $dto->start_date,
+//            'end_date' => $dto->end_date,
+        ];
+
+//        if ($dto->image) {
+//            $updateData['image'] = $dto->image;
+//        }
+
+        $this->{{ lcname }}->find($id)->update($updateData);
+        return $this->{{ lcname }}->find($id);
+    }
+
+    public function destroy(int $id): bool
+    {
+        return $this->{{ lcname }}->destroy($id);
+    }
+}

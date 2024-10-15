@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Services;
+
+use App\Dtos\{{ name }}\Store{{ name }}DTO;
+use App\Dtos\{{ name }}\Update{{ name }}DTO;
+use App\Exceptions\StandardizedException;
+use App\Models\{{ name }};
+use App\Repositories\{{ name }}Repositories;
+use Exception;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
+class {{ name }}Services
+{
+    public function __construct({{ name }}Repositories ${{ lcname }}Repositories)
+    {
+        $this->{{ lcname }}Repositories = ${{ lcname }}Repositories;
+    }
+
+    public function index(): Collection
+    {
+        return $this->{{ lcname }}Repositories->index();
+    }
+
+    public function show(int $id): ?{{ name }}
+    {
+        $promo = $this->{{ lcname }}Repositories->show($id);
+        if (!$promo instanceof {{ name }}) {
+            throw new StandardizedException('{{ name }} tidak ditemukan.');
+        }
+
+        return $promo;
+    }
+
+    public function store(Store{{ name }}DTO $dto): {{ name }}
+    {
+        Log::info('Store {{ name }}', [
+            'DTO' => $dto,
+        ]);
+
+        try {
+            DB::beginTransaction();
+            $data = $this->{{ lcname }}Repositories->store($dto);
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new StandardizedException($exception->getMessage());
+        }
+
+        return $data;
+    }
+
+    public function update(int $id, Update{{ name }}DTO $dto): {{ name }}
+    {
+        Log::info('Update {{ name }}', [
+            'DTO' => $dto,
+        ]);
+
+        return $this->{{ lcname }}Repositories->update($id,$dto);
+    }
+
+    public function destroy({{ name }} ${{ lcname }}): void
+    {
+        Log::info('Destory {{ name }}', [
+            ${{ lcname }}->toArray()
+        ]);
+
+        $this->{{ lcname }}Repositories->destroy(${{ lcname }}->id);
+    }
+}

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenLayers Map - Koperasi Locator</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/css/ol.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+    }
+    #map {
+      width: 100%;
+      height: 100%;
+    }
+    .search-panel {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: white;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+      max-width: 250px;
+    }
+    .search-panel label {
+      display: block;
+      margin-bottom: 5px;
+    }
+    .search-panel select,
+    .search-panel input {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 5px;
+    }
+    .search-panel button {
+      width: 48%;
+      padding: 8px;
+      cursor: pointer;
+    }
+    .ol-popup {
+      position: absolute;
+      background-color: white;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+      padding: 15px;
+      border-radius: 10px;
+      border: 1px solid #cccccc;
+      bottom: 12px;
+      left: -50px;
+      min-width: 280px;
+    }
+    .ol-popup:after, .ol-popup:before {
+      top: 100%;
+      border: solid transparent;
+      content: " ";
+      height: 0;
+      width: 0;
+      position: absolute;
+      pointer-events: none;
+    }
+    .ol-popup:after {
+      border-top-color: white;
+      border-width: 10px;
+      left: 48px;
+      margin-left: -10px;
+    }
+    .ol-popup:before {
+      border-top-color: #cccccc;
+      border-width: 11px;
+      left: 48px;
+      margin-left: -11px;
+    }
+    .ol-popup-closer {
+      text-decoration: none;
+      position: absolute;
+      top: 2px;
+      right: 8px;
+      font-size: 16px;
+      color: #999;
+    }
+    .ol-popup-closer:after {
+      content: "✖";
+    }
+  </style>
+</head>
+<body>
+  <div class="search-panel">
+    <label for="kabupaten">Kabupaten:</label>
+    <select id="kabupaten"></select>
+
+    <label for="kecamatan">Kecamatan:</label>
+    <select id="kecamatan"></select>
+
+    <label for="desa">Desa:</label>
+    <select id="desa"></select>
+
+    <label for="jenis_kantor">Jenis Kantor:</label>
+    <select id="jenis_kantor"></select>
+
+    <label for="nama_koperasi">Nama Koperasi:</label>
+    <input type="text" id="nama_koperasi">
+
+    <button id="search">Cari</button>
+    <button id="reset">Reset</button>
+  </div>
+
+  <div id="map"></div>
+
+  <div id="popup" class="ol-popup">
+    <a href="#" id="popup-closer" class="ol-popup-closer"></a>
+    <div id="popup-content"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.5.0/build/ol.js"></script>
+  <script>
+    // Dummy koperasi data (expanded for more variety)
+    const koperasiData = [
+      {
+        name: 'Koperasi Maju Bersama',
+        coords: [110.366, -7.795],
+        kabupaten: 'Yogyakarta',
+        kecamatan: 'Kraton',
+        desa: 'Patehan',
+        jenis_kantor: 'Unit Desa',
+        color: 'blue'
+      },
+      {
+        name: 'Koperasi Sejahtera',
+        coords: [110.379, -7.788],
+        kabupaten: 'Sleman',
+        kecamatan: 'Depok',
+        desa: 'Caturtunggal',
+        jenis_kantor: 'Pusat',
+        color: 'green'
+      },
+      {
+        name: 'Koperasi Makmur Jaya',
+        coords: [110.352, -7.810],
+        kabupaten: 'Bantul',
+        kecamatan: 'Kasihan',
+        desa: 'Tamantirto',
+        jenis_kantor: 'Cabang',
+        color: 'red'
+      },
+      {
+        name: 'Koperasi Tani Subur',
+        coords: [110.350, -7.900],
+        kabupaten: 'Kulon Progo',
+        kecamatan: 'Wates',
+        desa: 'Karangwuni',
+        jenis_kantor: 'Unit Desa',
+        color: 'orange'
+      },
+      {
+        name: 'Koperasi Nelayan Bahari',
+        coords: [110.400, -7.780],
+        kabupaten: 'Gunungkidul',
+        kecamatan: 'Wonosari',
+        desa: 'Kepek',
+        jenis_kantor: 'Cabang',
+        color: 'purple'
+      }
+    ];
+
+    // Function to create markers
+    function createMarker(coords, color, koperasi) {
+      return new ol.Feature({
+        geometry: new ol.geom.Point(ol.proj.fromLonLat(coords)),
+        color: color,
+        koperasi: koperasi
+      });
+    }
+
+    // Initialize the map
+    const map = new ol.Map({
+      target: 'map',
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM(),
+        })
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([110.3671, -7.7956]),
+        zoom: 10
+      })
+    });
+
+    // Add vector source and layer for markers
+    const vectorSource = new ol.source.Vector();
+    const markerLayer = new ol.layer.Vector({
+      source: vectorSource,
+      style: function(feature) {
+        return new ol.style.Style({
+          image: new ol.style.Circle({
+            radius: 7,
+            fill: new ol.style.Fill({ color: feature.get('color') }),
+            stroke: new ol.style.Stroke({ color: '#fff', width: 2 })
+          })
+        });
+      }
+    });
+
+    map.addLayer(markerLayer);
+
+    // Popup overlay
+    const container = document.getElementById('popup');
+    const content = document.getElementById('popup-content');
+    const closer = document.getElementById('popup-closer');
+
+    const overlay = new ol.Overlay({
+      element: container,
+      autoPan: true,
+      autoPanAnimation: {
+        duration: 250
+      }
+    });
+
+    map.addOverlay(overlay);
+
+    closer.onclick = function() {
+      overlay.setPosition(undefined);
+      closer.blur();
+      return false;
+    };
+
+    // Display popup on click
+    map.on('click', function(evt) {
+      const feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+        return feature;
+      });
+      if (feature) {
+        const coordinates = feature.getGeometry().getCoordinates();
+        const koperasi = feature.get('koperasi');
+        content.innerHTML = `
+          <h3>${koperasi.name}</h3>
+          <p><strong>Kabupaten:</strong> ${koperasi.kabupaten}</p>
+          <p><strong>Kecamatan:</strong> ${koperasi.kecamatan}</p>
+          <p><strong>Desa:</strong> ${koperasi.desa}</p>
+          <p><strong>Jenis Kantor:</strong> ${koperasi.jenis_kantor}</p>
+        `;
+        overlay.setPosition(coordinates);
+      } else {
+        overlay.setPosition(undefined);
+      }
+    });
+
+    // Populate the filter dropdowns with unique values from koperasiData
+    function populateDropdowns() {
+      const fields = ['kabupaten', 'kecamatan', 'desa', 'jenis_kantor'];
+      fields.forEach(field => {
+        const values = [...new Set(koperasiData.map(k => k[field]))];
+        populateDropdown(field, values);
+      });
+    }
+
+    function populateDropdown(id, values) {
+      const select = document.getElementById(id);
+      select.innerHTML = '<option value="">Semua</option>';
+      values.forEach(value => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = value;
+        select.appendChild(option);
+      });
+    }
+
+    function filterKoperasi() {
+      const filters = ['kabupaten', 'kecamatan', 'desa', 'jenis_kantor'].reduce((acc, field) => {
+        acc[field] = document.getElementById(field).value;
+        return acc;
+      }, {});
+      const namaKoperasi = document.getElementById('nama_koperasi').value.toLowerCase();
+
+      return koperasiData.filter(koperasi => {
+        return Object.entries(filters).every(([key, value]) => !value || koperasi[key] === value) &&
+               (!namaKoperasi || koperasi.name.toLowerCase().includes(namaKoperasi));
+      });
+    }
+
+    // Function to update the map markers based on filtered data
+    function updateMapMarkers(filteredData) {
+      vectorSource.clear();
+      filteredData.forEach(koperasi => {
+        const marker = createMarker(koperasi.coords, koperasi.color, koperasi);
+        vectorSource.addFeature(marker);
+      });
+
+      // Zoom to fit all markers
+      if (filteredData.length > 0) {
+        const extent = vectorSource.getExtent();
+        map.getView().fit(extent, { padding: [50, 50, 50, 50], maxZoom: 15 });
+      }
+    }
+
+    // Event listener for the search button
+    document.getElementById('search').addEventListener('click', () => {
+      const filteredData = filterKoperasi();
+      updateMapMarkers(filteredData);
+    });
+
+    // Event listener for the reset button
+    document.getElementById('reset').addEventListener('click', () => {
+      ['kabupaten', 'kecamatan', 'desa', 'jenis_kantor', 'nama_koperasi'].forEach(id => {
+        document.getElementById(id).value = '';
+      });
+      updateMapMarkers(koperasiData);
+    });
+
+    // Initialize the map
+    populateDropdowns();
+    updateMapMarkers(koperasiData);
+  </script>
+</body>
+</html>
