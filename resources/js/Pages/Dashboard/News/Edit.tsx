@@ -27,7 +27,6 @@ import {
   Undo
 } from 'ckeditor5';
 import 'ckeditor5/ckeditor5.css';
-import 'ckeditor5-premium-features/ckeditor5-premium-features.css';
 import { useEffect } from 'react';
 
 interface News {
@@ -100,11 +99,6 @@ export default function Edit({ news }: { news: News }) {
     form.setValue('image', file);
   };
 
-  const removeCommas = (num: string) =>
-    removeNonNumeric(num?.toString().replace(',', ''));
-  const removeNonNumeric = (num: string) =>
-    num?.toString().replace(/[^0-9]/g, '');
-
   return (
     <AuthenticatedLayout>
       <Head title="News" />
@@ -132,7 +126,7 @@ export default function Edit({ news }: { news: News }) {
               <FormField
                 control={form.control}
                 name="content"
-                render={({ field }) => (
+                render={() => (
                   <FormItem className="flex w-full flex-col col-span-2">
                     <FormLabel>Deskripsi</FormLabel>
                     <FormControl>
