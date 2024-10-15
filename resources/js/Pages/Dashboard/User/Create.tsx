@@ -30,7 +30,10 @@ export default function CreateUser() {
       .required('Password wajib diisi.'),
     password_confirmation: yup
       .string()
-      .oneOf([yup.ref('password')], 'Konfirmasi password harus sama dengan password.')
+      .oneOf(
+        [yup.ref('password')],
+        'Konfirmasi password harus sama dengan password.'
+      )
       .required('Konfirmasi password wajib diisi.'),
     is_staff: yup.boolean().default(false)
   });

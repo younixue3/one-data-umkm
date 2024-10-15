@@ -246,9 +246,7 @@ export default function News({ newss }: { newss: any }) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel
-              onClick={() => setIsDeleteDialogOpen(false)}
-            >
+            <AlertDialogCancel onClick={() => setIsDeleteDialogOpen(false)}>
               Tidak
             </AlertDialogCancel>
             <AlertDialogAction

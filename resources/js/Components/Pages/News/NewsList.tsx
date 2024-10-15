@@ -1,7 +1,6 @@
 import { Card, CardContent, CardFooter } from '@/Components/ui/card';
 import { Button } from '@/Components/ui/button';
 import { Each } from '@/helper/Each';
-import { Link } from '@inertiajs/react';
 import { Tanggal } from '@/helper/Tanggal';
 
 export const NewsList = ({ data }: any) => {

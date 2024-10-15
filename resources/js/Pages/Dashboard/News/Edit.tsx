@@ -15,10 +15,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from '@/hooks/use-toast';
 import { Input } from '@/Components/ui/input';
 import { Button } from '@/Components/ui/button';
-import { Textarea } from '@/Components/ui/textarea';
 import Errors from '@/helper/Errors';
-import { Currency } from '@/helper/Currency';
-import { RotiCrumb } from '@/Components/RotiCrumb';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import {
   Bold,
@@ -29,7 +26,6 @@ import {
   Paragraph,
   Undo
 } from 'ckeditor5';
-import { SlashCommand } from 'ckeditor5-premium-features';
 import 'ckeditor5/ckeditor5.css';
 import 'ckeditor5-premium-features/ckeditor5-premium-features.css';
 import { useEffect } from 'react';
@@ -66,7 +62,6 @@ export default function Edit({ news }: { news: News }) {
     router.post(route('dashboard.news.update', news.id), payload, {
       onSuccess: () => {
         toast({
-          variant: 'success',
           title: 'Berhasil!',
           description: 'News berhasil di ubah.'
         });
@@ -114,13 +109,6 @@ export default function Edit({ news }: { news: News }) {
     <AuthenticatedLayout>
       <Head title="News" />
       <div className="p-6 sm:p-8">
-        <RotiCrumb
-          routers={[
-            { path: 'dashboard.index', pathname: 'Dashboard' },
-            { path: 'dashboard.news.index', pathname: 'News' },
-            { path: 'dashboard.news.create', pathname: 'Ubah' }
-          ]}
-        />
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-2 w-full gap-6">

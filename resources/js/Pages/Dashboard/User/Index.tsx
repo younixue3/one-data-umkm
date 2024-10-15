@@ -207,9 +207,7 @@ export default function User({ userss }: { userss: any }) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel
-              onClick={() => setIsDeleteDialogOpen(false)}
-            >
+            <AlertDialogCancel onClick={() => setIsDeleteDialogOpen(false)}>
               Tidak
             </AlertDialogCancel>
             <AlertDialogAction

@@ -24,10 +24,18 @@ export default function Edit({ users }: any) {
       .string()
       .email('Email tidak valid.')
       .required('Email wajib diisi.'),
-    password: yup.string().nullable().test('min-length', 'Password minimal 8 karakter.', value => !value || value.length >= 8),
-    password_confirmation: yup.string()
+    password: yup
+      .string()
       .nullable()
-      .test('passwords-match', 'Passwords harus sama', function(value) {
+      .test(
+        'min-length',
+        'Password minimal 8 karakter.',
+        value => !value || value.length >= 8
+      ),
+    password_confirmation: yup
+      .string()
+      .nullable()
+      .test('passwords-match', 'Passwords harus sama', function (value) {
         return !this.parent.password || this.parent.password === value;
       })
   });
@@ -114,13 +122,11 @@ export default function Edit({ users }: any) {
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="********"
-                      {...field}
-                    />
+                    <Input type="password" placeholder="********" {...field} />
                   </FormControl>
-                  <FormDescription>Masukkan password baru (opsional).</FormDescription>
+                  <FormDescription>
+                    Masukkan password baru (opsional).
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -132,13 +138,11 @@ export default function Edit({ users }: any) {
                 <FormItem>
                   <FormLabel>Konfirmasi Password</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="********"
-                      {...field}
-                    />
+                    <Input type="password" placeholder="********" {...field} />
                   </FormControl>
-                  <FormDescription>Konfirmasi password baru (jika diubah).</FormDescription>
+                  <FormDescription>
+                    Konfirmasi password baru (jika diubah).
+                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
