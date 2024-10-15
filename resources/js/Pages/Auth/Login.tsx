@@ -1,9 +1,9 @@
 import { Head, Link, useForm, router } from '@inertiajs/react';
 import { FormEventHandler } from 'react';
-import { Label } from '../../components/ui/label';
-import { Input } from '../../Components/ui/input';
-import Checkbox from '../../Components/Checkbox';
-import { Button } from '../../Components/ui/button';
+import { Label } from '@/Components/ui/label';
+import { Input } from '@/Components/ui/input';
+import Checkbox from '@/Components/Checkbox';
+import { Button } from '@/Components/ui/button';
 
 export default function Login({
   status,
@@ -18,13 +18,13 @@ export default function Login({
     remember: false
   });
 
-  const submit: FormEventHandler = (e) => {
-        e.preventDefault();
+  const submit: FormEventHandler = e => {
+    e.preventDefault();
 
-        post(route('login'), {
-            onFinish: () => reset('password'),
-        });
-    };
+    post(route('login'), {
+      onFinish: () => reset('password')
+    });
+  };
 
   return (
     <>
@@ -90,9 +90,7 @@ export default function Login({
                 <label className="flex items-center">
                   <Checkbox
                     checked={data.remember}
-                    onCheckedChange={(checked: any) =>
-                      setData('remember', checked)
-                    }
+                    onChange={(checked: any) => setData('remember', checked)}
                   />
                   <span className="ml-2 text-sm text-gray-600">Ingat saya</span>
                 </label>
@@ -111,9 +109,12 @@ export default function Login({
               <Button type="submit" className="w-full" disabled={processing}>
                 {processing ? 'Logging in...' : 'Log in'}
               </Button>
-              <div className='mt-5'>
-                <Link href={route('register')} className="text-sm text-blue-600 hover:underline">
-                    Belum punya akun? Register
+              <div className="mt-5">
+                <Link
+                  href={route('register')}
+                  className="text-sm text-blue-600 hover:underline"
+                >
+                  Belum punya akun? Register
                 </Link>
               </div>
             </form>
