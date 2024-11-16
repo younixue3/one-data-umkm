@@ -50,58 +50,61 @@ export default function Dashboard() {
       <div className="py-12">
         <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-            <Card className="border-red-500">
+            <Card className="border-primary">
               <CardHeader>
-                <CardTitle className="text-red-600">Total Sales</CardTitle>
+                <CardTitle className="text-primary">Total Sales</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-red-700">
+                <p className="text-2xl font-bold text-primary">
                   ${dashboardData?.totalSales || 0}
                 </p>
               </CardContent>
             </Card>
-            <Card className="border-red-500">
+            <Card className="border-primary">
               <CardHeader>
-                <CardTitle className="text-red-600">New Customers</CardTitle>
+                <CardTitle className="text-primary">New Customers</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-red-700">
+                <p className="text-2xl font-bold text-primary">
                   {dashboardData?.newCustomers || 0}
                 </p>
               </CardContent>
             </Card>
-            <Card className="border-red-500">
+            <Card className="border-primary">
               <CardHeader>
-                <CardTitle className="text-red-600">
+                <CardTitle className="text-primary">
                   Product Categories
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-2xl font-bold text-red-700">
+                <p className="text-2xl font-bold text-primary">
                   {dashboardData?.productCategories || 0}
                 </p>
               </CardContent>
             </Card>
           </div>
           <div className="mt-8">
-            <Card className="border-red-500">
+            <Card className="border-primary">
               <CardHeader>
-                <CardTitle className="text-red-600">Sales Overview</CardTitle>
+                <CardTitle className="text-primary">Sales Overview</CardTitle>
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart data={dashboardData?.salesData || []}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#ff0000" />
-                    <XAxis dataKey="name" stroke="#ff0000" />
-                    <YAxis stroke="#ff0000" />
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="hsl(var(--primary))"
+                    />
+                    <XAxis dataKey="name" stroke="hsl(var(--primary))" />
+                    <YAxis stroke="hsl(var(--primary))" />
                     <Tooltip
                       contentStyle={{
                         backgroundColor: '#fff',
-                        border: '1px solid #ff0000'
+                        border: '1px solid hsl(var(--primary))'
                       }}
                     />
-                    <Legend wrapperStyle={{ color: '#ff0000' }} />
-                    <Bar dataKey="sales" fill="#ff0000" />
+                    <Legend wrapperStyle={{ color: 'hsl(var(--primary))' }} />
+                    <Bar dataKey="sales" fill="hsl(var(--primary))" />
                   </BarChart>
                 </ResponsiveContainer>
               </CardContent>

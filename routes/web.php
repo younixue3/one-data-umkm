@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\IkmController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -18,6 +19,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     // Route::resource('product', ProductController::class);
     Route::resource('news', NewsController::class);
     Route::resource('user', UsersController::class);
+    Route::resource('ikm', IkmController::class);
 });
 
 Route::middleware('auth')->group(function () {
@@ -25,5 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+Route::post('dashboard/ikm/import', [IkmController::class, 'import'])->name('dashboard.ikm.import');
 
 require __DIR__.'/auth.php';

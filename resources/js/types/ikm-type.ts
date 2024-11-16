@@ -1,0 +1,31 @@
+export interface IkmType {
+    id: number;
+    nama_perusahaan: string;
+    nama_pemilik: string;
+    alamat: string;
+    kelurahan_id: number;
+    kecamatan_id: number;
+    kabupaten_id: number;
+    provinsi_id: number;
+    kontak_person?: string;
+    no_hp?: string;
+    email?: string;
+    nomor_izin?: string;
+    tahun_izin?: number;
+    jenis_usaha_id: number;
+    jenis_produk_id: number;
+    tahun_data: number;
+    tenaga_kerja_pria: number;
+    tenaga_kerja_wanita: number;
+    nilai_investasi: number;
+    nilai_kapasitas: number;
+    satuan_kapasitas: string;
+    nilai_produksi: number;
+    nilai_bahan_baku: number;
+    status_ekspor: boolean;
+    negara_tujuan_ekspor?: string;
+    status_aktif: boolean;
+    jenis_pembiayaan?: string;
+    created_at: string;
+    updated_at: string;
+} 
