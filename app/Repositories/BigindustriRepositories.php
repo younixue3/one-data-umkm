@@ -27,28 +27,19 @@ class BigindustriRepositories
     public function store(StoreBigindustriDTO $dto): Bigindustri
     {
         return $this->bigindustri->create([
-//            'name' => $dto->name,
-//            'price' => $dto->price,
-//            'description' => $dto->description,
-//            'start_date' => $dto->start_date,
-//            'end_date' => $dto->end_date,
-//            'image' => $dto->image
+            'nama_perusahaan' => $dto->nama_perusahaan,
+            'alamat_pabrik' => $dto->alamat_pabrik,
+            'sektor_industri' => $dto->sektor_industri,
         ]);
     }
 
     public function update(int $id, UpdateBigindustriDTO $dto): Bigindustri
     {
         $updateData = [
-//            'name' => $dto->name,
-//            'price' => $dto->price,
-//            'description' => $dto->description,
-//            'start_date' => $dto->start_date,
-//            'end_date' => $dto->end_date,
+            'nama_perusahaan' => $dto->nama_perusahaan,
+            'alamat_pabrik' => $dto->alamat_pabrik,
+            'sektor_industri' => $dto->sektor_industri,
         ];
-
-//        if ($dto->image) {
-//            $updateData['image'] = $dto->image;
-//        }
 
         $this->bigindustri->find($id)->update($updateData);
         return $this->bigindustri->find($id);

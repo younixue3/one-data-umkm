@@ -3,6 +3,10 @@
 namespace App\Imports;
 
 use App\Models\Ikm;
+use App\Models\Kelurahan;
+use App\Models\Kecamatan;
+use App\Models\Kabupaten;
+use App\Models\Provinsi;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
@@ -12,14 +16,19 @@ class IkmImport implements ToModel, WithHeadingRow, WithValidation, SkipsEmptyRo
 {
     public function model(array $row)
     {
+        $kelurahan = Kelurahan::find($row['id_kelurahan'] ?? null);
+        $kecamatan = Kecamatan::find($row['id_kecamatan'] ?? null);
+        $kabupaten = Kabupaten::find($row['id_kabkota'] ?? null);
+        $provinsi = Provinsi::find($row['id_prov'] ?? null);
+
         return new Ikm([
             'nama_perusahaan' => (string)($row['nama_perusahaan'] ?? ''),
             'nama_pemilik' => (string)($row['nama_pemilik'] ?? ''),
             'alamat' => (string)($row['jalan'] ?? ''),
-            'kelurahan_id' => (string)($row['id_kelurahan'] ?? ''),
-            'kecamatan_id' => (string)($row['id_kecamatan'] ?? ''),
-            'kabupaten_id' => (string)($row['id_kabkota'] ?? ''),
-            'provinsi_id' => (string)($row['id_prov'] ?? ''),
+            'kelurahan_id' => $kelurahan ? $kelurahan->id : null,
+            'kecamatan_id' => $kecamatan ? $kecamatan->id : null,
+            'kabupaten_id' => $kabupaten ? $kabupaten->id : null,
+            'provinsi_id' => $provinsi ? $provinsi->id : null,
             'kontak_person' => (string)($row['kontak_person'] ?? ''),
             'no_hp' => (string)($row['no_hp'] ?? ''),
             'email' => (string)($row['email'] ?? ''),
@@ -48,24 +57,24 @@ class IkmImport implements ToModel, WithHeadingRow, WithValidation, SkipsEmptyRo
             'nama_perusahaan' => ['nullable', 'string'],
             'nama_pemilik' => ['nullable', 'string'],
             'alamat' => ['nullable', 'string'], 
-            'kelurahan_id' => ['nullable', 'exists:kelurahans,id'],
-            'kecamatan_id' => ['nullable', 'exists:kecamatans,id'],
-            'kabupaten_id' => ['nullable', 'exists:kabupatens,id'],
-            'provinsi_id' => ['nullable', 'exists:provinsis,id'],
-            'jenis_usaha_id' => ['nullable', 'exists:typeindustries,id'],
-            'jenis_produk_id' => ['nullable', 'exists:typeproducts,id'],
+            'id_kelurahan' => ['nullable', 'exists:kelurahans,id'],
+            'id_kecamatan' => ['nullable', 'exists:kecamatans,id'],
+            'id_kabkota' => ['nullable', 'exists:kabupatens,id'],
+            'id_prov' => ['nullable', 'exists:provinsis,id'],
+            'id_kbli' => ['nullable', 'exists:typeindustries,id'],
+            'jenis_produk' => ['nullable', 'exists:typeproducts,id'],
             'tahun_data' => ['nullable'],
-            'tenaga_kerja_pria' => ['nullable'],
-            'tenaga_kerja_wanita' => ['nullable'],
+            'tk_pria' => ['nullable'],
+            'tk_wanita' => ['nullable'],
             'nilai_investasi' => ['nullable'],
             'nilai_kapasitas' => ['nullable'],
-            'satuan_kapasitas' => ['nullable', 'string'],
+            'id_satuan' => ['nullable', 'string'],
             'nilai_produksi' => ['nullable'],
             'nilai_bahan_baku' => ['nullable'],
-            'status_ekspor' => ['nullable', 'string'],
-            'negara_tujuan_ekspor' => ['nullable', 'string'],
-            'status_aktif' => ['nullable', 'string'],
-            'jenis_pembiayaan' => ['nullable', 'string'],
+            'id_ekspor' => ['nullable', 'string'],
+            'negaraa_ekspor' => ['nullable', 'string'],
+            'id_aktif' => ['nullable', 'string'],
+            'id_pembiayaan' => ['nullable', 'string'],
             'kontak_person' => ['nullable'],
             'no_hp' => ['nullable'],
             'email' => ['nullable'],

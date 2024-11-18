@@ -19,7 +19,7 @@ import {
   getSortedRowModel,
   useReactTable
 } from '@tanstack/react-table';
-import { IkmType } from '@/types/ikm-type';
+import { BigindustriType } from '@/types/bigindustri-type';
 import { useMemo, useState } from 'react';
 import { Button } from '@/Components/ui/button';
 import { ChevronDownIcon } from 'lucide-react';
@@ -30,9 +30,9 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger
 } from '@/Components/ui/dropdown-menu';
-import ActionButton from '@/Components/Pages/Ikm/Partials/ActionButton';
+import ActionButton from './Partials/ActionButton';
 
-const columns: ColumnDef<IkmType>[] = [
+const columns: ColumnDef<BigindustriType>[] = [
   {
     accessorFn: (_, index) => index + 1,
     header: 'No'
@@ -42,54 +42,29 @@ const columns: ColumnDef<IkmType>[] = [
     header: 'Nama Perusahaan'
   },
   {
-    accessorKey: 'nama_pemilik',
-    header: 'Nama Pemilik'
+    accessorKey: 'alamat_pabrik',
+    header: 'Alamat Pabrik'
   },
   {
-    id: 'kontak',
-    header: 'Kontak',
-    cell: ({ row }) => (
-      <div>
-        <div>{row.original.no_hp}</div>
-        <div>{row.original.email}</div>
-      </div>
-    )
-  },
-  {
-    accessorKey: 'alamat',
-    header: 'Alamat'
-  },
-  {
-    accessorKey: 'status_aktif',
-    header: 'Status',
-    cell: ({ row }) => (
-      <span
-        className={`px-2 py-1 rounded-full text-xs ${
-          row.original.status_aktif
-            ? 'bg-green-100 text-green-800'
-            : 'bg-red-100 text-red-800'
-        }`}
-      >
-        {row.original.status_aktif ? 'Aktif' : 'Tidak Aktif'}
-      </span>
-    )
+    accessorKey: 'sektor_industri',
+    header: 'Sektor Industri'
   },
   {
     id: 'actions',
     header: () => <div className="text-right">Aksi</div>,
     cell: ({ row }) => (
       <div className="text-right">
-        <ActionButton ikm={row.original} />
+        <ActionButton bigindustri={row.original} />
       </div>
     )
   }
 ];
 
-interface IkmTableProps {
-  data: IkmType[];
+interface BigindustriTableProps {
+  data: BigindustriType[];
 }
 
-export const IkmTable = ({ data }: IkmTableProps) => {
+export const BigindustriTable = ({ data }: BigindustriTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -112,7 +87,7 @@ export const IkmTable = ({ data }: IkmTableProps) => {
       columnVisibility,
       rowSelection
     },
-    initialState: { pagination: { pageSize: 20 } }
+    initialState: { pagination: { pageSize: 5 } }
   });
 
   const { pageIndex } = table.getState().pagination;

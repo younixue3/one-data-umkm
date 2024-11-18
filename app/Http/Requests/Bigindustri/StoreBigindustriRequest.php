@@ -23,28 +23,18 @@ class StoreBigindustriRequest extends FormRequest
     public function rules(): array
     {
         return [
-//            'name' => ['required', 'string'],
-//            'price' => ['required', 'numeric'],
-//            'description' => ['string'],
-//            'start_date' => ['required', 'date'],
-//            'end_date' => ['required', 'date'],
-//            'image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:3000'],
+            'nama_perusahaan' => ['required', 'string'],
+            'alamat_pabrik' => ['required', 'string'],
+            'sektor_industri' => ['required', 'string'],
         ];
     }
 
     public function messages(): array
     {
         return [
-//            'name.required' => 'Nama bigindustri harus diisi',
-//            'price.required' => 'Harga bigindustri harus diisi',
-//            'description.required' => 'Deskripsi bigindustri harus diisi',
-//            'start_date.required' => 'Tanggal bigindustri harus diisi',
-//            'start_date.date' => 'Tanggal bigindustri harus berupa tanggal',
-//            'end_date.required' => 'Tanggal bigindustri harus diisi',
-//            'end_date.date' => 'Tanggal bigindustri harus berupa tanggal',
-//            'image.image' => 'File harus berupa gambar',
-//            'image.mimes' => 'File harus berupa gambar',
-//            'image.max' => 'Ukuran file terlalu besar'
+            'nama_perusahaan.required' => 'Nama perusahaan harus diisi',
+            'alamat_pabrik.required' => 'Alamat pabrik harus diisi',
+            'sektor_industri.required' => 'Sektor industri harus diisi',
         ];
     }
 

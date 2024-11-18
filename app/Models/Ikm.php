@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Ikm extends Model
 {
@@ -23,8 +24,6 @@ class Ikm extends Model
         'email',
         'nomor_izin',
         'tahun_izin',
-        'jenis_usaha_id',
-        'jenis_produk_id',
         'tahun_data',
         'tenaga_kerja_pria',
         'tenaga_kerja_wanita',
@@ -40,14 +39,14 @@ class Ikm extends Model
     ];
 
     protected $casts = [
-        'tahun_izin' => 'string',
-        'tahun_data' => 'string',
-        'tenaga_kerja_pria' => 'string',
-        'tenaga_kerja_wanita' => 'string',
-        'nilai_investasi' => 'string',
-        'nilai_kapasitas' => 'string',
-        'nilai_produksi' => 'string',
-        'nilai_bahan_baku' => 'string',
+        'tahun_izin' => 'integer',
+        'tahun_data' => 'integer',
+        'tenaga_kerja_pria' => 'integer',
+        'tenaga_kerja_wanita' => 'integer',
+        'nilai_investasi' => 'decimal:2',
+        'nilai_kapasitas' => 'decimal:2',
+        'nilai_produksi' => 'decimal:2',
+        'nilai_bahan_baku' => 'decimal:2',
         'status_ekspor' => 'string',
         'status_aktif' => 'string'
     ];
@@ -72,13 +71,13 @@ class Ikm extends Model
         return $this->belongsTo(Provinsi::class);
     }
 
-    public function jenis_usaha(): BelongsTo
+    public function jenis_usaha(): BelongsToMany
     {
-        return $this->belongsTo(Typeindustrie::class, 'jenis_usaha_id');
+        return $this->belongsToMany(Typeindustrie::class, 'ikm_typeindustrie');
     }
 
-    public function jenis_produk(): BelongsTo
+    public function jenis_produk(): BelongsToMany
     {
-        return $this->belongsTo(Typeproduct::class, 'jenis_produk_id');
+        return $this->belongsToMany(Typeproduct::class, 'ikm_typeproduct');
     }
 }

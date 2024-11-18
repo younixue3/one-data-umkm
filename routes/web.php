@@ -20,6 +20,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     Route::resource('news', NewsController::class);
     Route::resource('user', UsersController::class);
     Route::resource('ikm', IkmController::class);
+    Route::resource('bigindustri', BigindustriController::class);
 });
 
 Route::middleware('auth')->group(function () {

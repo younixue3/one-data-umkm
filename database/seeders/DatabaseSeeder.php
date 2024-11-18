@@ -21,5 +21,13 @@ class DatabaseSeeder extends Seeder
             'email' => 'bussiness.needs.rctka@gmail.com',
             'password' => Hash::make('Gm26%cxA@#5V##p89Nnnfc3!PF8&PDR4&Nsji'),
         ]);
+        
+        $this->call([
+            ProvinsiSeeder::class,
+            KabupatenSeeder::class,
+            KecamatanSeeder::class,
+            KelurahanSeeder::class,
+        ]);
+
     }
 }

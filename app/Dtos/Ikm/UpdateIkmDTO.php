@@ -16,8 +16,8 @@ class UpdateIkmDTO
     public ?string $email;
     public ?string $nomor_izin;
     public ?string $tahun_izin;
-    public string $jenis_usaha_id;
-    public string $jenis_produk_id;
+    public array $jenis_usaha_id;
+    public array $jenis_produk_id;
     public string $tahun_data;
     public string $tenaga_kerja_pria;
     public string $tenaga_kerja_wanita;

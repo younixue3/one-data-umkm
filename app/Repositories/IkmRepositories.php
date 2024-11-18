@@ -9,6 +9,8 @@ use Illuminate\Support\Collection;
 
 class IkmRepositories
 {
+    private Ikm $ikm;
+
     public function __construct(Ikm $ikm)
     {
         $this->ikm = $ikm;
@@ -16,17 +18,17 @@ class IkmRepositories
 
     public function index(): Collection
     {
-        return $this->ikm->take(20)->get();
+        return $this->ikm->with(['typeindustries', 'typeproducts'])->get();
     }
 
     public function show(int $id): ?Ikm
     {
-        return $this->ikm->find($id);
+        return $this->ikm->with(['typeindustries', 'typeproducts'])->find($id);
     }
 
     public function store(StoreIkmDTO $dto): Ikm
     {
-        return $this->ikm->create([
+        $ikm = $this->ikm->create([
             'nama_perusahaan' => $dto->nama_perusahaan,
             'nama_pemilik' => $dto->nama_pemilik,
             'alamat' => $dto->alamat,
@@ -54,6 +56,11 @@ class IkmRepositories
             'status_aktif' => $dto->status_aktif,
             'jenis_pembiayaan' => $dto->jenis_pembiayaan
         ]);
+
+        $ikm->typeindustries()->sync($dto->jenis_usaha_id);
+        $ikm->typeproducts()->sync($dto->jenis_produk_id);
+
+        return $ikm->load(['typeindustries', 'typeproducts']);
     }
 
     public function update(int $id, UpdateIkmDTO $dto): Ikm
@@ -89,11 +96,20 @@ class IkmRepositories
             'jenis_pembiayaan' => $dto->jenis_pembiayaan
         ]);
 
-        return $ikm->fresh();
+        $ikm->typeindustries()->sync($dto->jenis_usaha_id);
+        $ikm->typeproducts()->sync($dto->jenis_produk_id);
+
+        return $ikm->fresh(['typeindustries', 'typeproducts']);
     }
 
     public function destroy(int $id): bool
     {
-        return $this->ikm->destroy($id);
+        $ikm = $this->ikm->findOrFail($id);
+        
+        // Delete related records in pivot tables
+        $ikm->typeindustries()->detach();
+        $ikm->typeproducts()->detach();
+        
+        return $ikm->delete();
     }
 }

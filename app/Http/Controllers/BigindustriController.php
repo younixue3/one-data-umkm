@@ -17,7 +17,7 @@ class BigindustriController extends Controller
     public function index(BigindustriServices $bigindustriServices): \Inertia\Response|\Inertia\ResponseFactory
     {
         $bigindustris = $bigindustriServices->index();
-        return inertia("Bigindustri/Index", compact("bigindustris"));
+        return inertia("Dashboard/Bigindustri/Index", compact("bigindustris"));
     }
 
     /**
@@ -25,7 +25,7 @@ class BigindustriController extends Controller
      */
     public function create()
     {
-        return inertia("Bigindustri/Create");
+        return inertia("Dashboard/Bigindustri/Create");
     }
 
     /**
@@ -51,7 +51,7 @@ class BigindustriController extends Controller
     public function edit(int $bigindustri, BigindustriServices $bigindustriServices): \Inertia\Response|\Inertia\ResponseFactory
     {
         $bigindustri = $bigindustriServices->show($bigindustri);
-        return inertia("Bigindustri/Edit", compact("bigindustri"));
+        return inertia("Dashboard/Bigindustri/Edit", compact("bigindustri"));
     }
 
     /**
