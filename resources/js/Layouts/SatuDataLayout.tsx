@@ -10,6 +10,7 @@ export default function SatuDataLayout({
   title
 }: SatuDataLayoutProps) {
   const navItems = [
+    { name: 'Beranda', href: '/' },
     { name: 'Industri', href: '/satu-data' },
     { name: 'Perdagangan', href: '/satu-data/perdagangan' },
     { name: 'Koperasi dan UKM', href: '/satu-data/koperasi-ukm' },
