@@ -13,8 +13,13 @@ import { useState, useEffect, useRef } from 'react';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
 import OSM from 'ol/source/OSM';
 import { fromLonLat } from 'ol/proj';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import { Style, Circle, Fill, Stroke } from 'ol/style';
 
 export default function Pelatihan() {
   const [selectedKabupaten, setSelectedKabupaten] = useState<string>('all');
@@ -23,18 +28,88 @@ export default function Pelatihan() {
 
   useEffect(() => {
     if (mapRef.current && !mapInstanceRef.current) {
+      // Create vector source and features
+      const vectorSource = new VectorSource();
+
+      // Add point features for each kabupaten
+      const kabupatenCoords = [
+        { id: '366', name: 'KABUPATEN BULUNGAN', coords: [117.0794, 2.904] },
+        { id: '367', name: 'KABUPATEN MALINAU', coords: [116.6388, 3.5845] },
+        { id: '368', name: 'KABUPATEN NUNUKAN', coords: [117.6467, 4.1357] },
+        {
+          id: '369',
+          name: 'KABUPATEN TANA TIDUNG',
+          coords: [117.2502, 3.5519]
+        },
+        { id: '370', name: 'KOTA TARAKAN', coords: [117.6333, 3.3] }
+      ];
+
+      kabupatenCoords.forEach(kab => {
+        const feature = new Feature({
+          geometry: new Point(fromLonLat(kab.coords)),
+          name: kab.name
+        });
+
+        vectorSource.addFeature(feature);
+      });
+
+      // Create vector layer with style
+      const vectorLayer = new VectorLayer({
+        source: vectorSource,
+        style: new Style({
+          image: new Circle({
+            radius: 8,
+            fill: new Fill({ color: '#3b82f6' }),
+            stroke: new Stroke({
+              color: '#ffffff',
+              width: 2
+            })
+          })
+        })
+      });
+
       // Initialize map
       const map = new Map({
         target: mapRef.current,
         layers: [
           new TileLayer({
             source: new OSM()
-          })
+          }),
+          vectorLayer
         ],
         view: new View({
           center: fromLonLat([117.0794, 3.3333]), // Center on Kalimantan Utara
           zoom: 8
         })
+      });
+
+      // Add hit detection
+      map.on('click', function (evt) {
+        const feature = map.forEachFeatureAtPixel(
+          evt.pixel,
+          function (feature) {
+            return feature;
+          }
+        );
+
+        if (feature) {
+          const name = feature.get('name');
+          // Find the corresponding kabupaten ID
+          const kabupaten = kabupatenCoords.find(k => k.name === name);
+          if (kabupaten?.id) {
+            setSelectedKabupaten(kabupaten.id);
+          }
+        }
+      });
+
+      // Change cursor on hover
+      map.on('pointermove', function (evt) {
+        const pixel = map.getEventPixel(evt.originalEvent);
+        const hit = map.hasFeatureAtPixel(pixel);
+        const target = map.getTarget();
+        if (target && target instanceof HTMLElement) {
+          target.style.cursor = hit ? 'pointer' : '';
+        }
       });
 
       mapInstanceRef.current = map;

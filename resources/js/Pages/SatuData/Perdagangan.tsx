@@ -1,6 +1,6 @@
 import { Head } from '@inertiajs/react';
 import SatuDataLayout from '@/Layouts/SatuDataLayout';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   BarChart,
   Bar,
@@ -14,6 +14,12 @@ import {
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile';
+import VectorLayer from 'ol/layer/Vector';
+import VectorSource from 'ol/source/Vector';
+import Feature from 'ol/Feature';
+import Point from 'ol/geom/Point';
+import { fromLonLat } from 'ol/proj';
+import { Style, Circle, Fill, Stroke } from 'ol/style';
 import OSM from 'ol/source/OSM';
 import 'ol/ol.css';
 import { Card, CardContent, CardTitle, CardHeader } from '@/Components/ui/card';
@@ -227,31 +233,112 @@ const totalData = [
 
 export default function Perdagangan() {
   const [selectedKabupaten, setSelectedKabupaten] = useState('all');
-  const [map, setMap] = useState<Map | null>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const mapInstanceRef = useRef<Map | null>(null);
 
   const filteredData =
     selectedKabupaten === 'all'
       ? pasarData
-      : pasarData.filter(item => item.uraian === selectedKabupaten);
+      : pasarData.filter(item => item.id === selectedKabupaten);
 
   useEffect(() => {
-    if (!map) {
-      const initialMap = new Map({
-        target: 'map',
+    if (mapRef.current && !mapInstanceRef.current) {
+      // Create vector source and features
+      const vectorSource = new VectorSource();
+
+      // Add point features for each kabupaten
+      const kabupatenCoords = [
+        { id: '366', name: 'KABUPATEN BULUNGAN', coords: [117.0794, 2.904] },
+        { id: '367', name: 'KABUPATEN MALINAU', coords: [116.6388, 3.5845] },
+        { id: '368', name: 'KABUPATEN NUNUKAN', coords: [117.6467, 4.1357] },
+        {
+          id: '369',
+          name: 'KABUPATEN TANA TIDUNG',
+          coords: [117.2502, 3.5519]
+        },
+        { id: '370', name: 'KOTA TARAKAN', coords: [117.6333, 3.3] }
+      ];
+
+      kabupatenCoords.forEach(kab => {
+        const feature = new Feature({
+          geometry: new Point(fromLonLat(kab.coords)),
+          name: kab.name
+        });
+
+        vectorSource.addFeature(feature);
+      });
+
+      // Create vector layer with style
+      const vectorLayer = new VectorLayer({
+        source: vectorSource,
+        style: new Style({
+          image: new Circle({
+            radius: 8,
+            fill: new Fill({ color: '#3b82f6' }),
+            stroke: new Stroke({
+              color: '#ffffff',
+              width: 2
+            })
+          })
+        })
+      });
+
+      // Initialize map
+      const map = new Map({
+        target: mapRef.current,
         layers: [
           new TileLayer({
             source: new OSM()
-          })
+          }),
+          vectorLayer
         ],
         view: new View({
-          center: [117.3832, 2.9041],
-          zoom: 8,
-          projection: 'EPSG:4326'
+          center: fromLonLat([117.0794, 3.3333]), // Center on Kalimantan Utara
+          zoom: 8
         })
       });
-      setMap(initialMap);
+
+      // Add hit detection
+      map.on('click', function (evt) {
+        const feature = map.forEachFeatureAtPixel(
+          evt.pixel,
+          function (feature) {
+            return feature;
+          }
+        );
+
+        if (feature) {
+          const name = feature.get('name');
+          // Find the corresponding kabupaten data
+          const kabupaten = pasarData.find(k => k.uraian === name);
+          if (kabupaten?.id) {
+            setSelectedKabupaten(kabupaten.id);
+          } else {
+            setSelectedKabupaten('all');
+          }
+        }
+      });
+
+      // Change cursor on hover
+      map.on('pointermove', function (evt) {
+        const pixel = map.getEventPixel(evt.originalEvent);
+        const hit = map.hasFeatureAtPixel(pixel);
+        const target = map.getTarget();
+        if (target && target instanceof HTMLElement) {
+          target.style.cursor = hit ? 'pointer' : '';
+        }
+      });
+
+      mapInstanceRef.current = map;
     }
-  }, [map]);
+
+    return () => {
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current.setTarget(undefined);
+        mapInstanceRef.current = null;
+      }
+    };
+  }, []);
 
   return (
     <SatuDataLayout title="Perdagangan">
@@ -277,7 +364,7 @@ export default function Perdagangan() {
                       {pasarData
                         .filter(item => item.id)
                         .map(item => (
-                          <SelectItem key={item.uraian} value={item.uraian}>
+                          <SelectItem key={item.uraian} value={item.id ?? ''}>
                             {item.uraian}
                           </SelectItem>
                         ))}
@@ -292,7 +379,7 @@ export default function Perdagangan() {
 
             <Card className="col-span-2 row-span-2">
               <CardContent>
-                <div id="map" className="h-[320px]" />
+                <div ref={mapRef} className="h-[320px]" />
               </CardContent>
             </Card>
 
