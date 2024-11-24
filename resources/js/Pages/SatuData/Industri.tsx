@@ -111,72 +111,37 @@ interface Kabupaten {
   name: string;
 }
 
-export default function Industri({
-  laravelVersion,
-  phpVersion,
-  kabupatenList,
-  productTypes,
-  dataUkm
-}: PageProps<{
-  laravelVersion: string;
-  phpVersion: string;
-  dataUkm: UkmData[];
-  dataBigIndustries: any[];
-  ukmByKabupatenYear: KabupatenData;
-  bigIndustriesByKabupatenYear: KabupatenData;
-  kabupatenList: Kabupaten[];
-  productTypes: Typeproduct[];
-  industryTypes: Typeindustry[];
-}>) {
-  const [nameUkm, setNameUkm] = useState('');
-  const [namePerson, setNamePerson] = useState('');
-  const [typeProducts, setTypeProducts] = useState<string[]>(['all']);
+const kabupatenList: Kabupaten[] = [
+  {
+    id: '366',
+    name: 'KABUPATEN BULUNGAN'
+  },
+  {
+    id: '367',
+    name: 'KABUPATEN MALINAU'
+  },
+  {
+    id: '368',
+    name: 'KABUPATEN NUNUKAN'
+  },
+  {
+    id: '369',
+    name: 'KABUPATEN TANA TIDUNG'
+  },
+  {
+    id: '370',
+    name: 'KOTA TARAKAN'
+  }
+];
+
+export default function Industri({}: PageProps<{}>) {
+  // const [typeProducts, setTypeProducts] = useState<string[]>(['all']);
   const [selectedKabupaten, setSelectedKabupaten] = useState<
     string | number | any
   >('all');
-  const [filteredData, setFilteredData] = useState(dataUkm);
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<Map | null>(null);
-  const vectorSources = useRef<{ [key: string]: VectorSource }>({});
-  const vectorLayers = useRef<{ [key: string]: VectorLayer<VectorSource> }>({});
   const popupRef = useRef<HTMLDivElement>(null);
-  const overlayRef = useRef<Overlay | null>(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [selectedType, setSelectedType] = useState('all');
-
-  useEffect(() => {
-    let filtered = dataUkm;
-
-    // Filter by product type
-    if (typeProducts.length > 0 && typeProducts[0] !== 'all') {
-      filtered = filtered.filter(ukm =>
-        ukm.typeproducts.some(type => typeProducts.includes(type.id))
-      );
-    }
-
-    // Filter by kabupaten
-    if (selectedKabupaten !== 'all') {
-      filtered = filtered.filter(
-        ukm => ukm.kabupaten.id.toString() === selectedKabupaten
-      );
-    }
-
-    // Filter by UKM name
-    if (nameUkm) {
-      filtered = filtered.filter(ukm =>
-        ukm.nama_perusahaan.toLowerCase().includes(nameUkm.toLowerCase())
-      );
-    }
-
-    // Filter by person name
-    if (namePerson) {
-      filtered = filtered.filter(ukm =>
-        ukm.nama_pemilik.toLowerCase().includes(namePerson.toLowerCase())
-      );
-    }
-
-    setFilteredData(filtered);
-  }, [typeProducts, selectedKabupaten, nameUkm, namePerson, dataUkm]);
 
   useEffect(() => {
     if (mapRef.current && !mapInstance.current) {
@@ -458,7 +423,7 @@ export default function Industri({
               </CardHeader>
               <CardContent className="p-4">
                 <div className="space-y-4">
-                  <Select
+                  {/* <Select
                     onValueChange={value =>
                       setTypeProducts(value === 'all' ? [] : [value])
                     }
@@ -474,9 +439,11 @@ export default function Industri({
                         </SelectItem>
                       ))}
                     </SelectContent>
-                  </Select>
+                  </Select> */}
                   <Select
-                    value={selectedKabupaten}
+                    value={
+                      kabupatenList.find(k => k.id == selectedKabupaten)?.id
+                    }
                     onValueChange={value => {
                       setSelectedKabupaten(value);
                     }}
@@ -926,10 +893,6 @@ export default function Industri({
               </CardContent>
             </Card>
           </div>
-
-          <footer className="mt-12 text-center text-sm text-gray-600">
-            Laravel v{laravelVersion} (PHP v{phpVersion})
-          </footer>
         </div>
       </div>
     </SatuDataLayout>
