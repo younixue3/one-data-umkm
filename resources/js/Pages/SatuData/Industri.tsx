@@ -114,13 +114,9 @@ interface Kabupaten {
 export default function Industri({
   laravelVersion,
   phpVersion,
-  dataUkm,
-  dataBigIndustries,
-  ukmByKabupatenYear,
-  bigIndustriesByKabupatenYear,
   kabupatenList,
   productTypes,
-  industryTypes
+  dataUkm
 }: PageProps<{
   laravelVersion: string;
   phpVersion: string;
@@ -138,6 +134,7 @@ export default function Industri({
   const [selectedKabupaten, setSelectedKabupaten] = useState<
     string | number | any
   >('all');
+  const [filteredData, setFilteredData] = useState(dataUkm);
   const mapRef = useRef<HTMLDivElement>(null);
   const mapInstance = useRef<Map | null>(null);
   const vectorSources = useRef<{ [key: string]: VectorSource }>({});
@@ -146,6 +143,40 @@ export default function Industri({
   const overlayRef = useRef<Overlay | null>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedType, setSelectedType] = useState('all');
+
+  useEffect(() => {
+    let filtered = dataUkm;
+
+    // Filter by product type
+    if (typeProducts.length > 0 && typeProducts[0] !== 'all') {
+      filtered = filtered.filter(ukm =>
+        ukm.typeproducts.some(type => typeProducts.includes(type.id))
+      );
+    }
+
+    // Filter by kabupaten
+    if (selectedKabupaten !== 'all') {
+      filtered = filtered.filter(
+        ukm => ukm.kabupaten.id.toString() === selectedKabupaten
+      );
+    }
+
+    // Filter by UKM name
+    if (nameUkm) {
+      filtered = filtered.filter(ukm =>
+        ukm.nama_perusahaan.toLowerCase().includes(nameUkm.toLowerCase())
+      );
+    }
+
+    // Filter by person name
+    if (namePerson) {
+      filtered = filtered.filter(ukm =>
+        ukm.nama_pemilik.toLowerCase().includes(namePerson.toLowerCase())
+      );
+    }
+
+    setFilteredData(filtered);
+  }, [typeProducts, selectedKabupaten, nameUkm, namePerson, dataUkm]);
 
   useEffect(() => {
     if (mapRef.current && !mapInstance.current) {
@@ -298,29 +329,121 @@ export default function Industri({
     }
   ];
 
-  // Transform kabupaten data for charts
-  const transformKabupatenData = (data: KabupatenData) => {
-    let filteredData = data;
-
-    // Filter by kabupaten if selected
-    if (selectedKabupaten !== 'all') {
-      const kabupaten = kabupatenList.find(k => k.id === selectedKabupaten);
-      if (!kabupaten || !data[kabupaten.name]) {
-        return [];
-      }
-      filteredData = {
-        [kabupaten.name]: data[kabupaten.name]
-      };
+  const verticalBarData = [
+    {
+      id: 'all',
+      name: 'Semua Kabupaten/Kota',
+      2020: 32,
+      2021: 35,
+      2022: 40,
+      2023: 45
+    },
+    {
+      id: '366',
+      name: 'KABUPATEN BULUNGAN',
+      2020: 12,
+      2021: 15,
+      2022: 15,
+      2023: 20
+    },
+    {
+      id: '367',
+      name: 'KABUPATEN MALINAU',
+      2020: 1,
+      2021: 1,
+      2022: 1,
+      2023: 1
+    },
+    {
+      id: '368',
+      name: 'KABUPATEN NUNUKAN',
+      2020: 10,
+      2021: 10,
+      2022: 10,
+      2023: 11
+    },
+    {
+      id: '369',
+      name: 'KABUPATEN TANA TIDUNG',
+      2020: 1,
+      2021: 1,
+      2022: 1,
+      2023: 1
+    },
+    {
+      id: '370',
+      name: 'KOTA TARAKAN',
+      2020: 8,
+      2021: 8,
+      2022: 8,
+      2023: 12
     }
+  ];
 
-    return Object.entries(filteredData).map(([kabupaten, yearData]) => ({
-      name: kabupaten,
-      ...yearData
-    }));
+  const getFilteredData = (selectedKabupaten: string) => {
+    if (selectedKabupaten === 'all') {
+      return verticalBarData;
+    }
+    return verticalBarData.filter(item => item.id == selectedKabupaten);
   };
 
-  const verticalBarData = transformKabupatenData(bigIndustriesByKabupatenYear);
-  const horizontalBarData = transformKabupatenData(ukmByKabupatenYear);
+  const horizontalBarData = [
+    {
+      id: 'all',
+      name: 'Semua Kabupaten/Kota',
+      2020: 3704,
+      2021: 4262,
+      2022: 4262,
+      2023: 4706
+    },
+    {
+      id: '366',
+      name: 'KABUPATEN BULUNGAN',
+      2020: 561,
+      2021: 561,
+      2022: 561,
+      2023: 552
+    },
+    {
+      id: '367',
+      name: 'KABUPATEN MALINAU',
+      2020: 219,
+      2021: 341,
+      2022: 341,
+      2023: 1867
+    },
+    {
+      id: '368',
+      name: 'KABUPATEN NUNUKAN',
+      2020: 549,
+      2021: 636,
+      2022: 636,
+      2023: 943
+    },
+    {
+      id: '369',
+      name: 'KABUPATEN TANA TIDUNG',
+      2020: 1191,
+      2021: 1540,
+      2022: 1540,
+      2023: 181
+    },
+    {
+      id: '370',
+      name: 'KOTA TARAKAN',
+      2020: 1184,
+      2021: 1184,
+      2022: 1184,
+      2023: 1163
+    }
+  ];
+
+  const getFilteredHorizontalData = (selectedKabupaten: string) => {
+    if (selectedKabupaten === 'all') {
+      return horizontalBarData;
+    }
+    return horizontalBarData.filter(item => item.id == selectedKabupaten);
+  };
 
   return (
     <SatuDataLayout title="Dashboard">
@@ -395,7 +518,7 @@ export default function Industri({
               <CardContent className="p-4">
                 <ResponsiveContainer width="100%" height={200}>
                   <BarChart
-                    data={horizontalBarData}
+                    data={getFilteredHorizontalData(selectedKabupaten)}
                     margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
                   >
                     <CartesianGrid strokeDasharray="3 3" />
@@ -430,7 +553,7 @@ export default function Industri({
               <CardContent className="p-4">
                 <ResponsiveContainer width="100%" height={300}>
                   <BarChart
-                    data={verticalBarData}
+                    data={getFilteredData(selectedKabupaten)}
                     margin={{ top: 0, right: 0, bottom: 0, left: 0 }}
                     layout="vertical"
                   >
