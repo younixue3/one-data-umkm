@@ -24,6 +24,21 @@ class HomeController extends Controller
         ]);
     }
 
+    public function profil()
+    {
+        return inertia("Profil/Index");
+    }
+
+    public function visiMisi()
+    {
+        return inertia("Profil/VisiMisi");
+    }
+
+    public function tugasPokokFungsi()
+    {
+        return inertia("Profil/TugasPokokFungsi");
+    }
+
     public function satuData()
     {
         // $ukmData = \App\Models\Ikm::with([

@@ -95,12 +95,45 @@ export default function Guest({ children }: PropsWithChildren) {
                 >
                   Home
                 </Link>
-                <Link
-                  href="#"
-                  className="px-3 py-2 rounded-md text-sm font-extrabold text-white hover:bg-gray-700"
-                >
-                  Profil
-                </Link>
+                <div className="relative group">
+                  <button className="px-3 py-2 rounded-md text-sm font-extrabold text-white hover:bg-gray-700 flex items-center uppercase">
+                    Profil
+                    <svg
+                      className="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <div className="absolute hidden group-hover:block w-48 bg-gray-800 rounded-md shadow-lg py-1">
+                    <Link
+                      href={route('profil')}
+                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                    >
+                      Profil
+                    </Link>
+                    <Link
+                      href={route('visi_misi')}
+                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                    >
+                      Visi Misi
+                    </Link>
+                    <Link
+                      href={route('tugas_pokok_fungsi')}
+                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                    >
+                      Tugas Pokok & Fungsi
+                    </Link>
+                  </div>
+                </div>
                 <Link
                   href="#"
                   className="px-3 py-2 rounded-md text-sm font-extrabold text-white hover:bg-gray-700"

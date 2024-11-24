@@ -12,6 +12,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
+Route::get('/profil/visi-misi', [HomeController::class, 'visiMisi'])->name('visi_misi');
+Route::get('/profil/tugas-pokok-fungsi', [HomeController::class, 'tugasPokokFungsi'])->name('tugas_pokok_fungsi');
 Route::get('/satu-data', [HomeController::class, 'satuData'])->name('satu_data');
 Route::get('/satu-data/perdagangan', [HomeController::class, 'satuDataPerdagangan'])->name('satu_data_perdagangan');
 Route::get('/satu-data/koperasi-ukm', [HomeController::class, 'satuDataKoperasiUkm'])->name('satu_data_koperasi_ukm');
