@@ -113,7 +113,7 @@ export default function Guest({ children }: PropsWithChildren) {
                       />
                     </svg>
                   </button>
-                  <div className="absolute hidden group-hover:block w-48 bg-gray-800 rounded-md shadow-lg py-1">
+                  <div className="absolute hidden z-50 group-hover:block w-48 bg-gray-800 rounded-md shadow-lg py-1">
                     <Link
                       href={route('profil')}
                       className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
