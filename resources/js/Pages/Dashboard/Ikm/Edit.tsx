@@ -186,7 +186,11 @@ export default function Edit({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
                               <FormItem>
                                 <FormLabel>Tahun Data</FormLabel>
                                 <FormControl>
-                                  <Input type="number" {...field} />
+                                  <Input 
+                                    type="number" 
+                                    {...field}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                  />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -200,7 +204,11 @@ export default function Edit({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
                               <FormItem>
                                 <FormLabel>Tenaga Kerja Pria</FormLabel>
                                 <FormControl>
-                                  <Input type="number" {...field} />
+                                  <Input 
+                                    type="number" 
+                                    {...field}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                  />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -214,7 +222,11 @@ export default function Edit({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
                               <FormItem>
                                 <FormLabel>Tenaga Kerja Wanita</FormLabel>
                                 <FormControl>
-                                  <Input type="number" {...field} />
+                                  <Input 
+                                    type="number" 
+                                    {...field}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                  />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -228,7 +240,11 @@ export default function Edit({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
                               <FormItem>
                                 <FormLabel>Nilai Investasi</FormLabel>
                                 <FormControl>
-                                  <Input type="number" {...field} />
+                                  <Input 
+                                    type="number" 
+                                    {...field}
+                                    onChange={(e) => field.onChange(Number(e.target.value))}
+                                  />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -243,7 +259,11 @@ export default function Edit({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
                             <FormItem>
                               <FormLabel>Nilai Kapasitas</FormLabel>
                               <FormControl>
-                                <Input type="number" {...field} />
+                                <Input 
+                                  type="number" 
+                                  {...field}
+                                  onChange={(e) => field.onChange(Number(e.target.value))}
+                                />
                               </FormControl>
                               <FormMessage />
                             </FormItem>

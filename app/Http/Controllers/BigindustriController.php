@@ -7,10 +7,10 @@ use App\Http\Requests\Bigindustri\StoreBigindustriRequest;
 use App\Http\Requests\Bigindustri\UpdateBigindustriRequest;
 use App\Models\Bigindustri;
 use App\Services\BigindustriServices;
+use Illuminate\Http\Request;
 
 class BigindustriController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      */
@@ -23,7 +23,7 @@ class BigindustriController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): \Inertia\Response|\Inertia\ResponseFactory
     {
         return inertia("Dashboard/Bigindustri/Create");
     }
@@ -31,7 +31,7 @@ class BigindustriController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBigindustriRequest $request, BigindustriServices $bigindustriServices)
+    public function store(StoreBigindustriRequest $request, BigindustriServices $bigindustriServices): void
     {
         $bigindustriServices->store($request->getDTO());
     }
@@ -39,7 +39,7 @@ class BigindustriController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Bigindustri $bigindustri)
+    public function show(Bigindustri $bigindustri): void
     {
         //
     }
@@ -65,8 +65,19 @@ class BigindustriController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bigindustri $bigindustri, BigindustriServices $bigindustriServices)
+    public function destroy(Bigindustri $bigindustri, BigindustriServices $bigindustriServices): void
     {
         $bigindustriServices->destroy($bigindustri);
+    }
+
+    /**
+     * Import data from Excel file.
+     */
+    public function import(Request $request, BigindustriServices $bigindustriServices): void
+    {
+        $request->validate([
+            'file' => 'required|mimes:xlsx,xls'
+        ]);
+        $bigindustriServices->import($request->file('file'));
     }
 }

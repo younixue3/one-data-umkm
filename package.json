@@ -40,6 +40,7 @@
         "ckeditor5": "^43.2.0",
         "class-variance-authority": "^0.7.0",
         "clsx": "^2.1.1",
+        "cmdk": "1.0.0",
         "embla-carousel-react": "^8.3.0",
         "lucide-react": "^0.451.0",
         "ol": "^10.2.1",

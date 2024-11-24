@@ -33,10 +33,10 @@ return new class extends Migration
             $table->string('satuan_kapasitas')->nullable();
             $table->decimal('nilai_produksi', 20, 2)->nullable();
             $table->decimal('nilai_bahan_baku', 20, 2)->nullable();
-            $table->enum('status_ekspor', ['Ya', 'Tidak'])->nullable();
+            $table->string('status_ekspor')->nullable();
             $table->string('negara_tujuan_ekspor')->nullable();
-            $table->enum('status_aktif', ['Aktif', 'Tidak Aktif'])->nullable();
-            $table->enum('jenis_pembiayaan', ['Modal Sendiri', 'Pinjaman Bank', 'Lainnya'])->nullable();
+            $table->string('status_aktif')->nullable();
+            $table->string('jenis_pembiayaan')->nullable();
             $table->timestamps();
         });
     }

@@ -28,7 +28,7 @@ class IkmServices
         return $this->ikmRepositories->index();
     }
 
-    public function show(int $id): Ikm
+    public function show(int $id): ?Ikm
     {
         $ikm = $this->ikmRepositories->show($id);
         if (!$ikm instanceof Ikm) {
@@ -95,42 +95,7 @@ class IkmServices
         try {
             DB::beginTransaction();
             
-            $ikms = Excel::import(new IkmImport, $file);
-            
-            // Ensure relationships are properly set
-            foreach ($ikms as $ikm) {
-                // Set kelurahan relationship
-                if ($ikm->kelurahan_id) {
-                    $ikm->kelurahan()->associate(Kelurahan::where('name', $ikm->kelurahan_id)->first());
-                }
-                
-                // Set kecamatan relationship 
-                if ($ikm->kecamatan_id) {
-                    $ikm->kecamatan()->associate(Kecamatan::where('name', $ikm->kecamatan_id)->first());
-                }
-                
-                // Set kabupaten relationship
-                if ($ikm->kabupaten_id) {
-                    $ikm->kabupaten()->associate(Kabupaten::find($ikm->kabupaten_id));
-                }
-                
-                // Set provinsi relationship
-                if ($ikm->provinsi_id) {
-                    $ikm->provinsi()->associate(Provinsi::find($ikm->provinsi_id));
-                }
-
-                // Set type industry relationship
-                if ($ikm->jenis_usaha_id) {
-                    $ikm->typeIndustry()->associate(TypeIndustry::find($ikm->jenis_usaha_id));
-                }
-
-                // Set type product relationship
-                if ($ikm->jenis_produk_id) {
-                    $ikm->typeProduct()->associate(TypeProduct::find($ikm->jenis_produk_id));
-                }
-                
-                $ikm->save();
-            }
+            Excel::import(new IkmImport, $file);
             
             DB::commit();
         } catch (Exception $exception) {

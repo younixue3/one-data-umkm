@@ -63,7 +63,7 @@ export default function ImportExcel() {
     const formData = new FormData();
     formData.append('file', file);
 
-    router.post(route('dashboard.ikm.import'), formData, {
+    router.post(route('dashboard.bigindustri.import'), formData, {
       onSuccess: () => {
         setOpen(false);
         setFile(null);
@@ -92,7 +92,7 @@ export default function ImportExcel() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Import Data IKM</DialogTitle>
+          <DialogTitle>Import Data Industri</DialogTitle>
           <DialogDescription>
             Upload file excel untuk import data IKM secara massal. Gunakan
             template yang tersedia untuk menghindari kesalahan format.

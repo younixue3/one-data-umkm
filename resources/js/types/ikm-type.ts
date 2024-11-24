@@ -12,8 +12,6 @@ export interface IkmType {
     email?: string;
     nomor_izin?: string;
     tahun_izin?: number;
-    jenis_usaha_id: number;
-    jenis_produk_id: number;
     tahun_data: number;
     tenaga_kerja_pria: number;
     tenaga_kerja_wanita: number;
@@ -28,4 +26,10 @@ export interface IkmType {
     jenis_pembiayaan?: string;
     created_at: string;
     updated_at: string;
-} 
+    typeproducts?: Array<{id: number, name: string}>;
+    typeindustries?: Array<{id: number, name: string}>;
+    provinsi?: {id: number, name: string};
+    kabupaten?: {id: number, name: string}; 
+    kecamatan?: {id: number, name: string};
+    kelurahan?: {id: number, name: string};
+}

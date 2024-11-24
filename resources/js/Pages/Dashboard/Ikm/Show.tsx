@@ -7,7 +7,8 @@ import { Link } from '@inertiajs/react';
 import { IkmType } from '@/types/ikm-type';
 import { Card, CardContent, CardHeader } from '@/Components/ui/card';
 
-export default function Show({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
+export default function Show({ ikm }: PageProps<{ ikm: IkmType }>) {
+  console.log(ikm);
   return (
     <AuthenticatedLayout>
       <Head title={`Detail IKM - ${ikm.nama_perusahaan}`} />
@@ -49,14 +50,18 @@ export default function Show({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
                     <div>
                       <p className="text-sm text-gray-500">Status</p>
                       <span
-                        className={`px-2 py-1 rounded-full text-xs ${
-                          ikm.status_aktif
-                            ? 'bg-green-100 text-green-800'
-                            : 'bg-red-100 text-red-800'
-                        }`}
+                        className={`px-2 py-1 rounded-full text-xs bg-green-100 text-green-800`}
                       >
-                        {ikm.status_aktif ? 'Aktif' : 'Tidak Aktif'}
+                        {ikm.status_aktif}
                       </span>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Nomor Izin</p>
+                      <p>{ikm.nomor_izin}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Tahun Izin</p>
+                      <p>{ikm.tahun_izin}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -66,6 +71,10 @@ export default function Show({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
                     Kontak & Lokasi
                   </CardHeader>
                   <CardContent className="space-y-4">
+                    <div>
+                      <p className="text-sm text-gray-500">Kontak Person</p>
+                      <p>{ikm.kontak_person}</p>
+                    </div>
                     <div>
                       <p className="text-sm text-gray-500">Email</p>
                       <p>{ikm.email}</p>
@@ -77,6 +86,60 @@ export default function Show({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
                     <div>
                       <p className="text-sm text-gray-500">Alamat</p>
                       <p>{ikm.alamat}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Kelurahan</p>
+                      <p>{ikm.kelurahan?.name}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Kecamatan</p>
+                      <p>{ikm.kecamatan?.name}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Kabupaten</p>
+                      <p>{ikm.kabupaten?.name}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Provinsi</p>
+                      <p>{ikm.provinsi?.name}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader className="font-semibold">
+                    Jenis Industri & Produk
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <p className="text-sm text-gray-500">Jenis Industri</p>
+                      <p>{ikm.typeindustries?.map(i => i.name).join(', ')}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Jenis Produk</p>
+                      <p>{ikm.typeproducts?.map(p => p.name).join(', ')}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card>
+                  <CardHeader className="font-semibold">
+                    Status Ekspor & Pembiayaan
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div>
+                      <p className="text-sm text-gray-500">Status Ekspor</p>
+                      <p>{ikm.status_ekspor}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">
+                        Negara Tujuan Ekspor
+                      </p>
+                      <p>{ikm.negara_tujuan_ekspor}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-gray-500">Jenis Pembiayaan</p>
+                      <p>{ikm.jenis_pembiayaan}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -108,9 +171,26 @@ export default function Show({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
                         <p>Rp {Number(ikm.nilai_investasi).toLocaleString()}</p>
                       </div>
                     </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Nilai Kapasitas</p>
-                      <p>Rp {Number(ikm.nilai_kapasitas).toLocaleString()}</p>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      <div>
+                        <p className="text-sm text-gray-500">Nilai Kapasitas</p>
+                        <p>
+                          {Number(ikm.nilai_kapasitas).toLocaleString()}{' '}
+                          {ikm.satuan_kapasitas}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">Nilai Produksi</p>
+                        <p>Rp {Number(ikm.nilai_produksi).toLocaleString()}</p>
+                      </div>
+                      <div>
+                        <p className="text-sm text-gray-500">
+                          Nilai Bahan Baku
+                        </p>
+                        <p>
+                          Rp {Number(ikm.nilai_bahan_baku).toLocaleString()}
+                        </p>
+                      </div>
                     </div>
                   </CardContent>
                 </Card>

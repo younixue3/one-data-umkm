@@ -17,12 +17,13 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  useReactTable
+  useReactTable,
+  getExpandedRowModel
 } from '@tanstack/react-table';
 import { IkmType } from '@/types/ikm-type';
 import { useMemo, useState } from 'react';
 import { Button } from '@/Components/ui/button';
-import { ChevronDownIcon } from 'lucide-react';
+import { ChevronDownIcon, ChevronRight } from 'lucide-react';
 import { Input } from '@/Components/ui/input';
 import {
   DropdownMenu,
@@ -39,38 +40,69 @@ const columns: ColumnDef<IkmType>[] = [
   },
   {
     accessorKey: 'nama_perusahaan',
-    header: 'Nama Perusahaan'
+    header: 'Nama Perusahaan',
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => row.toggleExpanded()}
+            className="mr-2"
+          >
+            {row.getIsExpanded() ? (
+              <ChevronDownIcon className="h-4 w-4" />
+            ) : (
+              <ChevronRight className="h-4 w-4" />
+            )}
+          </Button>
+          {row.original.nama_perusahaan}
+        </div>
+      );
+    }
   },
   {
-    accessorKey: 'nama_pemilik',
-    header: 'Nama Pemilik'
-  },
-  {
-    id: 'kontak',
-    header: 'Kontak',
+    id: 'typeproducts',
+    header: 'Jenis Produk',
     cell: ({ row }) => (
       <div>
-        <div>{row.original.no_hp}</div>
-        <div>{row.original.email}</div>
+        {row.original.typeproducts?.map((product: any) => (
+          <div key={product.id}>{product.name}</div>
+        ))}
       </div>
     )
   },
   {
-    accessorKey: 'alamat',
-    header: 'Alamat'
+    id: 'typeindustries',
+    header: 'Jenis Industri',
+    cell: ({ row }) => (
+      <div>
+        {row.original.typeindustries?.map((industry: any) => (
+          <div key={industry.id}>{industry.name}</div>
+        ))}
+      </div>
+    )
+  },
+  {
+    id: 'location',
+    header: 'Lokasi',
+    cell: ({ row }) => (
+      <div>
+        <div>Provinsi: {row.original.provinsi?.name}</div>
+        <div>Kabupaten: {row.original.kabupaten?.name}</div>
+        <div>Kecamatan: {row.original.kecamatan?.name}</div>
+        <div>Kelurahan: {row.original.kelurahan?.name}</div>
+      </div>
+    )
   },
   {
     accessorKey: 'status_aktif',
     header: 'Status',
     cell: ({ row }) => (
       <span
-        className={`px-2 py-1 rounded-full text-xs ${
-          row.original.status_aktif
-            ? 'bg-green-100 text-green-800'
-            : 'bg-red-100 text-red-800'
-        }`}
+        className={`px-2 py-1 rounded-full text-xs bg-green-100 text-green-800`}
       >
-        {row.original.status_aktif ? 'Aktif' : 'Tidak Aktif'}
+        {row.original.status_aktif}
       </span>
     )
   },
@@ -94,6 +126,7 @@ export const IkmTable = ({ data }: IkmTableProps) => {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const [expanded, setExpanded] = useState({});
 
   const table = useReactTable({
     data,
@@ -106,11 +139,14 @@ export const IkmTable = ({ data }: IkmTableProps) => {
     getFilteredRowModel: getFilteredRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
+    onExpandedChange: setExpanded,
+    getExpandedRowModel: getExpandedRowModel(),
     state: {
       sorting,
       columnFilters,
       columnVisibility,
-      rowSelection
+      rowSelection,
+      expanded
     },
     initialState: { pagination: { pageSize: 20 } }
   });
@@ -191,19 +227,44 @@ export const IkmTable = ({ data }: IkmTableProps) => {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map(row => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map(cell => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                <>
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && 'selected'}
+                  >
+                    {row.getVisibleCells().map(cell => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  {row.getIsExpanded() && (
+                    <TableRow>
+                      <TableCell colSpan={columns.length}>
+                        <div className="p-4 bg-gray-50">
+                          <div className="grid grid-cols-3 gap-4">
+                            <div>
+                              <h4 className="font-medium mb-2">Nama Pemilik</h4>
+                              <p>{row.original.nama_pemilik}</p>
+                            </div>
+                            <div>
+                              <h4 className="font-medium mb-2">Kontak</h4>
+                              <p>No HP: {row.original.no_hp}</p>
+                              <p>Email: {row.original.email}</p>
+                            </div>
+                            <div>
+                              <h4 className="font-medium mb-2">Alamat</h4>
+                              <p>{row.original.alamat}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </>
               ))
             ) : (
               <TableRow>

@@ -7,10 +7,12 @@ use App\Dtos\Bigindustri\UpdateBigindustriDTO;
 use App\Exceptions\StandardizedException;
 use App\Models\Bigindustri;
 use App\Repositories\BigindustriRepositories;
+use App\Imports\BigindustrieImport;
 use Exception;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BigindustriServices
 {
@@ -26,12 +28,12 @@ class BigindustriServices
 
     public function show(int $id): ?Bigindustri
     {
-        $promo = $this->bigindustriRepositories->show($id);
-        if (!$promo instanceof Bigindustri) {
+        $bigindustri = $this->bigindustriRepositories->show($id);
+        if (!$bigindustri instanceof Bigindustri) {
             throw new StandardizedException('Bigindustri tidak ditemukan.');
         }
 
-        return $promo;
+        return $bigindustri;
     }
 
     public function store(StoreBigindustriDTO $dto): Bigindustri
@@ -58,15 +60,29 @@ class BigindustriServices
             'DTO' => $dto,
         ]);
 
-        return $this->bigindustriRepositories->update($id,$dto);
+        return $this->bigindustriRepositories->update($id, $dto);
     }
 
     public function destroy(Bigindustri $bigindustri): void
     {
-        Log::info('Destory Bigindustri', [
+        Log::info('Destroy Bigindustri', [
             $bigindustri->toArray()
         ]);
 
         $this->bigindustriRepositories->destroy($bigindustri->id);
+    }
+
+    public function import($file): void
+    {
+        try {
+            DB::beginTransaction();
+            
+            Excel::import(new BigindustrieImport, $file);
+            
+            DB::commit();
+        } catch (Exception $exception) {
+            DB::rollBack();
+            throw new StandardizedException($exception->getMessage());
+        }
     }
 }

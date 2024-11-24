@@ -23,7 +23,14 @@ class IkmRepositories
 
     public function show(int $id): ?Ikm
     {
-        return $this->ikm->with(['typeindustries', 'typeproducts'])->find($id);
+        return $this->ikm->with([
+            'typeindustries',
+            'typeproducts',
+            'kelurahan',
+            'kecamatan', 
+            'kabupaten',
+            'provinsi'
+        ])->find($id);
     }
 
     public function store(StoreIkmDTO $dto): Ikm

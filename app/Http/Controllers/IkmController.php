@@ -61,8 +61,9 @@ class IkmController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Ikm $ikm, IkmServices $ikmServices): \Inertia\Response|\Inertia\ResponseFactory
+    public function show(int $ikm, IkmServices $ikmServices): \Inertia\Response|\Inertia\ResponseFactory
     {
+        $ikm = $ikmServices->show($ikm);
         return inertia("Dashboard/Ikm/Show", compact("ikm"));
     }
 
