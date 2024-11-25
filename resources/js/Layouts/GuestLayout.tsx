@@ -598,25 +598,6 @@ export default function Guest({ children }: PropsWithChildren) {
               Karir
             </a>
           </nav>
-          <div className="mt-6 md:mt-0">
-            <h3 className="font-bold text-lg mb-3">Buletin</h3>
-            <p className="mb-4 text-sm">
-              Tetap update dengan berita dan pengumuman terbaru kami
-            </p>
-            <form className="flex flex-col sm:flex-row">
-              <input
-                type="email"
-                placeholder="Masukkan email Anda"
-                className="text-white px-4 py-2 mb-2 sm:mb-0 sm:mr-2 rounded"
-              />
-              <button
-                type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition duration-300"
-              >
-                Berlangganan
-              </button>
-            </form>
-          </div>
         </div>
         <div className="bg-blue-500 py-4 mt-10">
           <div className="container mx-auto flex justify-between items-center text-white px-5">
