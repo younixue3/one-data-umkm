@@ -19,12 +19,40 @@ export default function Index() {
                 </p>
               </header>
 
-              <div className="mt-6">
-                <img
-                  src="/assets/1539246177.jpg"
-                  alt="Visi Misi"
-                  className="w-full rounded-lg shadow-md"
-                />
+              <div className="mt-6 space-y-6">
+                <div>
+                  <h3 className="text-base font-semibold">Visi</h3>
+                  <p className="mt-2 text-sm text-gray-600">
+                    Terwujudnya Sektor Industri dan Perdagangan yang Berdaya
+                    Saing, Mandiri dan Berkelanjutan
+                  </p>
+                </div>
+
+                <div>
+                  <h3 className="text-base font-semibold">Misi</h3>
+                  <ul className="mt-2 list-inside list-disc space-y-2 text-sm text-gray-600">
+                    <li>
+                      Meningkatkan daya saing industri melalui pengembangan
+                      industri yang efisien dan produktif
+                    </li>
+                    <li>
+                      Memperkuat struktur industri dengan meningkatkan peran
+                      industri kecil dan menengah
+                    </li>
+                    <li>
+                      Menciptakan iklim usaha yang kondusif untuk perkembangan
+                      industri dan perdagangan
+                    </li>
+                    <li>
+                      Meningkatkan perlindungan konsumen dan pengawasan barang
+                      beredar
+                    </li>
+                    <li>
+                      Mengembangkan perdagangan dalam dan luar negeri yang
+                      berkelanjutan
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>
