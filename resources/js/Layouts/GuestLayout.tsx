@@ -562,40 +562,22 @@ export default function Guest({ children }: PropsWithChildren) {
           <nav className="flex flex-col space-y-3 w-96">
             <h3 className="font-bold text-lg mb-3">Tautan Cepat</h3>
             <a
-              href="/tentang-kami"
+              href={route('visi_misi')}
               className="text-white hover:text-blue-500 transition duration-300"
             >
-              Tentang Kami
+              Visi Misi
             </a>
             <a
-              href="/layanan"
+              href={route('profil')}
               className="text-white hover:text-blue-500 transition duration-300"
             >
-              Layanan Kami
+              Struktur Organisasi
             </a>
             <a
-              href="/kontak"
+              href={route('tugas_pokok_fungsi')}
               className="text-white hover:text-blue-500 transition duration-300"
             >
-              Hubungi Kami
-            </a>
-            <a
-              href="/kebijakan-privasi"
-              className="text-white hover:text-blue-500 transition duration-300"
-            >
-              Kebijakan Privasi
-            </a>
-            <a
-              href="/faq"
-              className="text-white hover:text-blue-500 transition duration-300"
-            >
-              FAQ
-            </a>
-            <a
-              href="/karir"
-              className="text-white hover:text-blue-500 transition duration-300"
-            >
-              Karir
+              Tugas Pokok & Fungsi
             </a>
           </nav>
         </div>
