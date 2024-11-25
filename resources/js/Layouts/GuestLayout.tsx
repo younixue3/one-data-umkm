@@ -559,7 +559,7 @@ export default function Guest({ children }: PropsWithChildren) {
               <li>Alamat: Jl. Pemerintah No. 123, Kota Pusat</li>
             </ul>
           </div>
-          <nav className="flex flex-col space-y-3">
+          <nav className="flex flex-col space-y-3 w-96">
             <h3 className="font-bold text-lg mb-3">Tautan Cepat</h3>
             <a
               href="/tentang-kami"
