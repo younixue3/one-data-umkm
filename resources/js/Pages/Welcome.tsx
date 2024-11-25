@@ -70,51 +70,6 @@ const galleryData = [
   }
 ];
 
-const testimonialData = [
-  {
-    id: 1,
-    name: 'John Doe',
-    image: 'https://loremflickr.com/800/601/person',
-    message:
-      "The department's services have been instrumental in our business growth. Their support and guidance are invaluable."
-  },
-  {
-    id: 2,
-    name: 'Jane Doe',
-    image: 'https://loremflickr.com/800/602/person',
-    message:
-      "I'm impressed by the efficiency and professionalism of the department. They've helped streamline our operations significantly."
-  },
-  {
-    id: 3,
-    name: 'John Smith',
-    image: 'https://loremflickr.com/800/603/person',
-    message:
-      "The resources provided by the department have been crucial for our market expansion. We're grateful for their expertise."
-  },
-  {
-    id: 4,
-    name: 'Emily Johnson',
-    image: 'https://loremflickr.com/800/604/person',
-    message:
-      "Thanks to the department's initiatives, we've been able to network with other businesses and find new opportunities."
-  },
-  {
-    id: 5,
-    name: 'Michael Brown',
-    image: 'https://loremflickr.com/800/605/person',
-    message:
-      "The department's training programs have significantly improved our team's skills. We're now more competitive in the market."
-  },
-  {
-    id: 6,
-    name: 'Sarah Davis',
-    image: 'https://loremflickr.com/800/606/person',
-    message:
-      "The support we've received from the department has been outstanding. They truly understand the challenges small businesses face."
-  }
-];
-
 const carouselData = [
   {
     title: 'Memberdayakan Pertumbuhan Industri',
@@ -448,43 +403,6 @@ export default function Welcome({ news }: PageProps<{ news: News[] }>) {
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <GalleryList data={galleryData} />
-          </div>
-        </section>
-
-        {/* 7. Testimonials Section */}
-        <section className="bg-gray-100 py-12 sm:py-16 px-4 sm:px-8 md:px-20">
-          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8">
-            Testimonials
-          </h2>
-          <Carousel>
-            <CarouselContent>
-              {testimonialData.map(item => (
-                <CarouselItem key={item.id}>
-                  <Card className="bg-white">
-                    <CardContent className="flex flex-col items-center p-4 sm:p-6">
-                      <img
-                        src={item.image}
-                        alt={`Testimonial ${item.name}`}
-                        className="w-16 h-16 sm:w-24 sm:h-24 rounded-full mb-3 sm:mb-4 object-cover"
-                      />
-                      <p className="text-center mb-3 sm:mb-4 text-sm sm:text-base">
-                        {item.message}
-                      </p>
-                      <p className="font-bold text-gray-700 text-sm sm:text-base">
-                        {item.name}
-                      </p>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex -left-4 sm:-left-10" />
-            <CarouselNext className="hidden sm:flex -right-4 sm:-right-10" />
-          </Carousel>
-          <div className="flex justify-center mt-4 sm:mt-6">
-            <Button className="bg-blue-600 hover:bg-blue-700 text-white w-full sm:w-auto">
-              View All Testimonials
-            </Button>
           </div>
         </section>
       </div>
