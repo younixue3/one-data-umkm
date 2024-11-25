@@ -134,17 +134,308 @@ export default function Guest({ children }: PropsWithChildren) {
                     </Link>
                   </div>
                 </div>
+                <div className="relative group">
+                  <button className="px-3 py-2 rounded-md text-sm font-extrabold text-white hover:bg-gray-700 flex items-center uppercase">
+                    Informasi
+                    <svg
+                      className="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <div className="absolute hidden z-50 group-hover:block w-48 bg-gray-800 rounded-md shadow-lg py-1">
+                    <div className="relative group/sub">
+                      <button className="w-full text-left uppercase px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center justify-between">
+                        Bidang
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </button>
+                      <div className="absolute left-full top-0 hidden group-hover/sub:block w-48 bg-gray-800 rounded-md shadow-lg py-1">
+                        <Link
+                          href={route('bidang.index', 'perindustrian')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Perindustrian
+                        </Link>
+                        <Link
+                          href={route(
+                            'bidang.index',
+                            'perdagangan-dalam-negeri'
+                          )}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Perdagangan Dalam Negeri
+                        </Link>
+                        <Link
+                          href={route(
+                            'bidang.index',
+                            'perdagangan-luar-negeri'
+                          )}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Perdagangan Luar Negeri
+                        </Link>
+                        <Link
+                          href={route('bidang.index', 'koperasi')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Koperasi
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="relative group/sub">
+                      <button className="w-full text-left uppercase px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center justify-between">
+                        Berita
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </button>
+                      <div className="absolute left-full top-0 hidden group-hover/sub:block w-48 bg-gray-800 rounded-md shadow-lg py-1">
+                        <Link
+                          href={route('berita.index', 'umum')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Umum
+                        </Link>
+                        <Link
+                          href={route('berita.index', 'pemberitahuan')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Pemberitahuan
+                        </Link>
+                        <Link
+                          href={route('berita.index', 'pelayanan-publik')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Pelayanan Publik
+                        </Link>
+                        <Link
+                          href={route('berita.index', 'pojok-umkm')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Pojok UMKM
+                        </Link>
+                      </div>
+                    </div>
+                    <Link
+                      href={route('harga_bahan_pokok')}
+                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                    >
+                      Harga Bahan Pokok
+                    </Link>
+                    <Link
+                      href={route('tugas_pokok_fungsi')}
+                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                    >
+                      Agenda
+                    </Link>
+                  </div>
+                </div>
+                <div className="relative group">
+                  <button className="px-3 py-2 rounded-md text-sm font-extrabold text-white hover:bg-gray-700 flex items-center uppercase">
+                    Publikasi
+                    <svg
+                      className="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <div className="absolute hidden z-50 group-hover:block w-48 bg-gray-800 rounded-md shadow-lg py-1">
+                    <div className="relative group/sub">
+                      <button className="w-full text-left uppercase px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center justify-between">
+                        Dokumen
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </button>
+                      <div className="absolute left-full top-0 hidden group-hover/sub:block w-48 bg-gray-800 rounded-md shadow-lg py-1">
+                        <Link
+                          href={route('dokumen.index')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Peraturan
+                        </Link>
+                        <Link
+                          href={route('dokumen.index')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Formulir
+                        </Link>
+                        <Link
+                          href={route('dokumen.index')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Majalah
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="relative group/sub">
+                      <button className="w-full text-left uppercase px-4 py-2 text-sm text-white hover:bg-gray-700 flex items-center justify-between">
+                        Pelaporan Kegiatan
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </button>
+                      <div className="absolute left-full top-0 hidden group-hover/sub:block w-48 bg-gray-800 rounded-md shadow-lg py-1">
+                        <Link
+                          href={route('kegiatan.index')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Kegiatan 2017
+                        </Link>
+                        <Link
+                          href={route('kegiatan.index')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Kegiatan 2018
+                        </Link>
+                        <Link
+                          href={route('kegiatan.index')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Kegiatan 2019
+                        </Link>
+                        <Link
+                          href={route('kegiatan.index')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Sejarah Kalimantan Utara
+                        </Link>
+                        <Link
+                          href={route('kegiatan.index')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Kegiatan 2020
+                        </Link>
+                        <Link
+                          href={route('kegiatan.index')}
+                          className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                        >
+                          Kegiatan 2021
+                        </Link>
+                      </div>
+                    </div>
+                    <Link
+                      href={route('produk.index')}
+                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                    >
+                      Produk
+                    </Link>
+                  </div>
+                </div>
                 <Link
                   href="#"
                   className="px-3 py-2 rounded-md text-sm font-extrabold text-white hover:bg-gray-700"
                 >
-                  News
+                  Dekranasda
                 </Link>
                 <Link
                   href="#"
                   className="px-3 py-2 rounded-md text-sm font-extrabold text-white hover:bg-gray-700"
                 >
-                  Gallery
+                  Smesco
+                </Link>
+                <div className="relative group">
+                  <button className="px-3 py-2 rounded-md text-sm font-extrabold text-white hover:bg-gray-700 flex items-center uppercase">
+                    Gallery
+                    <svg
+                      className="w-4 h-4 ml-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+                  <div className="absolute hidden z-50 group-hover:block w-48 bg-gray-800 rounded-md shadow-lg py-1">
+                    <Link
+                      href={route('tugas_pokok_fungsi')}
+                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                    >
+                      Foto
+                    </Link>
+                    <Link
+                      href={route('tugas_pokok_fungsi')}
+                      className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
+                    >
+                      Video
+                    </Link>
+                  </div>
+                </div>
+                <Link
+                  href={route('satu_data')}
+                  className="px-3 py-2 rounded-md text-sm font-extrabold text-white hover:bg-gray-700"
+                >
+                  Kontak
                 </Link>
                 <Link
                   href={route('satu_data')}

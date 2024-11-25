@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Exceptions\StandardizedException;
 use App\Http\Requests\News\StoreNewsRequest;
@@ -14,11 +14,10 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(NewsServices $newsServices, string $kategori): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(NewsServices $newsServices): \Inertia\Response|\Inertia\ResponseFactory
     {
-        return inertia("Informasi/Berita/Index", [
-            "kategori" => $kategori,
-        ]);
+        $newss = $newsServices->index();
+        return inertia("Dashboard/News/Index", compact("newss"));
     }
 
     /**

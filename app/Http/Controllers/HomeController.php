@@ -166,4 +166,9 @@ class HomeController extends Controller
     {
         return inertia("SatuData/PemetaanPelatihan", []);
     }
+
+    public function hargaBahanPokok()
+    {
+        return inertia("Informasi/HargaBahanPokok/Index");
+    }
 }
