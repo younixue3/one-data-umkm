@@ -171,4 +171,9 @@ class HomeController extends Controller
     {
         return inertia("Informasi/HargaBahanPokok/Index");
     }
+
+    public function kontak()
+    {
+        return inertia("Kontak");
+    }
 }

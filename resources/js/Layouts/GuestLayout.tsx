@@ -432,7 +432,7 @@ export default function Guest({ children }: PropsWithChildren) {
                   </div>
                 </div>
                 <Link
-                  href={route('satu_data')}
+                  href={route('kontak')}
                   className="px-3 py-2 rounded-md text-sm font-extrabold text-white hover:bg-gray-700"
                 >
                   Kontak

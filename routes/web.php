@@ -24,6 +24,7 @@ Route::resource('produk', ProdukController::class);
 Route::get('/harga-bahan-pokok', [HomeController::class, 'hargaBahanPokok'])->name('harga_bahan_pokok');
 Route::get('/agenda', [AgendaController::class, 'index'])->name('agenda');
 Route::get('/profil', [HomeController::class, 'profil'])->name('profil');
+Route::get('/kontak', [HomeController::class, 'kontak'])->name('kontak');
 Route::get('/profil/visi-misi', [HomeController::class, 'visiMisi'])->name('visi_misi');
 Route::get('/profil/tugas-pokok-fungsi', [HomeController::class, 'tugasPokokFungsi'])->name('tugas_pokok_fungsi');
 Route::get('/satu-data', [HomeController::class, 'satuData'])->name('satu_data');
