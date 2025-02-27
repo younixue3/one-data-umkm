@@ -42,9 +42,12 @@ export default function Index({
                           <h3 className="text-lg font-medium text-gray-900">
                             {item.title}
                           </h3>
-                          <p className="mt-2 text-sm text-gray-600">
-                            {item.content}
-                          </p>
+                          <p
+                            className="mt-2 text-sm text-gray-600"
+                            dangerouslySetInnerHTML={{
+                              __html: item.content
+                            }}
+                          ></p>
                           <div className="mt-4 flex items-center justify-between">
                             <span className="text-sm text-gray-500">
                               12 Jan 2024
