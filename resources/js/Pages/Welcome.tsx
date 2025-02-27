@@ -397,14 +397,14 @@ export default function Welcome({ news }: PageProps<{ news: News[] }>) {
         </section>
 
         {/* 6. Gallery Images Section */}
-        <section className="py-12 sm:py-16 px-4">
+        {/* <section className="py-12 sm:py-16 px-4">
           <h2 className="text-2xl sm:text-3xl font-bold text-center mb-6 sm:mb-8">
             News Gallery
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
             <GalleryList data={galleryData} />
           </div>
-        </section>
+        </section> */}
       </div>
     </Guest>
   );

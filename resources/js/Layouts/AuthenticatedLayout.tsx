@@ -76,13 +76,13 @@ export default function Authenticated({
                 </CollapsibleTrigger>
                 <CollapsibleContent className="px-4 py-2">
                   <div className="grid gap-2">
-                    <Link
+                    {/* <Link
                       href="#"
                       className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                     >
                       <GalleryThumbnails className="h-4 w-4 mr-1" />
                       Gallery
-                    </Link>
+                    </Link> */}
                     <Link
                       href={route('dashboard.news.index')}
                       className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
