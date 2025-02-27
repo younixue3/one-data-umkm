@@ -66,10 +66,14 @@ export default function Create() {
         if (!value) return false;
         return value.size <= 3000000;
       })
-      .test('fileType', 'Format file harus PNG, JPG, atau JPEG', value => {
-        if (!value) return false;
-        return ['image/png', 'image/jpg', 'image/jpeg'].includes(value.type);
-      })
+      .test(
+        'fileType',
+        'Format file harus PNG, JPG, atau JPEG',
+        (value: any) => {
+          if (!value) return false;
+          return ['image/png', 'image/jpg', 'image/jpeg'].includes(value.type);
+        }
+      )
   });
 
   const form = useForm<FormData>({
@@ -230,7 +234,6 @@ export default function Create() {
                       <Input
                         type="file"
                         accept="image/png,image/jpg,image/jpeg"
-                        onChange={imageChangedHandler}
                         {...field}
                       />
                     </FormControl>
