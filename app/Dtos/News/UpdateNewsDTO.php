@@ -11,5 +11,6 @@ class UpdateNewsDTO
         $this->title = $validated['title'] ?? null;
         $this->content = $validated['content'] ?? '';
         $this->image = isset($validated['image']) ? $validated['image']->store('image', 'public') : null;
+        $this->category = $validated['category'] ?? '';
     }
 }

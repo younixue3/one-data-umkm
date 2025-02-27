@@ -13,5 +13,6 @@ class StoreNewsDTO
         if ($validated['image']) {
             $this->image = $validated['image']->store('image', 'public');
         }
+        $this->category = $validated['category'] ?? '';
     }
 }

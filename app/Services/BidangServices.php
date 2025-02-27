@@ -19,9 +19,9 @@ class BidangServices
         $this->bidangRepositories = $bidangRepositories;
     }
 
-    public function index(): Collection
+    public function index($category): Collection
     {
-        return $this->bidangRepositories->index();
+        return $this->bidangRepositories->index($category);
     }
 
     public function show(int $id): ?Bidang

@@ -10,7 +10,7 @@ import {
   FormMessage
 } from '@/Components/ui/form';
 import * as yup from 'yup';
-import { useForm } from 'react-hook-form';
+import { Resolver, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { toast } from '@/hooks/use-toast';
 import { Input } from '@/Components/ui/input';
@@ -27,6 +27,7 @@ import {
   Undo
 } from 'ckeditor5';
 import 'ckeditor5/ckeditor5.css';
+import { useEffect } from 'react';
 import {
   Select,
   SelectContent,
@@ -35,39 +36,49 @@ import {
   SelectValue
 } from '@/Components/ui/select';
 
-interface FormData {
-  title: string;
-  content?: string | null;
-  image?: any;
+interface Profil {
+  id?: number;
+  description?: string | null;
+  image?: File | null;
+  category?: string;
 }
 
-export default function Create() {
-  const FormSchema = yup.object({
-    title: yup.string().required(),
-    image: yup.mixed().nullable(),
-    content: yup.string().nullable(),
-    category: yup
-      .string()
-      .oneOf(['umum', 'pemberitahuan', 'pelayanan publik', 'pojok umkm'])
-      .required('Kategori wajib dipilih')
-  });
+interface FormValues {
+  description?: string | null;
+  image: File | null;
+  category: string;
+}
 
-  const form = useForm({
-    resolver: yupResolver(FormSchema),
+export default function Edit({ profil }: { profil: Profil }) {
+  const FormSchema = yup.object({
+    image: yup.mixed().nullable(),
+    description: yup.string().nullable(),
+    category: yup.string().required('Category is required')
+  });
+  const form = useForm<FormValues>({
+    resolver: yupResolver(FormSchema) as Resolver<FormValues>,
     defaultValues: {
-      category: 'umum'
+      description: profil.description || '',
+      image: profil.image,
+      category: profil.category || ''
     }
   });
 
-  const onSubmit = (data: FormData) => {
-    const payload: any = {
-      ...data
+  useEffect(() => {
+    form.setValue('description', profil.description);
+  }, [profil, form]);
+
+  const onSubmit = (data: FormValues) => {
+    const payload = {
+      ...data,
+      _method: 'put',
+      image: data.image instanceof File ? data.image : null
     };
-    router.post(route('dashboard.news.store'), payload, {
+    router.post(route('dashboard.profil.update', profil.id), payload, {
       onSuccess: () => {
         toast({
           title: 'Berhasil!',
-          description: 'News berhasil ditambahkan.'
+          description: 'Profil berhasil di ubah.'
         });
         form.reset();
       },
@@ -81,116 +92,37 @@ export default function Create() {
     });
   };
 
-  const imageChangedHandler = (news: any) => {
-    const file = news.target.files?.[0];
+  const imageChangedHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
 
     if (!file) return;
 
     const { type, size } = file;
     const allowedFileType = ['image/png', 'image/jpg', 'image/jpeg'];
 
-    if (allowedFileType.includes(type)) {
-      if (size > 3000000) {
-        form.setError('image', { message: 'File terlalu besar, maksimal 3MB' });
-        form.setValue('image', '');
-        return;
-      }
-    } else {
+    if (!allowedFileType.includes(type)) {
       form.setError('image', { message: 'Tipe file tidak diperbolehkan' });
-      form.setValue('image', '');
+      form.setValue('image', null);
       return;
     }
+
+    if (size > 3000000) {
+      form.setError('image', { message: 'File terlalu besar, maksimal 3MB' });
+      form.setValue('image', null);
+      return;
+    }
+
     form.clearErrors('image');
     form.setValue('image', file);
   };
 
-  const removeCommas = (num: string) =>
-    removeNonNumeric(num?.toString().replace(',', ''));
-  const removeNonNumeric = (num: string) =>
-    num?.toString().replace(/[^0-9]/g, '');
-
   return (
     <AuthenticatedLayout>
-      <Head title="News" />
+      <Head title="Profil" />
       <div className="p-6 sm:p-8">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="grid grid-cols-2 w-full gap-6">
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Judul</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Contoh: Upaya pengembangan UMKM"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormDescription>Masukkan judul berita.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="content"
-                render={({ field }) => (
-                  <FormItem className="flex w-full flex-col col-span-2">
-                    <FormLabel>Deskripsi</FormLabel>
-                    <FormControl>
-                      <CKEditor
-                        onChange={(event, editor) => {
-                          form.setValue('content', editor.getData());
-                        }}
-                        editor={ClassicEditor}
-                        config={{
-                          toolbar: {
-                            items: ['undo', 'redo', '|', 'bold', 'italic']
-                          },
-                          plugins: [
-                            Bold,
-                            Essentials,
-                            Italic,
-                            Mention,
-                            Paragraph,
-                            Undo
-                          ],
-                          licenseKey: '<YOUR_LICENSE_KEY>'
-                        }}
-                      />
-                      {/*<Textarea*/}
-                      {/*  className="resize-none"*/}
-                      {/*  placeholder="Contoh: Baju Dayak merupakan ..."*/}
-                      {/*  {...field}*/}
-                      {/*  value={field.value ?? ''}*/}
-                      {/*/>*/}
-                    </FormControl>
-                    <FormDescription>
-                      Masukkan isi konten berita.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="image"
-                render={() => (
-                  <FormItem>
-                    <FormLabel>Gambar</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="file"
-                        onChange={news => imageChangedHandler(news)}
-                      />
-                    </FormControl>
-                    <FormDescription>Masukkan gambar news.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
               <FormField
                 control={form.control}
                 name="category"
@@ -207,14 +139,11 @@ export default function Create() {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="umum">Umum</SelectItem>
-                        <SelectItem value="pemberitahuan">
-                          Pemberitahuan
+                        <SelectItem value="visi-misi">Visi Misi</SelectItem>
+                        <SelectItem value="profil">Profil</SelectItem>
+                        <SelectItem value="tugas-pokok-fungsi">
+                          Tugas Pokok & Fungsi
                         </SelectItem>
-                        <SelectItem value="pelayanan publik">
-                          Pelayanan Publik
-                        </SelectItem>
-                        <SelectItem value="pojok umkm">Pojok UMKM</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormDescription>Pilih kategori berita.</FormDescription>
@@ -222,6 +151,66 @@ export default function Create() {
                   </FormItem>
                 )}
               />
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col col-span-2">
+                    <FormLabel>Deskripsi</FormLabel>
+                    <FormControl>
+                      <CKEditor
+                        onChange={(event, editor) => {
+                          form.setValue('description', editor.getData());
+                        }}
+                        editor={ClassicEditor}
+                        config={{
+                          toolbar: {
+                            items: ['undo', 'redo', '|', 'bold', 'italic']
+                          },
+                          plugins: [
+                            Bold,
+                            Essentials,
+                            Italic,
+                            Mention,
+                            Paragraph,
+                            Undo
+                          ],
+                          licenseKey: '<YOUR_LICENSE_KEY>',
+                          initialData: profil.description || ''
+                        }}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Masukkan isi konten profil.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="image"
+                render={() => (
+                  <FormItem>
+                    <FormLabel>Gambar</FormLabel>
+                    <FormControl>
+                      <Input type="file" onChange={imageChangedHandler} />
+                    </FormControl>
+                    <FormDescription>Masukkan gambar profil.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              {profil.image && (
+                <div className="mt-4">
+                  <p className="text-sm font-medium">Gambar Saat Ini:</p>
+                  <img
+                    src={`/storage/${profil.image}`}
+                    alt="Profil"
+                    className="mt-2 max-w-xs rounded-lg shadow-md"
+                  />
+                </div>
+              )}
             </div>
             <Button type="submit">Submit</Button>
           </form>

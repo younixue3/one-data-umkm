@@ -14,9 +14,9 @@ class BidangRepositories
         $this->bidang = $bidang;
     }
 
-    public function index(): Collection
+    public function index($category = null): Collection
     {
-        return $this->bidang->all();
+        return $this->bidang->where('category', $category)->get();
     }
 
     public function show(int $id): ?Bidang
@@ -27,28 +27,24 @@ class BidangRepositories
     public function store(StoreBidangDTO $dto): Bidang
     {
         return $this->bidang->create([
-//            'name' => $dto->name,
-//            'price' => $dto->price,
-//            'description' => $dto->description,
-//            'start_date' => $dto->start_date,
-//            'end_date' => $dto->end_date,
-//            'image' => $dto->image
+            'title' => $dto->title,
+            'description' => $dto->description,
+            'category' => $dto->category,
+            'image' => $dto->image
         ]);
     }
 
     public function update(int $id, UpdateBidangDTO $dto): Bidang
     {
         $updateData = [
-//            'name' => $dto->name,
-//            'price' => $dto->price,
-//            'description' => $dto->description,
-//            'start_date' => $dto->start_date,
-//            'end_date' => $dto->end_date,
+            'title' => $dto->title,
+            'description' => $dto->description,
+            'category' => $dto->category,
         ];
 
-//        if ($dto->image) {
-//            $updateData['image'] = $dto->image;
-//        }
+        if ($dto->image) {
+            $updateData['image'] = $dto->image;
+        }
 
         $this->bidang->find($id)->update($updateData);
         return $this->bidang->find($id);

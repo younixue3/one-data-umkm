@@ -25,7 +25,8 @@ class UpdateNewsRequest extends FormRequest
         return [
             'title' => 'required|string',
             'content' => 'required|string',
-            'image' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg', 'max:3000']
+            'image' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg', 'max:3000'],
+            'category' => 'required|string'
         ];
     }
 
@@ -36,7 +37,8 @@ class UpdateNewsRequest extends FormRequest
             'content.required' => 'Konten tidak boleh kosong',
             'image.image' => 'File harus berupa gambar',
             'image.mimes' => 'File harus berupa gambar',
-            'image.max' => 'Ukuran file terlalu besar'
+            'image.max' => 'Ukuran file terlalu besar',
+            'category' => 'Kategori harus dipilih'
         ];
     }
 

@@ -19,17 +19,17 @@ class NewsServices
         $this->newsRepositories = $newsRepositories;
     }
 
-    public function index(int $take = null, int $paginate = null): Collection
+    public function index(int $take = null, int $paginate = null, string $category = 'umum'): Collection
     {
         if ($take) {
-            return $this->newsRepositories->index($take);
+            return $this->newsRepositories->index($take, $category);
         }
 
         if ($paginate) {
-            return $this->newsRepositories->index($paginate);
+            return $this->newsRepositories->index($paginate, $category);
         }
 
-        return $this->newsRepositories->index();
+        return $this->newsRepositories->index($category);
     }
 
     public function show(int $id): ?News

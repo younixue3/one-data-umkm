@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Bidang;
+namespace App\Http\Requests\Profil;
 
-use App\Dtos\Bidang\UpdateBidangDTO;
+use App\Dtos\Profil\UpdateProfilDTO;
+use App\Models\Profil;
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBidangRequest extends FormRequest
+class UpdateProfilRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,27 +24,29 @@ class UpdateBidangRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string'],
+            'category' => ['required', 'string', 'in:' . implode(',', Profil::CATEGORIES)],
             'description' => ['required', 'string'],
-            'category' => ['required', 'string'],
-            'image' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg', 'max:3000'],
+            'image' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg', 'max:3000']
         ];
     }
 
     public function messages(): array
     {
         return [
-            'title.required' => 'Judul bidang harus diisi',
-            'description.required' => 'Deskripsi bidang harus diisi',
-            'category.required' => 'Kategori bidang harus diisi',
+            'category.required' => 'Kategori harus diisi',
+            'category.string' => 'Kategori harus berupa teks', 
+            'category.in' => 'Kategori tidak valid',
+            'description.required' => 'Deskripsi harus diisi',
+            'description.string' => 'Deskripsi harus berupa teks',
+            'image.file' => 'File harus berupa file',
             'image.image' => 'File harus berupa gambar',
             'image.mimes' => 'File harus berupa gambar dengan format jpeg, png, atau jpg',
             'image.max' => 'Ukuran file terlalu besar (maksimal 3MB)'
         ];
     }
 
-    public function getDTO(): UpdateBidangDTO
+    public function getDTO(): UpdateProfilDTO
     {
-        return new UpdateBidangDTO($this->validated());
+        return new UpdateProfilDTO($this->validated());
     }
 }

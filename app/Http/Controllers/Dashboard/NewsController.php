@@ -7,6 +7,7 @@ use App\Http\Requests\News\StoreNewsRequest;
 use App\Http\Requests\News\UpdateNewsRequest;
 use App\Models\News;
 use App\Services\NewsServices;
+use App\Http\Controllers\Controller;
 
 class NewsController extends Controller
 {

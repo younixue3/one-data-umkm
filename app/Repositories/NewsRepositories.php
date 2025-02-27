@@ -14,9 +14,9 @@ class NewsRepositories
         $this->news = $news;
     }
 
-    public function index(): Collection
+    public function index($category = null): Collection
     {
-        return $this->news->all();
+        return $this->news->where('category', $category)->get();
     }
 
     public function show(int $id): ?News
@@ -30,6 +30,7 @@ class NewsRepositories
             'title' => $dto->title,
             'content' => $dto->content,
             'image' => $dto->image,
+            'category' => $dto->category
         ]);
     }
 
@@ -38,6 +39,7 @@ class NewsRepositories
         $updateData = [
             'title' => $dto->title,
             'content' => $dto->content,
+            'category' => $dto->category
         ];
 
         if ($dto->image) {

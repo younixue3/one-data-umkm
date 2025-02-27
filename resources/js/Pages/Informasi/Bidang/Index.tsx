@@ -2,10 +2,20 @@ import Banner from '@/Components/Banner';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head } from '@inertiajs/react';
 
-export default function Index() {
+interface Props {
+  category: string;
+  bidangs: {
+    id: number;
+    description: string;
+    image: string;
+    category: string;
+  }[];
+}
+
+export default function Index({ category, bidangs }: Props) {
   return (
     <GuestLayout>
-      <Head title="Bidang" />
+      <Head title={`Bidang ${category}`} />
 
       <div className="">
         <Banner />
@@ -15,43 +25,37 @@ export default function Index() {
               <div className="max-w-xl">
                 <header>
                   <h2 className="text-lg font-medium text-gray-900">
-                    Program Kerja
+                    Program Kerja {category}
                   </h2>
                   <p className="mt-1 text-sm text-gray-600">
-                    Program Kerja Dinas Perindustrian dan Perdagangan.
+                    Program Kerja Dinas Perindustrian dan Perdagangan bidang{' '}
+                    {category}.
                   </p>
                 </header>
 
                 <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2">
-                  <div className="overflow-hidden rounded-lg bg-white shadow">
-                    <div className="p-4">
-                      <img
-                        src={'/assets/logo.png'}
-                        alt="Program Kerja 2021"
-                        className="w-full rounded-lg shadow-md"
-                      />
-                      <div className="mt-4 text-center">
-                        <h3 className="text-lg font-medium text-gray-900">
-                          Program Kerja TH. 2021
-                        </h3>
+                  {bidangs.map((item: any) => (
+                    <div
+                      key={item.id}
+                      className="overflow-hidden rounded-lg bg-white shadow"
+                    >
+                      <div className="p-4">
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="w-full rounded-lg shadow-md"
+                        />
+                        <div className="mt-4 text-center">
+                          <h3 className="text-lg font-medium text-gray-900">
+                            {item.title}
+                          </h3>
+                          <p className="mt-2 text-sm text-gray-600">
+                            {item.description}
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="overflow-hidden rounded-lg bg-white shadow">
-                    <div className="p-4">
-                      <img
-                        src={'/assets/logo.png'}
-                        alt="Program Kerja 2022"
-                        className="w-full rounded-lg shadow-md"
-                      />
-                      <div className="mt-4 text-center">
-                        <h3 className="text-lg font-medium text-gray-900">
-                          Program Kerja TH. 2022
-                        </h3>
-                      </div>
-                    </div>
-                  </div>
+                  ))}
                 </div>
               </div>
 
@@ -62,21 +66,39 @@ export default function Index() {
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
                     <span className="text-gray-500">⚡</span>
-                    <span className="text-gray-700 uppercase">
+                    <a
+                      href={route('bidang.index', 'perindustrian')}
+                      className="text-gray-700 uppercase hover:text-blue-500"
+                    >
                       PERINDUSTRIAN
-                    </span>
+                    </a>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-gray-500">⚡</span>
-                    <span className="text-gray-700 uppercase">
+                    <a
+                      href={route('bidang.index', 'perdagangan-dalam-negeri')}
+                      className="text-gray-700 uppercase hover:text-blue-500"
+                    >
                       PERDAGANGAN DALAM NEGERI
-                    </span>
+                    </a>
                   </div>
                   <div className="flex items-center gap-2">
                     <span className="text-gray-500">⚡</span>
-                    <span className="text-gray-700 uppercase">
+                    <a
+                      href={route('bidang.index', 'perdagangan-luar-negeri')}
+                      className="text-gray-700 uppercase hover:text-blue-500"
+                    >
                       PERDAGANGAN LUAR NEGERI
-                    </span>
+                    </a>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-500">⚡</span>
+                    <a
+                      href={route('bidang.index', 'koperasi')}
+                      className="text-gray-700 uppercase hover:text-blue-500"
+                    >
+                      KOPERASI
+                    </a>
                   </div>
                 </div>
               </div>

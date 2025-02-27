@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
 
 use App\Exceptions\StandardizedException;
 use App\Http\Requests\Bidang\StoreBidangRequest;
 use App\Http\Requests\Bidang\UpdateBidangRequest;
 use App\Models\Bidang;
 use App\Services\BidangServices;
+use App\Http\Controllers\Controller;
 
 class BidangController extends Controller
 {
@@ -18,7 +19,7 @@ class BidangController extends Controller
     {
 
         $bidangs = $bidangServices->index($category);
-        return inertia("Informasi/Bidang/Index", compact('bidangs'));
+        return inertia("Dashboard/Bidang/Index", compact('bidangs'));
     }
 
     /**
@@ -26,7 +27,7 @@ class BidangController extends Controller
      */
     public function create()
     {
-        return inertia("Bidang/Create");
+        return inertia("Dashboard/Bidang/Create");
     }
 
     /**
@@ -52,7 +53,7 @@ class BidangController extends Controller
     public function edit(int $bidang, BidangServices $bidangServices): \Inertia\Response|\Inertia\ResponseFactory
     {
         $bidang = $bidangServices->show($bidang);
-        return inertia("Bidang/Edit", compact("bidang"));
+        return inertia("Dashboard/Bidang/Edit", compact("bidang"));
     }
 
     /**

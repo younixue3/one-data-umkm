@@ -121,13 +121,13 @@ export default function Guest({ children }: PropsWithChildren) {
                       Profil
                     </Link>
                     <Link
-                      href={route('visi_misi')}
+                      href={route('profil', 'visi-misi')}
                       className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
                     >
                       Visi Misi
                     </Link>
                     <Link
-                      href={route('tugas_pokok_fungsi')}
+                      href={route('profil', 'tugas-pokok-fungsi')}
                       className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
                     >
                       Tugas Pokok & Fungsi
@@ -418,13 +418,13 @@ export default function Guest({ children }: PropsWithChildren) {
                   </button>
                   <div className="absolute hidden z-50 group-hover:block w-48 bg-gray-800 rounded-md shadow-lg py-1">
                     <Link
-                      href={route('tugas_pokok_fungsi')}
+                      href={'#'}
                       className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
                     >
                       Foto
                     </Link>
                     <Link
-                      href={route('tugas_pokok_fungsi')}
+                      href={'#'}
                       className="block px-4 py-2 text-sm text-white hover:bg-gray-700"
                     >
                       Video
@@ -562,7 +562,7 @@ export default function Guest({ children }: PropsWithChildren) {
           <nav className="flex flex-col space-y-3 w-96">
             <h3 className="font-bold text-lg mb-3">Tautan Cepat</h3>
             <a
-              href={route('visi_misi')}
+              href={route('profil', 'visi-misi')}
               className="text-white hover:text-blue-500 transition duration-300"
             >
               Visi Misi
@@ -574,7 +574,7 @@ export default function Guest({ children }: PropsWithChildren) {
               Struktur Organisasi
             </a>
             <a
-              href={route('tugas_pokok_fungsi')}
+              href={route('profil', 'tugas-pokok-fungsi')}
               className="text-white hover:text-blue-500 transition duration-300"
             >
               Tugas Pokok & Fungsi

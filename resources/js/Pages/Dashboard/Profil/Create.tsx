@@ -27,13 +27,6 @@ import {
   Undo
 } from 'ckeditor5';
 import 'ckeditor5/ckeditor5.css';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/Components/ui/select';
 
 interface FormData {
   title: string;
@@ -45,18 +38,11 @@ export default function Create() {
   const FormSchema = yup.object({
     title: yup.string().required(),
     image: yup.mixed().nullable(),
-    content: yup.string().nullable(),
-    category: yup
-      .string()
-      .oneOf(['umum', 'pemberitahuan', 'pelayanan publik', 'pojok umkm'])
-      .required('Kategori wajib dipilih')
+    content: yup.string().nullable()
   });
 
   const form = useForm({
-    resolver: yupResolver(FormSchema),
-    defaultValues: {
-      category: 'umum'
-    }
+    resolver: yupResolver(FormSchema)
   });
 
   const onSubmit = (data: FormData) => {
@@ -187,37 +173,6 @@ export default function Create() {
                       />
                     </FormControl>
                     <FormDescription>Masukkan gambar news.</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Kategori</FormLabel>
-                    <Select
-                      onValueChange={field.onChange}
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Pilih kategori" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="umum">Umum</SelectItem>
-                        <SelectItem value="pemberitahuan">
-                          Pemberitahuan
-                        </SelectItem>
-                        <SelectItem value="pelayanan publik">
-                          Pelayanan Publik
-                        </SelectItem>
-                        <SelectItem value="pojok umkm">Pojok UMKM</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <FormDescription>Pilih kategori berita.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}

@@ -2,7 +2,13 @@ import Banner from '@/Components/Banner';
 import GuestLayout from '@/Layouts/GuestLayout';
 import { Head } from '@inertiajs/react';
 
-export default function Index({ kategori }: { kategori: string }) {
+export default function Index({
+  kategori,
+  news
+}: {
+  kategori: string;
+  news: any;
+}) {
   return (
     <GuestLayout>
       <Head title={kategori.toUpperCase()} />
@@ -24,38 +30,38 @@ export default function Index({ kategori }: { kategori: string }) {
                 </header>
 
                 <div className="mt-6 grid grid-cols-3 gap-6">
-                  <div className="overflow-hidden rounded-lg bg-white shadow">
-                    <div className="p-4">
-                      <img
-                        src="/assets/2.webp"
-                        alt="Berita 1"
-                        className="w-full rounded-lg h-52 object-cover shadow-md"
-                      />
-                      <div className="mt-4">
-                        <h3 className="text-lg font-medium text-gray-900">
-                          Judul Berita 1
-                        </h3>
-                        <p className="mt-2 text-sm text-gray-600">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing
-                          elit. Sed do eiusmod tempor incididunt ut labore et
-                          dolore magna aliqua.
-                        </p>
-                        <div className="mt-4 flex items-center justify-between">
-                          <span className="text-sm text-gray-500">
-                            12 Jan 2024
-                          </span>
-                          <a
-                            href="#"
-                            className="text-sm text-blue-600 hover:text-blue-800"
-                          >
-                            Baca selengkapnya
-                          </a>
+                  {news.map((item: any) => (
+                    <div className="overflow-hidden rounded-lg bg-white shadow">
+                      <div className="p-4">
+                        <img
+                          src={item.image}
+                          alt="Berita 1"
+                          className="w-full rounded-lg h-52 object-cover shadow-md"
+                        />
+                        <div className="mt-4">
+                          <h3 className="text-lg font-medium text-gray-900">
+                            {item.title}
+                          </h3>
+                          <p className="mt-2 text-sm text-gray-600">
+                            {item.content}
+                          </p>
+                          <div className="mt-4 flex items-center justify-between">
+                            <span className="text-sm text-gray-500">
+                              12 Jan 2024
+                            </span>
+                            <a
+                              href="#"
+                              className="text-sm text-blue-600 hover:text-blue-800"
+                            >
+                              Baca selengkapnya
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  ))}
 
-                  <div className="overflow-hidden rounded-lg bg-white shadow">
+                  {/* <div className="overflow-hidden rounded-lg bg-white shadow">
                     <div className="p-4">
                       <img
                         src="/assets/1.webp"
@@ -115,7 +121,7 @@ export default function Index({ kategori }: { kategori: string }) {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> */}
                 </div>
               </div>
 

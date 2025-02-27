@@ -90,6 +90,20 @@ export default function Authenticated({
                       <NewspaperIcon className="h-4 w-4 mr-1" />
                       News
                     </Link>
+                    <Link
+                      href={route('dashboard.profil.index')}
+                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                    >
+                      <NewspaperIcon className="h-4 w-4 mr-1" />
+                      Profil
+                    </Link>
+                    <Link
+                      href={route('dashboard.bidang.index')}
+                      className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                    >
+                      <NewspaperIcon className="h-4 w-4 mr-1" />
+                      Bidang
+                    </Link>
                   </div>
                 </CollapsibleContent>
               </Collapsible>

@@ -23,28 +23,23 @@ class StoreBidangRequest extends FormRequest
     public function rules(): array
     {
         return [
-//            'name' => ['required', 'string'],
-//            'price' => ['required', 'numeric'],
-//            'description' => ['string'],
-//            'start_date' => ['required', 'date'],
-//            'end_date' => ['required', 'date'],
-//            'image' => ['file', 'image', 'mimes:jpeg,png,jpg', 'max:3000'],
+            'title' => ['required', 'string'],
+            'description' => ['required', 'string'],
+            'category' => ['required', 'string'],
+            'image' => ['required', 'file', 'image', 'mimes:jpeg,png,jpg', 'max:3000'],
         ];
     }
 
     public function messages(): array
     {
         return [
-//            'name.required' => 'Nama bidang harus diisi',
-//            'price.required' => 'Harga bidang harus diisi',
-//            'description.required' => 'Deskripsi bidang harus diisi',
-//            'start_date.required' => 'Tanggal bidang harus diisi',
-//            'start_date.date' => 'Tanggal bidang harus berupa tanggal',
-//            'end_date.required' => 'Tanggal bidang harus diisi',
-//            'end_date.date' => 'Tanggal bidang harus berupa tanggal',
-//            'image.image' => 'File harus berupa gambar',
-//            'image.mimes' => 'File harus berupa gambar',
-//            'image.max' => 'Ukuran file terlalu besar'
+            'title.required' => 'Judul bidang harus diisi',
+            'description.required' => 'Deskripsi bidang harus diisi',
+            'category.required' => 'Kategori bidang harus diisi',
+            'image.required' => 'Gambar harus diisi',
+            'image.image' => 'File harus berupa gambar',
+            'image.mimes' => 'File harus berupa gambar dengan format jpeg, png, atau jpg',
+            'image.max' => 'Ukuran file terlalu besar (maksimal 3MB)'
         ];
     }
 
