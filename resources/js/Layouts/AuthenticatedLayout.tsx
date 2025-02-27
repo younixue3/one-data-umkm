@@ -40,12 +40,11 @@ export default function Authenticated({
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[260px_1fr] lg:grid-cols-[300px_1fr] bg-gray-100">
-      <div className="hidden h-screen border-r bg-blue-900 text-white md:block">
+      <div className="hidden min-h-screen border-r bg-blue-900 text-white md:block">
         <div className="flex h-full max-h-screen flex-col gap-2">
           <div className="flex h-16 items-center border-b border-blue-700 px-4 lg:h-[60px] lg:px-6">
             <Link href="/" className="flex items-center gap-2 font-semibold">
-              <ApplicationLogo className="h-10 w-10 fill-current text-white" />
-              <span className="text-lg">Satu Data UKM</span>
+              <span className="text-lg">Dashboard</span>
             </Link>
           </div>
           <div className="flex-1">
@@ -114,12 +113,7 @@ export default function Authenticated({
                   href="/"
                   className="flex items-center gap-2 text-lg w-full font-semibold text-blue-900"
                 >
-                  <img
-                    alt="Logo Kota Samarinda"
-                    src="/images/logo-kota-samarinda.png"
-                    className="h-10 w-10"
-                  />
-                  <span>SatuData UKM</span>
+                  <span>Dashboard</span>
                 </Link>
               </nav>
             </SheetContent>
