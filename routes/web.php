@@ -19,6 +19,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\ProdukController;
+URL::forceScheme('https');
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/bidang/{category}', [BidangController::class, 'index'])->name('bidang.index');
 Route::resource('bidang', BidangController::class)->only(['show', 'edit', 'update', 'store', 'destroy']);
