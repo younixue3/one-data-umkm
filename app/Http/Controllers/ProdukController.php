@@ -14,9 +14,9 @@ class ProdukController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ProdukServices $produkServices): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(ProdukServices $produkServices)
     {
-        return inertia("Publikasi/Produk/Index");
+        return view("Front.produk");
     }
 
     /**

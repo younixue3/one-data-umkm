@@ -14,9 +14,9 @@ class DokumenController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(DokumenServices $dokumenServices): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(DokumenServices $dokumenServices)
     {
-        return inertia("Publikasi/Dokumen/Index");
+        return view("Front.dokumen");
     }
 
     /**

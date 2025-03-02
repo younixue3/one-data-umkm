@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Services\NewsServices;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Models\Kabupaten;
 
 class HomeController extends Controller
 {
@@ -15,28 +16,24 @@ class HomeController extends Controller
     {
         $news = $newsServices->index(3);
 
-        return inertia("Welcome", [
-            'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register'),
-            'laravelVersion' => Application::VERSION,
-            'phpVersion' => PHP_VERSION,
+        return view("Front.index", [
             'news' => $news
         ]);
     }
 
     public function profil()
     {
-        return inertia("Profil/Index");
+        return view("Front.profil");
     }
 
     public function visiMisi()
     {
-        return inertia("Profil/VisiMisi");
+        return view("Front.visiMisi");
     }
 
     public function tugasPokokFungsi()
     {
-        return inertia("Profil/TugasPokokFungsi");
+        return view("Front.tugasPokokFungsi");
     }
 
     public function satuData()
@@ -126,11 +123,11 @@ class HomeController extends Controller
         //     ->values()
         //     ->toArray();
 
-        // $kabupatenList = \App\Models\Kabupaten::select('id', 'name')->get();
+        $kabupatenList = Kabupaten::select('id', 'name')->get();
         // $productTypes = \App\Models\Typeproduct::select('id', 'name')->get();
         // $industryTypes = \App\Models\Typeindustrie::select('id', 'name')->get();
 
-        return inertia("SatuData/Industri", [
+        return view("Front.satuData.industri", [
             // 'laravelVersion' => Application::VERSION,
             // 'phpVersion' => PHP_VERSION,
             // 'dataUkm' => $ukmData,
@@ -139,7 +136,7 @@ class HomeController extends Controller
             // 'bigIndustriesByKabupatenYear' => $bigIndustriesByKabupatenYear,
             // 'mostCommonProductPerYear' => $mostCommonProductPerYear,
             // 'mostCommonIndustryPerYear' => $mostCommonIndustryPerYear,
-            // 'kabupatenList' => $kabupatenList,
+            'kabupatenList' => $kabupatenList,
             // 'productTypes' => $productTypes,
             // 'industryTypes' => $industryTypes
         ]);
@@ -148,32 +145,34 @@ class HomeController extends Controller
     public function satuDataPerdagangan()
     {
 
-        return inertia("SatuData/Perdagangan", []);
+        return view("Front.satuDataPerdagangan");
     }
 
     public function satuDataKoperasiUkm()
     {
-
-        return inertia("SatuData/KoperasiUkm", []);
+        $kabupatenList = Kabupaten::select('id', 'name')->get();
+        return view("Front.satuData.koperasiUkm", [
+            'kabupatenList' => $kabupatenList
+        ]);
     }
 
     public function satuDataPelatihan() 
     {
-        return inertia("SatuData/Pelatihan", []);
+        return view("Front.satuDataPelatihan");
     }
 
     public function satuDataPemetaanPelatihan()
     {
-        return inertia("SatuData/PemetaanPelatihan", []);
+        return view("Front.satuDataPemetaanPelatihan");
     }
 
     public function hargaBahanPokok()
     {
-        return inertia("Informasi/HargaBahanPokok/Index");
+        return view("Front.hargaBahanPokok");
     }
 
     public function kontak()
     {
-        return inertia("Kontak");
+        return view("Front.kontak");
     }
 }
