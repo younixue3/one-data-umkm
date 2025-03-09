@@ -216,7 +216,7 @@
                 <!--begin::Brand Link-->
                 <a href="{{ route('dashboard.index') }}" class="brand-link">
                     <!--begin::Brand Image-->
-                    <img src="{{ asset('img/logo.png') }}" alt="Disperindagkop Logo" class="brand-image opacity-75 shadow">
+                    {{-- <img src="{{ asset('assets/logo.png') }}" alt="Disperindagkop Logo" class="brand-image opacity-75 shadow w-25"> --}}
                     <!--end::Brand Image-->
                     <!--begin::Brand Text-->
                     <span class="brand-text fw-light">Disperindagkop</span>

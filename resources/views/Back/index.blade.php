@@ -16,7 +16,7 @@
                 <span class="info-box-icon bg-info elevation-1"><i class="bi bi-newspaper"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Berita</span>
-                    <span class="info-box-number">10</span>
+                    <span class="info-box-number">{{ $newsCount }}</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -28,7 +28,7 @@
                 <span class="info-box-icon bg-success elevation-1"><i class="bi bi-calendar-event"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Agenda</span>
-                    <span class="info-box-number">5</span>
+                    <span class="info-box-number">{{ $newsCount }}</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -40,7 +40,7 @@
                 <span class="info-box-icon bg-warning elevation-1"><i class="bi bi-images"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Galeri</span>
-                    <span class="info-box-number">25</span>
+                    <span class="info-box-number">{{ $galleryCount }}</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -52,7 +52,7 @@
                 <span class="info-box-icon bg-danger elevation-1"><i class="bi bi-people-fill"></i></span>
                 <div class="info-box-content">
                     <span class="info-box-text">Pengguna</span>
-                    <span class="info-box-number">3</span>
+                    <span class="info-box-number">{{ $userCount }}</span>
                 </div>
                 <!-- /.info-box-content -->
             </div>
@@ -80,7 +80,7 @@
     </div>
 
     <div class="row mb-4">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <!-- Berita Terbaru -->
             <div class="card">
                 <div class="card-header">
@@ -93,119 +93,28 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body p-0">
-                    <ul class="products-list product-list-in-card pl-2 pr-2">
+                     <ul class="products-list product-list-in-card pl-2 pr-2">
+                        @foreach ($news as $item)
                         <li class="item">
                             <div class="product-img">
-                                <img src="{{ asset('img/default-news.jpg') }}" alt="Berita" class="img-size-50">
+                                <img src="{{ asset('storage/'.$item->image) }}" alt="Berita" class="img-size-50">
                             </div>
                             <div class="product-info">
                                 <a href="javascript:void(0)" class="product-title">
-                                    Kunjungan Kerja Menteri Perindustrian
-                                    <span class="badge bg-info float-end">12/05/2024</span>
+                                    {{ $item->title }}
+                                    <span class="badge bg-info float-end">{{ $item->created_at->format('d/m/Y') }}</span>
                                 </a>
                                 <span class="product-description">
-                                    Kunjungan kerja Menteri Perindustrian ke Kalimantan Utara untuk meninjau perkembangan industri...
+                                    {!! Str::limit(strip_tags($item->content), 150) !!}
                                 </span>
                             </div>
                         </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="{{ asset('img/default-news.jpg') }}" alt="Berita" class="img-size-50">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">
-                                    Pelatihan UMKM Digital
-                                    <span class="badge bg-info float-end">10/05/2024</span>
-                                </a>
-                                <span class="product-description">
-                                    Disperindagkop mengadakan pelatihan digitalisasi UMKM untuk meningkatkan daya saing...
-                                </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
-                        <li class="item">
-                            <div class="product-img">
-                                <img src="{{ asset('img/default-news.jpg') }}" alt="Berita" class="img-size-50">
-                            </div>
-                            <div class="product-info">
-                                <a href="javascript:void(0)" class="product-title">
-                                    Pameran Produk Lokal
-                                    <span class="badge bg-info float-end">05/05/2024</span>
-                                </a>
-                                <span class="product-description">
-                                    Pameran produk unggulan lokal Kalimantan Utara yang diselenggarakan di Jakarta...
-                                </span>
-                            </div>
-                        </li>
-                        <!-- /.item -->
+                        @endforeach
                     </ul>
                 </div>
                 <!-- /.card-body -->
                 <div class="card-footer text-center">
                     <a href="{{ route('dashboard.news.index') }}" class="text-primary">Lihat Semua Berita</a>
-                </div>
-                <!-- /.card-footer -->
-            </div>
-            <!-- /.card -->
-        </div>
-        <!-- /.col -->
-        
-        <div class="col-md-4">
-            <!-- Agenda Mendatang -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title"><i class="bi bi-calendar-event me-2"></i>Agenda Mendatang</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
-                            <i class="bi bi-dash"></i>
-                        </button>
-                    </div>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <div class="event-list">
-                        <div class="event-item pb-3 mb-3 border-bottom">
-                            <div class="d-flex">
-                                <div class="event-date me-3 text-center">
-                                    <span class="bg-primary p-2 d-block text-white rounded">20 Mei 2024</span>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1">Rapat Koordinasi UMKM</h5>
-                                    <p class="text-muted mb-0"><i class="bi bi-clock me-1"></i>09:00 - 12:00 WIB</p>
-                                    <p class="text-muted mb-0"><i class="bi bi-geo-alt me-1"></i>Aula Disperindagkop</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="event-item pb-3 mb-3 border-bottom">
-                            <div class="d-flex">
-                                <div class="event-date me-3 text-center">
-                                    <span class="bg-primary p-2 d-block text-white rounded">25 Mei 2024</span>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1">Workshop Ekspor</h5>
-                                    <p class="text-muted mb-0"><i class="bi bi-clock me-1"></i>13:00 - 16:00 WIB</p>
-                                    <p class="text-muted mb-0"><i class="bi bi-geo-alt me-1"></i>Hotel Grand Tarakan</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="event-item">
-                            <div class="d-flex">
-                                <div class="event-date me-3 text-center">
-                                    <span class="bg-primary p-2 d-block text-white rounded">1 Juni 2024</span>
-                                </div>
-                                <div>
-                                    <h5 class="mb-1">Pameran Produk UMKM</h5>
-                                    <p class="text-muted mb-0"><i class="bi bi-clock me-1"></i>08:00 - 17:00 WIB</p>
-                                    <p class="text-muted mb-0"><i class="bi bi-geo-alt me-1"></i>Mall Tarakan Plaza</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /.card-body -->
-                <div class="card-footer text-center">
-                    <a href="javascript:void(0)" class="text-primary">Lihat Semua Agenda</a>
                 </div>
                 <!-- /.card-footer -->
             </div>
@@ -284,7 +193,7 @@
                 labels: ['UKM', 'Industri Besar', 'Koperasi', 'Pasar'],
                 datasets: [{
                     label: 'Jumlah',
-                    data: [120, 15, 45, 8],
+                    data: [{{ $ukmCount }}, {{ $bigIndustriCount }}, 0, 0],
                     backgroundColor: [
                         'rgba(59, 130, 246, 0.7)',
                         'rgba(16, 185, 129, 0.7)',
