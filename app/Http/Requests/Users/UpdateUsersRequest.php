@@ -26,7 +26,9 @@ class UpdateUsersRequest extends FormRequest
             'name' => ['required', 'string'],
             'email' => ['required', 'email'],
             'password' => ['nullable', 'string', 'min:8'],
-            'password_confirmation' => ['nullable', 'string', 'min:8', 'same:password', 'required_with:password']
+            'password_confirmation' => ['nullable', 'string', 'min:8', 'same:password', 'required_with:password'],
+            'role' => ['required', 'string'],
+            'bidang' => ['required', 'string'],
         ];
     }
 
@@ -38,7 +40,9 @@ class UpdateUsersRequest extends FormRequest
             'password.min' => 'Password user harus memiliki minimal 8 karakter',
             'password_confirmation.min' => 'Konfirmasi password user harus memiliki minimal 8 karakter',
             'password_confirmation.same' => 'Konfirmasi password user tidak sama dengan password',
-            'password_confirmation.required_with' => 'Konfirmasi password diperlukan jika password diisi'
+            'password_confirmation.required_with' => 'Konfirmasi password diperlukan jika password diisi',
+            'role.required' => 'Role user harus diisi',
+            'bidang.required' => 'Bidang user harus diisi',
         ];
     }
 

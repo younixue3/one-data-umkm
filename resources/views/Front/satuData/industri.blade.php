@@ -25,10 +25,10 @@
     </nav>
 
     <main>
-        <div class="max-w-7xl mx-auto">
+        <div class="">
             <div class="px-4 sm:px-0">
-                <div class="container mx-auto px-4 py-6">
-                    <div class="grid grid-cols-1 gap-4">
+                <div class="py-6">
+                    <div class="grid grid-cols-5 gap-4">
                         <!-- Filter Panel -->
                         <div class="bg-white rounded-lg shadow-md overflow-hidden p-4">
                             <div class="border-b border-gray-200 px-4 py-3">
@@ -52,7 +52,7 @@
                         </div>
 
                         <!-- Map -->
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden p-4">
+                        <div class="bg-white col-span-2 row-span-2 rounded-lg shadow-md overflow-hidden p-4">
                             <div class="border-b border-gray-200 px-4 py-3">
                                 <h6 class="text-gray-800 font-medium">Peta Sebaran Industri</h6>
                             </div>
@@ -60,17 +60,25 @@
                         </div>
                             
                         <!-- Charts -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                        <div class="bg-white col-span-2 row-span-2 rounded-lg shadow-md overflow-hidden">
                                 <div class="border-b border-gray-200 px-4 py-3">
-                                    <h6 class="text-center text-gray-800 font-medium">Jumlah IKM Berdasarkan Kabupaten/Kota</h6>
+                                    <h6 class="text-center text-gray-800 font-medium">Jumlah Industri Kecil Menengah Berdasarkan Kabupaten/Kota</h6>
                                 </div>
                                 <div class="p-4">
-                                    <canvas id="verticalBarChart" height="300"></canvas>
+                                    <canvas id="horizontalBarChart" height="300"></canvas>
+                                </div>
+                            </div>
+                            <!-- Vertical Bar Chart -->
+                            <div class="bg-white row-span-2 rounded-lg shadow-md overflow-hidden">
+                                <div class="border-b border-gray-200 px-4 py-3">
+                                    <h6 class="text-center text-gray-800 font-medium">Jumlah Industri Besar Berdasarkan Kabupaten/Kota</h6>
+                                </div>
+                                <div class="p-4">
+                                    <canvas id="verticalBarChart" height="1000"></canvas>
                                 </div>
                             </div>
                             
-                            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                            <div class="bg-white rounded-lg col-span-2 shadow-md overflow-hidden">
                                 <div class="border-b border-gray-200 px-4 py-3">
                                     <h6 class="text-center text-gray-800 font-medium">Jumlah IKM Berdasarkan Jenis Usahanya</h6>
                                 </div>
@@ -78,10 +86,9 @@
                                     <canvas id="lineChart" height="300"></canvas>
                                 </div>
                             </div>
-                        </div>
                         
                         <!-- Data Table -->
-                        <div class="bg-white rounded-lg shadow-md overflow-hidden mt-4">
+                        <div class="bg-white rounded-lg col-span-2 shadow-md overflow-hidden mt-4">
                             <div class="border-b border-gray-200 px-4 py-3">
                                 <h6 class="text-center text-gray-800 font-medium">Data Industri</h6>
                             </div>
@@ -207,13 +214,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Kabupaten coordinates
-        const kabupatenCoords = [
-            { id: '366', name: 'KABUPATEN BULUNGAN', coords: [117.0794, 2.904] },
-            { id: '367', name: 'KABUPATEN MALINAU', coords: [116.6388, 3.5845] },
-            { id: '368', name: 'KABUPATEN NUNUKAN', coords: [117.6467, 4.1357] },
-            { id: '369', name: 'KABUPATEN TANA TIDUNG', coords: [117.2502, 3.5519] },
-            { id: '370', name: 'KOTA TARAKAN', coords: [117.6333, 3.3] }
-        ];
+        const kabupatenCoords = @json($combinedIndustriesByKabupaten);
 
         // Initialize the map
         const vectorSource = new ol.source.Vector();
@@ -223,7 +224,9 @@
             const feature = new ol.Feature({
                 geometry: new ol.geom.Point(ol.proj.fromLonLat(kab.coords)),
                 name: kab.name,
-                id: kab.id
+                id: kab.id,
+                big_industries_count: kab.big_industries_count,
+                ikm_count: kab.ikm_count
             });
             vectorSource.addFeature(feature);
         });
@@ -288,11 +291,14 @@
                 const coordinates = feature.getGeometry().getCoordinates();
                 const name = feature.get('name');
                 const id = feature.get('id');
+                const big_industries_count = feature.get('big_industries_count');
+                const ikm_count = feature.get('ikm_count');
                 
+
                 content.innerHTML = `
                     <h5 class="font-bold">${name}</h5>
-                    <p class="mt-2">Jumlah Industri: <span class="font-semibold">45</span></p>
-                    <p>Tenaga Kerja: <span class="font-semibold">1,250</span></p>
+                    <p class="mt-2">Jumlah Industri: <span class="font-semibold">${big_industries_count}</span></p>
+                    <p>Tenaga Kerja: <span class="font-semibold">${ikm_count}</span></p>
                 `;
                 
                 overlay.setPosition(coordinates);
@@ -314,53 +320,45 @@
         // Filter button click handler
         document.getElementById('filterBtn').addEventListener('click', function() {
             const selectedKabupaten = document.getElementById('kabupaten').value;
-            // Implement filtering logic here
             console.log('Selected Kabupaten:', selectedKabupaten);
             
-            // Example of updating charts based on selection
+            // Memperbarui grafik berdasarkan pilihan
             updateCharts(selectedKabupaten);
         });
 
         // Reset button click handler
         document.getElementById('resetBtn').addEventListener('click', function() {
             document.getElementById('kabupaten').value = 'all';
-            // Reset map view
             map.getView().setCenter(ol.proj.fromLonLat([117.0794, 3.3333]));
             map.getView().setZoom(8);
-            
-            // Reset charts to show all data
             updateCharts('all');
         });
 
         // Chart data
-        const verticalBarData = [
-            { name: 'Semua Kabupaten/Kota', '2020': 32, '2021': 35, '2022': 40, '2023': 45 },
-            { name: 'KABUPATEN BULUNGAN', '2020': 12, '2021': 15, '2022': 15, '2023': 20 },
-            { name: 'KABUPATEN MALINAU', '2020': 1, '2021': 1, '2022': 1, '2023': 1 },
-            { name: 'KABUPATEN NUNUKAN', '2020': 10, '2021': 10, '2022': 10, '2023': 11 },
-            { name: 'KABUPATEN TANA TIDUNG', '2020': 1, '2021': 1, '2022': 1, '2023': 1 },
-            { name: 'KOTA TARAKAN', '2020': 8, '2021': 8, '2022': 8, '2023': 12 }
-        ];
+        const verticalBarData = @json($bigIndustriesByKabupatenYear);
+        const horizontalBarData = @json($ukmByKabupatenYear);
 
-        const industryData = [
-            { name: 'Industri Pengolahan Makanan', '2020': 1103, '2021': 1183, '2022': 1183, '2023': 1272 },
-            { name: 'Industri Pengolahan Minuman', '2020': 194, '2021': 340, '2022': 340, '2023': 372 },
-            { name: 'Industri Pengolahan Kayu', '2020': 409, '2021': 460, '2022': 460, '2023': 466 },
-            { name: 'Industri Pengolahan anyaman rotan', '2020': 333, '2021': 391, '2022': 391, '2023': 423 },
-            { name: 'Industri Pengolahan anyaman bambu', '2020': 96, '2021': 99, '2022': 99, '2023': 101 }
-        ];
+        const industryData = @json($mostCommonProductPerYear);
+        console.log(industryData);
 
-        let verticalBarChart, lineChart;
+        let verticalBarChart, horizontalBarChart, lineChart;
 
         // Function to update charts based on selection
         function updateCharts(selectedKabupaten) {
             if (verticalBarChart) verticalBarChart.destroy();
+            if (horizontalBarChart) horizontalBarChart.destroy();
             if (lineChart) lineChart.destroy();
-            
+
             // Filter data based on selection if needed
             let filteredBarData = verticalBarData;
+            let filteredHorizontalBarData = horizontalBarData;
+            
             if (selectedKabupaten !== 'all') {
                 filteredBarData = verticalBarData.filter(item => 
+                    item.name === 'Semua Kabupaten/Kota' || 
+                    kabupatenCoords.find(k => k.id === selectedKabupaten)?.name === item.name
+                );
+                filteredHorizontalBarData = horizontalBarData.filter(item => 
                     item.name === 'Semua Kabupaten/Kota' || 
                     kabupatenCoords.find(k => k.id === selectedKabupaten)?.name === item.name
                 );
@@ -373,17 +371,64 @@
                 data: {
                     labels: filteredBarData.map(item => item.name),
                     datasets: [
-                        { label: '2020', data: filteredBarData.map(item => item['2020']), backgroundColor: '#8884d8' },
-                        { label: '2021', data: filteredBarData.map(item => item['2021']), backgroundColor: '#82ca9d' },
-                        { label: '2022', data: filteredBarData.map(item => item['2022']), backgroundColor: '#ffc658' },
-                        { label: '2023', data: filteredBarData.map(item => item['2023']), backgroundColor: '#ff7300' }
+                        { label: '2020', data: filteredBarData.map(item => item['2020'] || 0), backgroundColor: '#8884d8' },
+                        { label: '2021', data: filteredBarData.map(item => item['2021'] || 0), backgroundColor: '#82ca9d' },
+                        { label: '2022', data: filteredBarData.map(item => item['2022'] || 0), backgroundColor: '#ffc658' },
+                        { label: '2023', data: filteredBarData.map(item => item['2023'] || 0), backgroundColor: '#ff7300' }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    indexAxis: 'y',
+                    scales: {
+                        x: { 
+                            beginAtZero: true,
+                            stacked: false 
+                        },
+                        y: { 
+                            stacked: false
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    maintainAspectRatio: false
+                }
+            });
+
+            // Create horizontal bar chart
+            const horizontalBarCtx = document.getElementById('horizontalBarChart').getContext('2d');
+            horizontalBarChart = new Chart(horizontalBarCtx, {
+                type: 'bar',
+                data: {
+                    labels: filteredHorizontalBarData.map(item => item.name),
+                    datasets: [
+                        ...(() => {
+                            const years = [2020, 2021, 2022, 2023, 2024, 2025];
+                            const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#ff0066', '#9900cc'];
+                            
+                            return years.map((year, index) => {
+                                return {
+                                    label: year.toString(),
+                                    data: filteredHorizontalBarData.map(item => item[year.toString()] || 0),
+                                    backgroundColor: colors[index]
+                                };
+                            });
+                        })()
                     ]
                 },
                 options: {
                     responsive: true,
                     scales: {
-                        x: { stacked: false },
-                        y: { beginAtZero: true }
+                        x: { beginAtZero: true },
+                        y: { stacked: false }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
                     }
                 }
             });
@@ -395,22 +440,36 @@
                 data: {
                     labels: industryData.map(item => item.name),
                     datasets: [
-                        { label: '2020', data: industryData.map(item => item['2020']), borderColor: '#8884d8', fill: false },
-                        { label: '2021', data: industryData.map(item => item['2021']), borderColor: '#82ca9d', fill: false },
-                        { label: '2022', data: industryData.map(item => item['2022']), borderColor: '#ffc658', fill: false },
-                        { label: '2023', data: industryData.map(item => item['2023']), borderColor: '#ff7300', fill: false }
+                        ...(() => {
+                            const years = [2020, 2021, 2022, 2023, 2024, 2025];
+                            const colors = ['#8884d8', '#82ca9d', '#ffc658', '#ff7300', '#ff0066', '#9900cc'];
+                            
+                            return years.map((year, index) => {
+                                return {
+                                    label: year.toString(),
+                                    data: industryData.map(item => item[year.toString()] || 0),
+                                    borderColor: colors[index],
+                                    fill: false
+                                };
+                            });
+                        })()
                     ]
                 },
                 options: {
                     responsive: true,
                     scales: {
                         y: { beginAtZero: true }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
                     }
                 }
             });
         }
-        
-        // Initialize charts
+
+        // Inisialisasi grafik
         updateCharts('all');
     });
 </script>

@@ -29,7 +29,9 @@ class UsersRepositories
         return $this->users->create([
             'name' => $dto->name,
             'email' => $dto->email,
-            'password' => Hash::make($dto->password)
+            'password' => Hash::make($dto->password),
+            'role' => $dto->role,
+            'bidang' => $dto->bidang,
         ]);
     }
 
@@ -38,6 +40,8 @@ class UsersRepositories
         $updateData = [
             'name' => $dto->name,
             'email' => $dto->email,
+            'role' => $dto->role,
+            'bidang' => $dto->bidang,
         ];
 
         if (isset($dto->password)) {

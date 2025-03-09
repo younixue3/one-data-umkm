@@ -23,7 +23,6 @@ class UpdateBidangRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string'],
             'description' => ['required', 'string'],
             'category' => ['required', 'string'],
             'image' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg', 'max:3000'],
@@ -33,7 +32,6 @@ class UpdateBidangRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required' => 'Judul bidang harus diisi',
             'description.required' => 'Deskripsi bidang harus diisi',
             'category.required' => 'Kategori bidang harus diisi',
             'image.image' => 'File harus berupa gambar',

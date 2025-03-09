@@ -47,10 +47,6 @@ class ProfilServices
             'DTO' => $dto,
         ]);
 
-        if (!in_array($dto->category, self::VALID_CATEGORIES)) {
-            throw new StandardizedException('Kategori tidak valid.');
-        }
-
         try {
             DB::beginTransaction();
             $data = $this->profilRepositories->store($dto);

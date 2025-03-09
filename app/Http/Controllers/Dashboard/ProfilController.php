@@ -16,10 +16,10 @@ class ProfilController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ProfilServices $profilServices, string $category = 'profil'): Response|ResponseFactory
+    public function index(ProfilServices $profilServices, string $category = 'profil')
     {
         $profil = $profilServices->index($category);
-        return inertia("Dashboard/Profil/Index", [
+        return view("Back/profil", [
             "profil" => $profil
         ]);
     }
@@ -27,9 +27,9 @@ class ProfilController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): Response|ResponseFactory
+    public function create()
     {
-        return inertia("Dashboard/Profil/Create", [
+        return view("Back/profilCreate", [
             "categories" => Profil::CATEGORIES
         ]);
     }
@@ -37,45 +37,49 @@ class ProfilController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreProfilRequest $request, ProfilServices $profilServices): void
+    public function store(StoreProfilRequest $request, ProfilServices $profilServices)
     {
         $profilServices->store($request->getDTO());
+        return redirect()->route("dashboard.profil.index")->with("success", "Profil berhasil ditambahkan");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Profil $profil): Response|ResponseFactory
+    public function show(Profil $profil)
     {
-        return inertia("Dashboard/Profil/Show", compact("profil"));
+        return view("Back/profilShow", compact("profil"));
     }
 
     /**
      * Show the form for editing the specified resource.
      * @throws StandardizedException
      */
-    public function edit(Profil $profil, ProfilServices $profilServices): Response|ResponseFactory
+    public function edit(Profil $profil, ProfilServices $profilServices)
     {
         $profil = $profilServices->show($profil->id);
-        return inertia("Dashboard/Profil/Edit", [
+        return view("Back/profilEdit", [
             "profil" => $profil,
             "categories" => Profil::CATEGORIES
         ]);
+        return redirect()->route("dashboard.profil.index")->with("success", "Profil berhasil diubah");
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateProfilRequest $request, ProfilServices $profilServices): void
+    public function update(UpdateProfilRequest $request, ProfilServices $profilServices)
     {
         $profilServices->update($request->validated()['id'], $request->getDTO());
+        return redirect()->route("dashboard.profil.index")->with("success", "Profil berhasil diubah");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Profil $profil, ProfilServices $profilServices): void
+    public function destroy(Profil $profil, ProfilServices $profilServices)
     {
         $profilServices->destroy($profil);
+        return redirect()->route("dashboard.profil.index")->with("success", "Profil berhasil dihapus");
     }
 }

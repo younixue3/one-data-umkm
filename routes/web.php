@@ -59,4 +59,6 @@ Route::middleware('auth')->group(function () {
 Route::post('dashboard/ikm/import', [IkmController::class, 'import'])->name('dashboard.ikm.import');
 Route::post('dashboard/bigindustri/import', [BigindustriController::class, 'import'])->name('dashboard.bigindustri.import');
 
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+
 require __DIR__.'/auth.php';
