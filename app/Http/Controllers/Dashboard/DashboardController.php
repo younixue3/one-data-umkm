@@ -17,7 +17,7 @@ class DashboardController extends Controller
         $newsCount = \App\Models\News::count();
 
         // Menghitung jumlah Industri Besar
-        $bigIndustriCount = \App\Models\BigIndustri::count();
+        $bigIndustriCount = \App\Models\Bigindustri::count();
         
         // Menghitung jumlah UKM
         $ukmCount = \App\Models\Ikm::count();
