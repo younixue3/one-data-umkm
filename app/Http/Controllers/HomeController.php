@@ -254,8 +254,10 @@ class HomeController extends Controller
 
     public function satuDataPerdagangan()
     {
-
-        return view("Front.satuDataPerdagangan");
+        $kabupatenList = Kabupaten::select('id', 'name')->get();
+        return view("Front.satuData.perdagangan", [
+            'kabupatenList' => $kabupatenList
+        ]);
     }
 
     public function satuDataKoperasiUkm()
@@ -268,12 +270,12 @@ class HomeController extends Controller
 
     public function satuDataPelatihan() 
     {
-        return view("Front.satuDataPelatihan");
+        return view("Front.satuData.pelatihan");
     }
 
     public function satuDataPemetaanPelatihan()
     {
-        return view("Front.satuDataPemetaanPelatihan");
+        return view("Front.satuData.pemetaanPelatihan");
     }
 
     public function hargaBahanPokok()
