@@ -35,7 +35,7 @@
 
                 <div class="mt-6">
                     <img
-                        src="storage/{{ isset($profil) ? $profil->image : asset('assets/default.png') }}"
+                        src="/storage/{{ isset($profil) ? $profil->image : asset('assets/default.png') }}"
                         alt="Gambar {{ isset($profil) ? $profil->category : 'default' }}"
                         class="w-full rounded-lg shadow-md"
                     />
