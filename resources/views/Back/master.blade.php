@@ -246,7 +246,7 @@
                                 <p>Berita</p>
                             </a>
                         </li>
-                        
+                        @if(auth()->user()->bidang == 'perindustrian' || auth()->user()->role == 'admin')
                         <li class="nav-item {{ request()->is('dashboard/ikm*') || request()->is('dashboard/bigindustri*') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link {{ request()->is('dashboard/ikm*') || request()->is('dashboard/bigindustri*') ? 'active' : '' }}">
                                 <i class="nav-icon bi bi-building"></i>
@@ -270,7 +270,9 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
                         
+                        @if(auth()->user()->bidang == 'perdagangan dalam negeri' || auth()->user()->bidang == 'perdagangan luar negeri' || auth()->user()->role == 'admin')
                         <li class="nav-item {{ request()->is('dashboard/perdagangan*') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link {{ request()->is('dashboard/perdagangan*') ? 'active' : '' }}">
                                 <i class="nav-icon bi bi-shop"></i>
@@ -294,7 +296,9 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
                         
+                        @if(auth()->user()->bidang == 'koperasi' || auth()->user()->role == 'admin')
                         <li class="nav-item {{ request()->is('dashboard/koperasi*') ? 'menu-open' : '' }}">
                             <a href="#" class="nav-link {{ request()->is('dashboard/koperasi*') ? 'active' : '' }}">
                                 <i class="nav-icon bi bi-people-fill"></i>
@@ -318,6 +322,7 @@
                                 </li>
                             </ul>
                         </li>
+                        @endif
                         
                         <li class="nav-item {{ request()->is('dashboard/profil*') ? 'menu-open' : '' }}">
                             <a href="{{ route('dashboard.profil.index') }}" class="nav-link {{ request()->routeIs('dashboard.profil.*') ? 'active' : '' }}">

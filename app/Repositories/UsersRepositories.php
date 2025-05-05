@@ -49,7 +49,14 @@ class UsersRepositories
         }
 
         $user = $this->users->find($id);
-        $user->update($updateData);
+        $user->name = $dto->name;
+        $user->email = $dto->email;
+        $user->role = $dto->role;
+        $user->bidang = $dto->bidang;
+        if (isset($dto->password)) {
+            $user->password = Hash::make($dto->password);
+        }
+        $user->save();
         return $user;
     }
 
