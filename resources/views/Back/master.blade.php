@@ -323,6 +323,24 @@
                             </ul>
                         </li>
                         @endif
+
+                        <li class="nav-item {{ request()->is('dashboard/koperasi*') ? 'menu-open' : '' }}">
+                            <a href="#" class="nav-link {{ request()->is('dashboard/koperasi*') ? 'active' : '' }}">
+                                <i class="nav-icon bi bi-people-fill"></i>
+                                <p>
+                                    Pelatihan
+                                    <i class="nav-arrow bi bi-chevron-right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="{{ route('dashboard.pelatihan.index') }}" class="nav-link">
+                                        <i class="nav-icon bi bi-circle-fill fs-8 me-1"></i>
+                                        <p>Pelatihan</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
                         
                         <li class="nav-item {{ request()->is('dashboard/profil*') ? 'menu-open' : '' }}">
                             <a href="{{ route('dashboard.profil.index') }}" class="nav-link {{ request()->routeIs('dashboard.profil.*') ? 'active' : '' }}">

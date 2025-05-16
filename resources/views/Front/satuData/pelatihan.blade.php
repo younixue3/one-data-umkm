@@ -43,17 +43,17 @@
                     <div class="bg-white rounded-lg shadow-md overflow-hidden">
                         <!-- Header -->
                         <div class="border-b border-gray-200 px-6 py-4">
-                            <h6 class="text-lg font-semibold text-gray-800">Koperasi dan UKM - Satu Data</h6>
+                            <h6 class="text-lg font-semibold text-gray-800">Data Pelatihan</h6>
                         </div>
 
                         <div class="p-6 space-y-6">
                             <!-- Filter Controls -->
-                            <div class="flex flex-wrap gap-4">
+                            <form id="filterForm" class="flex flex-wrap gap-4">
                                 <div class="w-full md:w-1/3">
                                     <label for="kabupaten" class="block text-sm font-medium text-gray-700 mb-1">
                                         Kabupaten/Kota
                                     </label>
-                                    <select id="kabupaten" 
+                                    <select name="kabupaten" id="kabupaten" 
                                             class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
                                         <option value="all">Semua Kabupaten/Kota</option>
                                         @foreach($kabupatenList as $kabupaten)
@@ -61,143 +61,60 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="w-full md:w-1/3">
+                                    <label for="tahun" class="block text-sm font-medium text-gray-700 mb-1">
+                                        Tahun
+                                    </label>
+                                    <select name="tahun" id="tahun" 
+                                            class="w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                                        <option value="all">Semua Tahun</option>
+                                        @for($i = date('Y'); $i >= 2018; $i--)
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endfor
+                                    </select>
+                                </div>
                                 <div class="w-full md:w-1/3 flex items-end space-x-2">
-                                    <button id="filterBtn" 
+                                    <button type="submit" id="filterBtn" 
                                             class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md transition duration-200">
                                         Filter
                                     </button>
-                                    <button id="resetBtn"
+                                    <button type="reset" id="resetBtn"
                                             class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md transition duration-200">
                                         Reset
                                     </button>
                                 </div>
-                            </div>
+                            </form>
 
                             <!-- Map -->
                             <div id="map" class="w-full h-96 rounded-lg border border-gray-200"></div>
                             
                             <!-- Data Table -->
-                            <!-- Tabel Pelatihan -->
                             <div class="col-span-1 md:col-span-3 bg-white rounded-lg shadow-sm overflow-hidden">
-                                    <div class="overflow-x-auto">
-                                        <table class="min-w-full divide-y divide-gray-200">
-                                            <thead class="bg-gray-50">
-                                                <tr>
-                                                    <th class="px-3 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider text-left">Kab/Kota</th>
-                                                    <th class="px-3 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider text-left">Jenis Pelatihan</th>
-                                                    <th class="px-3 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Tahun 2016</th>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                            <tr>
+                                                <th class="px-3 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider text-left">Kab/Kota</th>
+                                                <th class="px-3 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider text-left">Jenis Pelatihan</th>
+                                                <th class="px-3 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Tahun</th>
+                                                <th class="px-3 py-2 text-xs font-medium text-gray-500 uppercase tracking-wider text-right">Peserta</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white divide-y divide-gray-200" id="pelatihan-data">
+                                            @foreach($pelatihans as $pelatihan)
+                                                <tr class="pelatihan-row" 
+                                                    data-kabupaten="{{ $pelatihan->kabupaten->id }}" 
+                                                    data-tahun="{{ $pelatihan->tahun }}">
+                                                    <td class="px-3 py-2 text-xs text-gray-700">{{ $pelatihan->kabupaten->name }}</td>
+                                                    <td class="px-3 py-2 text-xs text-gray-700">{{ $pelatihan->judul }}</td>
+                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">{{ $pelatihan->tahun }}</td>
+                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">{{ $pelatihan->peserta }}</td>
                                                 </tr>
-                                            </thead>
-                                            <tbody class="bg-white divide-y divide-gray-200" id="pelatihan-data">
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Pelatihan Manajemen Partisipasi Anggota Koperasi</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Pelatihan Menyusun Strategi Pemasaran Produk</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bimbingan Teknis 25 WUB IKM Membatik (Tingkat Lanjutan) Di Kabupaten Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bimbingan Teknis 25 WUB IKM Sandang (Menjahit)</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bimbingan Teknis 25 WUB IKM Servis Elektronik Di Kabupaten Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bimbingan Teknis E-Commerce WUB IKM Di Kabupaten Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bimbingan Teknis Membatik WUB IKM Di Kabupaten Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">BIMBINGAN TEKNIS PRODUKSI MASKER KAIN BAGI 25 WIRAUSAHA IKM KONVEKSI YANG TERDAMPAK COVID 19 DI KABUPATEN BULUNGAN</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bimbingan Teknis WUB IKM Olahan Produk Buah Lokal Di Kabupaten Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bimbingan Teknis WUB IKM Tenun Serat Alam Di Kabupaten Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">BIMTEK WUB IKM KERAJINAN UKIRAN KAYU DI KABUPATEN BULUNGAN DAN KABUPATEN TANA TIDUNG</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">BIMTEK 15 WUB IKM BORDIR TINGKAT LANJUTAN DI KABUPATEN BULUNGAN</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">BORDIR (INDUSTRI)</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Desain Kemasan Produk Angkatan I</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Fasilitasi HAKI</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Fasilitasi Izin Usaha</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Fasilitasi Sertifikasi Halal Bagi IKM</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Fasiltas Legalitas Usaha</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">KEWIRAUSAHAAN BAGI PEMULA (UMKM)</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Literasi Keuangan Bagi Usaha Mikro Angkatan I</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">1</td>
-                                                </tr>
-                                                <tr>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Bulungan</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700">Pelatihan Batako Press (INDUSTRI)</td>
-                                                    <td class="px-3 py-2 text-xs text-gray-700 text-right">30</td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
                                 </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -274,24 +191,38 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initialize Vector Source and Features
     const vectorSource = new ol.source.Vector();
+    const features = {};
+    
     kabupatenCoords.forEach(kab => {
-        vectorSource.addFeature(new ol.Feature({
+        const feature = new ol.Feature({
             geometry: new ol.geom.Point(ol.proj.fromLonLat(kab.coords)),
             name: kab.name,
             id: kab.id
-        }));
+        });
+        features[kab.id] = feature;
+        vectorSource.addFeature(feature);
     });
 
     // Vector Layer Style
+    const defaultStyle = new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 8,
+            fill: new ol.style.Fill({ color: '#3b82f6' }),
+            stroke: new ol.style.Stroke({ color: '#ffffff', width: 2 })
+        })
+    });
+
+    const hiddenStyle = new ol.style.Style({
+        image: new ol.style.Circle({
+            radius: 8,
+            fill: new ol.style.Fill({ color: '#d1d5db' }),
+            stroke: new ol.style.Stroke({ color: '#ffffff', width: 2 })
+        })
+    });
+
     const vectorLayer = new ol.layer.Vector({
         source: vectorSource,
-        style: feature => new ol.style.Style({
-            image: new ol.style.Circle({
-                radius: 8,
-                fill: new ol.style.Fill({ color: '#3b82f6' }),
-                stroke: new ol.style.Stroke({ color: '#ffffff', width: 2 })
-            })
-        })
+        style: defaultStyle
     });
 
     // Initialize Map
@@ -321,38 +252,80 @@ document.addEventListener('DOMContentLoaded', function() {
         return false;
     };
 
-    map.on('click', evt => {
-        const feature = map.forEachFeatureAtPixel(evt.pixel, feature => feature);
+    map.on('pointermove', evt => {
+        map.getTargetElement().style.cursor = map.hasFeatureAtPixel(evt.pixel) ? 'pointer' : '';
+    });
+
+    // Add click handler for popup
+    map.on('click', function(evt) {
+        const feature = map.forEachFeatureAtPixel(evt.pixel, function(feature) {
+            return feature;
+        });
+
         if (feature) {
-            const coords = feature.getGeometry().getCoordinates();
-            document.getElementById('popup-content').innerHTML = `
-                <h5 class="font-semibold">${feature.get('name')}</h5>
-                <p class="text-sm text-gray-600">ID: ${feature.get('id')}</p>
+            const coordinates = feature.getGeometry().getCoordinates();
+            const kabId = feature.get('id');
+            
+            // Get pelatihan data for this kabupaten
+            const pelatihanRows = document.querySelectorAll(`.pelatihan-row[data-kabupaten="${kabId}"]`);
+            let popupContent = `
+                <h3 class="font-bold mb-2">${feature.get('name')}</h3>
+                <div class="text-sm">
+                    <div class="font-semibold">Jumlah Pelatihan: ${pelatihanRows.length}</div>
+                </div>
             `;
-            popup.setPosition(coords);
-            document.getElementById('kabupaten').value = feature.get('id');
+
+            document.getElementById('popup-content').innerHTML = popupContent;
+            popup.setPosition(coordinates);
         } else {
             popup.setPosition(undefined);
         }
     });
 
-    map.on('pointermove', evt => {
-        map.getTargetElement().style.cursor = map.hasFeatureAtPixel(evt.pixel) ? 'pointer' : '';
+    // Filter table and map points function
+    function filterTable() {
+        const selectedKabupaten = document.getElementById('kabupaten').value;
+        const selectedTahun = document.getElementById('tahun').value;
+        const rows = document.querySelectorAll('.pelatihan-row');
+
+        // Filter table rows
+        rows.forEach(row => {
+            const kabupatenMatch = selectedKabupaten === 'all' || row.dataset.kabupaten === selectedKabupaten;
+            const tahunMatch = selectedTahun === 'all' || row.dataset.tahun === selectedTahun;
+            row.style.display = kabupatenMatch && tahunMatch ? '' : 'none';
+        });
+
+        // Filter map points
+        Object.entries(features).forEach(([kabId, feature]) => {
+            if (selectedKabupaten === 'all' || kabId === selectedKabupaten) {
+                feature.setStyle(defaultStyle);
+            } else {
+                feature.setStyle(hiddenStyle);
+            }
+        });
+
+        // Clear popup when filtering
+        popup.setPosition(undefined);
+    }
+
+    // Filter form submit handler
+    document.getElementById('filterForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        filterTable();
     });
 
-    // Filter and Reset Handlers
-    document.getElementById('filterBtn').onclick = () => {
-        const selectedKabupaten = document.getElementById('kabupaten').value;
-        // Implement your filter logic here
-        console.log('Filtering for kabupaten:', selectedKabupaten);
-    };
-
-    document.getElementById('resetBtn').onclick = () => {
+    // Reset button handler
+    document.getElementById('resetBtn').addEventListener('click', (e) => {
+        e.preventDefault();
         document.getElementById('kabupaten').value = 'all';
+        document.getElementById('tahun').value = 'all';
         map.getView().setCenter(ol.proj.fromLonLat([117.0794, 3.3333]));
         map.getView().setZoom(8);
-        // Implement additional reset logic here
-    };
+        filterTable();
+    });
+
+    // Initialize filter on page load
+    filterTable();
 });
 </script>
 @endsection

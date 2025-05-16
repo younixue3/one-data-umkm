@@ -271,19 +271,57 @@ class HomeController extends Controller
     public function satuDataPelatihan() 
     {
         $kabupatenList = Kabupaten::select('id', 'name')->get();
+        $pelatihans = \App\Models\Pelatihan::with([
+            'kelurahan',
+            'kecamatan',
+            'kabupaten',
+            'provinsi'
+        ])->get();
+
         return view("Front.satuData.pelatihan", [
-            'kabupatenList' => $kabupatenList
+            'kabupatenList' => $kabupatenList,
+            'pelatihans' => $pelatihans
         ]);
     }
 
     public function satuDataPemetaanPelatihan()
     {
+        // Get kabupaten and pelatihan data with relationships
         $kabupatenList = Kabupaten::select('id', 'name')->get();
-        return view("Front.satuData.koperasiUkm", [
-            'kabupatenList' => $kabupatenList
-        ]);
+        $pelatihans = \App\Models\Pelatihan::with([
+            'kelurahan',
+            'kecamatan', 
+            'kabupaten',
+            'provinsi'
+        ])->get();
+
+        // Calculate training statistics by category
+        $totalPelatihan = $pelatihans->count();
+        $pelatihanByKategori = $pelatihans->groupBy('kategori')
+            ->map(function ($items, $kategori) use ($totalPelatihan) {
+                $count = $items->count();
+                return [
+                    'kategori' => $kategori,
+                    'count' => $count,
+                    'percentage' => round(($count / $totalPelatihan) * 100, 2),
+                    'items' => $items->map(function ($item) {
+                        return [
+                            'nama' => $item->nama,
+                            'kabupaten' => $item->kabupaten->name ?? 'Unknown',
+                            'tanggal' => $item->tanggal,
+                            'peserta' => $item->peserta
+                        ];
+                    })->values()
+                ];
+            })
+            ->values()
+            ->toArray();
+
+        // Return view with complete data
         return view("Front.satuData.pemetaanPelatihan", [
-            'kabupatenList' => $kabupatenList
+            'kabupatenList' => $kabupatenList,
+            'pelatihanByKategori' => $pelatihanByKategori,
+            'totalPelatihan' => $totalPelatihan
         ]);
     }
 

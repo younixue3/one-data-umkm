@@ -15,6 +15,7 @@ use App\Http\Controllers\ProfilController;
 use App\Http\Controllers\Dashboard\ProfilController as DashboardProfilController;
 use App\Http\Controllers\Dashboard\BidangController as DashboardBidangController;
 use App\Http\Controllers\Dashboard\NewsController as DashboardNewsController;
+use App\Http\Controllers\Dashboard\PelatihanController as DashboardPelatihanController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -48,6 +49,7 @@ Route::middleware(['auth', 'verified'])->prefix('dashboard')->name('dashboard.')
     Route::resource('bigindustri', BigindustriController::class);
     Route::resource('profil', DashboardProfilController::class);
     Route::resource('bidang', DashboardBidangController::class);
+    Route::resource('pelatihan', DashboardPelatihanController::class);
 });
 
 Route::middleware('auth')->group(function () {
