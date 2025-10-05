@@ -17,8 +17,8 @@ class Profil extends Model
     ];
 
     public const CATEGORIES = [
-        'visi_misi',
+        'visi-misi',
         'profil', 
-        'tugas_pokok_fungsi'
+        'tugas-pokok-fungsi'
     ];
 }

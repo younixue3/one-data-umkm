@@ -14,9 +14,9 @@ class AgendaController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(AgendaServices $agendaServices): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(AgendaServices $agendaServices)
     {
-        return inertia("Informasi/Agenda/Index");
+        return view("Front.agenda");
     }
 
     /**

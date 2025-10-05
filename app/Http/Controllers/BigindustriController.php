@@ -14,32 +14,33 @@ class BigindustriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(BigindustriServices $bigindustriServices): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(BigindustriServices $bigindustriServices)
     {
         $bigindustris = $bigindustriServices->index();
-        return inertia("Dashboard/Bigindustri/Index", compact("bigindustris"));
+        return view("Back/bigIndustri", compact("bigindustris"));
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): \Inertia\Response|\Inertia\ResponseFactory
+    public function create()
     {
-        return inertia("Dashboard/Bigindustri/Create");
+        return view("Back/bigIndustriCreate");
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBigindustriRequest $request, BigindustriServices $bigindustriServices): void
+    public function store(StoreBigindustriRequest $request, BigindustriServices $bigindustriServices)
     {
         $bigindustriServices->store($request->getDTO());
+        return redirect()->route("dashboard.bigindustri.index")->with("success", "Industri besar berhasil ditambahkan");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Bigindustri $bigindustri): void
+    public function show(Bigindustri $bigindustri)
     {
         //
     }
@@ -48,32 +49,34 @@ class BigindustriController extends Controller
      * Show the form for editing the specified resource.
      * @throws StandardizedException
      */
-    public function edit(int $bigindustri, BigindustriServices $bigindustriServices): \Inertia\Response|\Inertia\ResponseFactory
+    public function edit(int $bigindustri, BigindustriServices $bigindustriServices)
     {
         $bigindustri = $bigindustriServices->show($bigindustri);
-        return inertia("Dashboard/Bigindustri/Edit", compact("bigindustri"));
+        return view("Back/bigIndustriEdit", compact("bigindustri"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBigindustriRequest $request, BigindustriServices $bigindustriServices): void
+    public function update(UpdateBigindustriRequest $request, BigindustriServices $bigindustriServices)
     {
         $bigindustriServices->update($request->all()['id'], $request->getDTO());
+        return redirect()->route("dashboard.bigindustri.index")->with("success", "Industri besar berhasil diubah");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Bigindustri $bigindustri, BigindustriServices $bigindustriServices): void
+    public function destroy(Bigindustri $bigindustri, BigindustriServices $bigindustriServices)
     {
         $bigindustriServices->destroy($bigindustri);
+        return redirect()->route("dashboard.bigindustri.index")->with("success", "Industri besar berhasil dihapus");
     }
 
     /**
      * Import data from Excel file.
      */
-    public function import(Request $request, BigindustriServices $bigindustriServices): void
+    public function import(Request $request, BigindustriServices $bigindustriServices)
     {
         $request->validate([
             'file' => 'required|mimes:xlsx,xls'

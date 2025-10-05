@@ -14,11 +14,11 @@ class BidangController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(BidangServices $bidangServices, $category = null): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(BidangServices $bidangServices, $category = null)
     {
 
         $bidangs = $bidangServices->index($category);
-        return inertia("Informasi/Bidang/Index", compact('bidangs'));
+        return view("Front.bidang", compact('bidangs'));
     }
 
     /**

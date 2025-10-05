@@ -16,7 +16,11 @@ class BidangRepositories
 
     public function index($category = null): Collection
     {
-        return $this->bidang->where('category', $category)->get();
+        if ($category) {
+            return $this->bidang->where('category', $category)->get();
+        }
+
+        return $this->bidang->all();
     }
 
     public function show(int $id): ?Bidang
@@ -27,7 +31,6 @@ class BidangRepositories
     public function store(StoreBidangDTO $dto): Bidang
     {
         return $this->bidang->create([
-            'title' => $dto->title,
             'description' => $dto->description,
             'category' => $dto->category,
             'image' => $dto->image

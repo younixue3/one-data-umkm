@@ -14,9 +14,9 @@ class KegiatanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(KegiatanServices $kegiatanServices): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(KegiatanServices $kegiatanServices)
     {
-        return inertia("Publikasi/PelaporanKegiatan/Index");
+        return view("Front.kegiatan");
     }
 
     /**

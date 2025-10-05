@@ -15,11 +15,10 @@ class BidangController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(BidangServices $bidangServices, $category = null): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(BidangServices $bidangServices, $category = null)
     {
-
         $bidangs = $bidangServices->index($category);
-        return inertia("Dashboard/Bidang/Index", compact('bidangs'));
+        return view("Back/bidang", compact('bidangs'));
     }
 
     /**
@@ -27,7 +26,7 @@ class BidangController extends Controller
      */
     public function create()
     {
-        return inertia("Dashboard/Bidang/Create");
+        return view("Back/bidangCreate");
     }
 
     /**
@@ -36,6 +35,7 @@ class BidangController extends Controller
     public function store(StoreBidangRequest $request, BidangServices $bidangServices)
     {
         $bidangServices->store($request->getDTO());
+        return redirect()->route('dashboard.bidang.index')->with('success', 'Bidang berhasil ditambahkan');
     }
 
     /**
@@ -50,18 +50,19 @@ class BidangController extends Controller
      * Show the form for editing the specified resource.
      * @throws StandardizedException
      */
-    public function edit(int $bidang, BidangServices $bidangServices): \Inertia\Response|\Inertia\ResponseFactory
+    public function edit(int $bidang, BidangServices $bidangServices)
     {
         $bidang = $bidangServices->show($bidang);
-        return inertia("Dashboard/Bidang/Edit", compact("bidang"));
+        return view("Back/bidangEdit", compact("bidang"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateBidangRequest $request, BidangServices $bidangServices): void
+    public function update(UpdateBidangRequest $request, BidangServices $bidangServices)
     {
         $bidangServices->update($request->all()['id'], $request->getDTO());
+        return redirect()->route('dashboard.bidang.index')->with('success', 'Bidang berhasil diubah');
     }
 
     /**
@@ -70,5 +71,6 @@ class BidangController extends Controller
     public function destroy(Bidang $bidang, BidangServices $bidangServices)
     {
         $bidangServices->destroy($bidang);
+        return redirect()->route('dashboard.bidang.index')->with('success', 'Bidang berhasil dihapus');
     }
 }

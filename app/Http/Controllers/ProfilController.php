@@ -15,10 +15,10 @@ class ProfilController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ProfilServices $profilServices, $category = 'profil'): Response|ResponseFactory
+    public function index(ProfilServices $profilServices, $category = 'profil')
     {
         $profil = $profilServices->showByCategory($category);
-        return inertia("Profil/Index", [
+        return view("Front.profil", [
             "profil" => $profil
         ]);
     }

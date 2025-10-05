@@ -14,10 +14,10 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(UsersServices $usersServices): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(UsersServices $usersServices)
     {
         $userss = $usersServices->index();
-        return inertia("Dashboard/User/Index", compact("userss"));
+        return view("Back/user", compact("userss"));
     }
 
     /**
@@ -25,7 +25,7 @@ class UsersController extends Controller
      */
     public function create()
     {
-        return inertia("Dashboard/User/Create");
+        return view("Back/userCreate");
     }
 
     /**
@@ -34,6 +34,7 @@ class UsersController extends Controller
     public function store(StoreUsersRequest $request, UsersServices $usersServices)
     {
         $usersServices->store($request->getDTO());
+        return redirect()->route('dashboard.user.index')->with('success', 'Pengguna berhasil ditambahkan.');
     }
 
     /**
@@ -48,18 +49,19 @@ class UsersController extends Controller
      * Show the form for editing the specified resource.
      * @throws StandardizedException
      */
-    public function edit(int $users, UsersServices $usersServices): \Inertia\Response|\Inertia\ResponseFactory
+    public function edit(int $users, UsersServices $usersServices)
     {
-        $users = $usersServices->show($users);
-        return inertia("Dashboard/User/Edit", compact("users"));
+        $user = $usersServices->show($users);
+        return view("Back/userEdit", compact("user"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateUsersRequest $request, UsersServices $usersServices): void
+    public function update(UpdateUsersRequest $request, UsersServices $usersServices)
     {
         $usersServices->update($request->all()['id'], $request->getDTO());
+        return redirect()->route('dashboard.user.index')->with('success', 'Pengguna berhasil diperbarui.');
     }
 
     /**

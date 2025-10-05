@@ -14,10 +14,10 @@ class NewsController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(NewsServices $newsServices, string $kategori = ''): \Inertia\Response|\Inertia\ResponseFactory
+    public function index(NewsServices $newsServices, string $kategori = '')
     {
-        $news = $newsServices->index(null,null,$kategori    );
-        return inertia("Informasi/Berita/Index", [
+        $news = $newsServices->index(null,null,$kategori);
+        return view("Front.berita", [
             "kategori" => $kategori,
             "news" => $news
         ]);
