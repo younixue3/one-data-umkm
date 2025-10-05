@@ -33,7 +33,7 @@ import {
 
 export default function Authenticated({
   children
-}: PropsWithChildren<{ header?: ReactNode }>) {
+}: PropsWithChildren<{ header?: ReactNode; user?: { name: string; email: string } }>) {
   const { auth } = usePage().props as {
     auth: { user: { name: string; email: string } };
   };

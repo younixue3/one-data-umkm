@@ -37,8 +37,9 @@ import {
 
 interface FormData {
   title: string;
-  content?: string | null;
-  image?: any;
+  content: string | null;
+  image: any | null;
+  category: NonNullable<"umum" | "pemberitahuan" | "pelayanan publik" | "pojok umkm">;
 }
 
 export default function Create() {
@@ -52,9 +53,12 @@ export default function Create() {
       .required('Kategori wajib dipilih')
   });
 
-  const form = useForm({
+  const form: any = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues: {
+      title: '',
+      content: null,
+      image: null,
       category: 'umum'
     }
   });
@@ -177,7 +181,7 @@ export default function Create() {
               <FormField
                 control={form.control}
                 name="image"
-                render={() => (
+                render={({ field }) => (
                   <FormItem>
                     <FormLabel>Gambar</FormLabel>
                     <FormControl>

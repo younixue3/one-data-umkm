@@ -9,11 +9,14 @@ use App\Models\News;
 use App\Repositories\NewsRepositories;
 use Exception;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class NewsServices
 {
+    protected NewsRepositories $newsRepositories;
+
     public function __construct(NewsRepositories $newsRepositories)
     {
         $this->newsRepositories = $newsRepositories;
@@ -34,12 +37,17 @@ class NewsServices
 
     public function show(int $id): ?News
     {
-        $promo = $this->newsRepositories->show($id);
-        if (!$promo instanceof News) {
+        $news = $this->newsRepositories->show($id);
+        if (!$news instanceof News) {
             throw new StandardizedException('News tidak ditemukan.');
         }
 
-        return $promo;
+        // Only allow the owner to view
+        if ($news->user_id !== Auth::id()) {
+            throw new StandardizedException('Anda tidak memiliki akses untuk melihat News ini.');
+        }
+
+        return $news;
     }
 
     public function store(StoreNewsDTO $dto): News
@@ -62,16 +70,31 @@ class NewsServices
 
     public function update(int $id, UpdateNewsDTO $dto): News
     {
+        $news = $this->newsRepositories->show($id);
+        if (!$news instanceof News) {
+            throw new StandardizedException('News tidak ditemukan.');
+        }
+
+        // Only allow the owner to update
+        if ($news->user_id !== Auth::id()) {
+            throw new StandardizedException('Anda tidak memiliki akses untuk mengubah News ini.');
+        }
+
         Log::info('Update News', [
             'DTO' => $dto,
         ]);
 
-        return $this->newsRepositories->update($id,$dto);
+        return $this->newsRepositories->update($id, $dto);
     }
 
     public function destroy(News $news): void
     {
-        Log::info('Destory News', [
+        // Only allow the owner to delete
+        if ($news->user_id !== Auth::id()) {
+            throw new StandardizedException('Anda tidak memiliki akses untuk menghapus News ini.');
+        }
+
+        Log::info('Destroy News', [
             $news->toArray()
         ]);
 

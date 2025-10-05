@@ -41,7 +41,7 @@ export default function Create() {
     content: yup.string().nullable()
   });
 
-  const form = useForm({
+  const form:any = useForm({
     resolver: yupResolver(FormSchema)
   });
 

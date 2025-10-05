@@ -68,7 +68,7 @@
             <div class="card bg-gradient-primary">
                 <div class="card-body">
                     <div class="d-flex align-items-center">
-                        <img src="{{ asset('img/logo.png') }}" alt="Disperindagkop Logo" class="mr-4" style="height: 80px;">
+                        <img src="{{ asset('assets/logo.png') }}" alt="Disperindagkop Logo" class="mr-4" style="height: 80px;">
                         <div>
                             <h2 class="text-white mb-2">Selamat Datang di Dashboard Admin</h2>
                             <p class="text-white mb-0">Dinas Perindustrian, Perdagangan, Koperasi dan UKM Provinsi Kalimantan Utara</p>

@@ -29,7 +29,7 @@
             <div class="flex items-center space-x-4">
               <img
                 class="h-16"
-                src="/assets/logo.png"
+                src="{{ asset('assets/logo.png') }}"
                 alt="Logo Disperindagkop Kaltara"
               />
             </div>

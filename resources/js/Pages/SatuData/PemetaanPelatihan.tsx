@@ -124,7 +124,7 @@ export default function PemetaanPelatihan() {
                 <div className="space-y-4">
                   <Select
                     value={selectedKabupaten}
-                    onValueChange={value => setSelectedKabupaten(value as any)}
+                    onValueChange={(value:any) => setSelectedKabupaten(value)}
                   >
                     <SelectTrigger>
                       <SelectValue placeholder="Pilih Kabupaten/Kota" />
@@ -172,7 +172,7 @@ export default function PemetaanPelatihan() {
                         cx="50%"
                         cy="50%"
                         labelLine={true}
-                        label={({ name, percent }) =>
+                        label={({ name, percent }: any) =>
                           `${name} ${(percent * 100).toFixed(0)}%`
                         }
                         outerRadius={50}
@@ -216,7 +216,7 @@ export default function PemetaanPelatihan() {
                         cx="50%"
                         cy="50%"
                         labelLine={true}
-                        label={({ name, percent }) =>
+                        label={({ name, percent }: any) =>
                           `${name} ${(percent * 100).toFixed(0)}%`
                         }
                         outerRadius={50}

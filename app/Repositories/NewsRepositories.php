@@ -27,6 +27,7 @@ class NewsRepositories
     public function store(StoreNewsDTO $dto): News
     {
         return $this->news->create([
+            'user_id' => auth()->id(),
             'title' => $dto->title,
             'content' => $dto->content,
             'image' => $dto->image,

@@ -25,7 +25,7 @@ class UpdateBidangRequest extends FormRequest
         return [
             'description' => ['required', 'string'],
             'category' => ['required', 'string'],
-            'image' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg', 'max:3000'],
+            'image' => ['nullable', 'file', 'image', 'mimes:jpeg,jpg,png', 'max:3000'],
         ];
     }
 
@@ -35,7 +35,7 @@ class UpdateBidangRequest extends FormRequest
             'description.required' => 'Deskripsi bidang harus diisi',
             'category.required' => 'Kategori bidang harus diisi',
             'image.image' => 'File harus berupa gambar',
-            'image.mimes' => 'File harus berupa gambar dengan format jpeg, png, atau jpg',
+            'image.mimes' => 'File harus berupa gambar dengan format jpeg, jpg, atau png',
             'image.max' => 'Ukuran file terlalu besar (maksimal 3MB)'
         ];
     }

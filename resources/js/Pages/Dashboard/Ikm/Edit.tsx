@@ -1,9 +1,8 @@
-import { Head } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Button } from '@/Components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-import { Link, router } from '@inertiajs/react';
 import { IkmType } from '@/types/ikm-type';
 import { Card, CardContent } from '@/Components/ui/card';
 import { Input } from '@/Components/ui/input';
@@ -34,10 +33,22 @@ const schema = yup.object({
   status_aktif: yup.boolean()
 });
 
-type FormValues = yup.InferType<typeof schema>;
+interface FormValues {
+  nama_perusahaan: string;
+  nama_pemilik: string;
+  email?: string;
+  no_hp?: string;
+  alamat: string;
+  tahun_data: number;
+  tenaga_kerja_pria: number;
+  tenaga_kerja_wanita: number;
+  nilai_investasi: number;
+  nilai_kapasitas: number;
+  status_aktif?: boolean;
+}
 
 export default function Edit({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
-  const form = useForm<FormValues>({
+  const form: any = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       nama_perusahaan: ikm.nama_perusahaan,
@@ -54,12 +65,12 @@ export default function Edit({ auth, ikm }: PageProps<{ ikm: IkmType }>) {
     }
   });
 
-  function onSubmit(values: FormValues) {
+  function onSubmit(values: any) {
     router.put(route('dashboard.ikm.update', ikm.id), values);
   }
 
   return (
-    <AuthenticatedLayout>
+    <AuthenticatedLayout user={auth.user}>
       <Head title={`Edit IKM - ${ikm.nama_perusahaan}`} />
       <div className="py-12">
         <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">

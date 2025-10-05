@@ -135,7 +135,9 @@ export const BigindustriTable = ({ data }: BigindustriTableProps) => {
                     key={column.id}
                     className="capitalize"
                     checked={column.getIsVisible()}
-                    onCheckedChange={value => column.toggleVisibility(value)}
+                    onCheckedChange={(value: boolean) =>
+                      column.toggleVisibility(value)
+                    }
                   >
                     {column.id}
                   </DropdownMenuCheckboxItem>

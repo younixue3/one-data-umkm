@@ -40,7 +40,6 @@ class BidangRepositories
     public function update(int $id, UpdateBidangDTO $dto): Bidang
     {
         $updateData = [
-            'title' => $dto->title,
             'description' => $dto->description,
             'category' => $dto->category,
         ];

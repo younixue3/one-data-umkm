@@ -45,7 +45,7 @@ interface News {
 }
 
 export default function Edit({ news }: { news: News }) {
-  const FormSchema = yup.object({
+  const FormSchema: any = yup.object({
     title: yup.string().required(),
     image: yup.mixed().nullable(),
     content: yup.string().nullable(),
@@ -55,7 +55,7 @@ export default function Edit({ news }: { news: News }) {
       .required('Kategori wajib dipilih')
   });
 
-  const form = useForm({
+  const form: any = useForm({
     resolver: yupResolver(FormSchema),
     values: news
   });

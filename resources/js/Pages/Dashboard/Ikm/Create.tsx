@@ -105,7 +105,7 @@ export default function Create({
     jenis_pembiayaan: yup.string().optional()
   });
 
-  const form = useForm<FormData>({
+  const form: any = useForm({
     resolver: yupResolver(FormSchema),
     defaultValues: {
       tahun_data: new Date().getFullYear().toString(),
