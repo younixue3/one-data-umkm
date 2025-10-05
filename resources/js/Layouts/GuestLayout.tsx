@@ -33,7 +33,7 @@ export default function Guest({ children }: PropsWithChildren) {
             <div className="flex items-center space-x-4">
               <img
                 className="h-16"
-                src="/assets/logo.png"
+                src="~koperasi/assets/logo.png"
                 alt="Logo Disperindagkop Kaltara"
               />
             </div>
@@ -537,7 +537,7 @@ export default function Guest({ children }: PropsWithChildren) {
         <div className="container mx-auto flex flex-col md:flex-row justify-between items-start text-white">
           <div className="mb-6 md:mb-0 flex flex-col items-center md:items-start">
             <img
-              src="/assets/logo.png"
+              src="~koperasi/assets/logo.png"
               alt="Logo Departemen"
               className="h-16 mb-4"
             />

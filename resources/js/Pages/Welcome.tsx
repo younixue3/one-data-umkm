@@ -323,7 +323,7 @@ export default function Welcome({ news }: PageProps<{ news: News[] }>) {
             {/* Add animation in the center */}
             <div className="inset-0 flex justify-center items-center z-10">
               <img
-                src="/assets/people.png"
+                src="~koperasi/assets/people.png"
                 alt="Animated graphic"
                 className="w-96"
               />

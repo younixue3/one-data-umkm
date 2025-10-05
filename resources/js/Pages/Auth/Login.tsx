@@ -33,7 +33,7 @@ export default function Login({
         {/* Section Gambar */}
         <div className="hidden md:flex w-1/2 bg-blue-600 justify-center items-center">
           <img
-            src="/images/login-illustration.svg"
+            src="~koperasi/images/login-illustration.svg"
             alt="Login Illustration"
             className="w-3/4 h-auto"
           />

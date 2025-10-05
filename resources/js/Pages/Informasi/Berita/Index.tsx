@@ -67,7 +67,7 @@ export default function Index({
                   {/* <div className="overflow-hidden rounded-lg bg-white shadow">
                     <div className="p-4">
                       <img
-                        src="/assets/1.webp"
+                        src="~koperasi/assets/1.webp"
                         alt="Berita 2"
                         className="w-full rounded-lg h-52 object-cover shadow-md"
                       />
@@ -98,7 +98,7 @@ export default function Index({
                   <div className="overflow-hidden rounded-lg bg-white shadow">
                     <div className="p-4">
                       <img
-                        src="/assets/3.webp"
+                        src="~koperasi/assets/3.webp"
                         alt="Berita 1"
                         className="w-full rounded-lg h-52 object-cover shadow-md"
                       />

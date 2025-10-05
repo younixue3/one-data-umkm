@@ -23,7 +23,7 @@ export default function Index() {
               <div className="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 <div className="overflow-hidden rounded-lg border">
                   <img
-                    src="/assets/5.webp"
+                    src="~koperasi/assets/5.webp"
                     alt="Produk 1"
                     className="h-48 w-full object-cover"
                   />
@@ -40,7 +40,7 @@ export default function Index() {
 
                 <div className="overflow-hidden rounded-lg border">
                   <img
-                    src="/assets/6.webp"
+                    src="~koperasi/assets/6.webp"
                     alt="Produk 2"
                     className="h-48 w-full object-cover"
                   />
@@ -55,7 +55,7 @@ export default function Index() {
 
                 <div className="overflow-hidden rounded-lg border">
                   <img
-                    src="/assets/7.webp"
+                    src="~koperasi/assets/7.webp"
                     alt="Produk 3"
                     className="h-48 w-full object-cover"
                   />

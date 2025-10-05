@@ -4,7 +4,7 @@ export default function Banner() {
       <div className="bg-white p-4 shadow sm:rounded-lg sm:p-8">
         <div className="max-w-full">
           <img
-            src="/assets/banner2.png"
+            src="~koperasi/assets/banner2.png"
             alt="Banner"
             className="w-full rounded-lg shadow-md"
           />
